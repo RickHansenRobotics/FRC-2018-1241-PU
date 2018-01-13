@@ -9,6 +9,7 @@ package org.usfirst.frc.team1241.robot;
 
 import org.usfirst.frc.team1241.robot.subsystems.Drivetrain;
 import org.usfirst.frc.team1241.robot.subsystems.Intake;
+import org.usfirst.frc.team1241.robot.subsystems.LEDstrips;
 
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Command;
@@ -28,6 +29,7 @@ public class Robot extends TimedRobot {
 	public static OI oi;
 	public static Drivetrain drive;
 	public static Intake intake;
+	public static LEDstrips ledstrips;
 
 	Command m_autonomousCommand;
 	SendableChooser<Command> m_chooser = new SendableChooser<>();
@@ -41,6 +43,7 @@ public class Robot extends TimedRobot {
 		oi = new OI();
 		drive = new Drivetrain();
 		intake = new Intake();
+		ledstrips = new LEDstrips();
 		// chooser.addObject("My Auto", new MyAutoCommand());
 		SmartDashboard.putData("Auto mode", m_chooser);
 		SmartDashboard.putNumber("Left Intake", intake.getLeftVoltage());

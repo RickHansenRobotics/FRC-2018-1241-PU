@@ -34,8 +34,15 @@ public class ElectricalConstants {
 	//**************************************************************************
     //************************* DRIVE ENCODER CONSTANTS ************************
     //**************************************************************************
-	private static final double encoderGearRatio 					     = 42/36;
-	private static final double wheelRadius								 = 2;
+	private static final double encoderGearRatio 					         = 42/36;
+	private static final double wheelRadius							    	 = 2;
 	public static final double ROTATIONS_TO_INCHES 		= 14.46;//2*Math.PI*wheelRadius*encoderGearRatio;
+	
+	//**************************************************************************
+    //**************************** LED PWM CONSTANTS ***************************
+    //**************************************************************************
+	
+	public static final int BYTE_ONE_PIN 		        					= 8;	// connect this to third from top
+	public static final int BYTE_TWO_PIN				         			= 9;	// connect this to last from top
 		
 }
