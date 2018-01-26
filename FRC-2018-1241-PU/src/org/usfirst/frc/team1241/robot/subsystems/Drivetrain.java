@@ -16,26 +16,25 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
- *
  * @author Kaveesha Siribaddana
- * @since 11/01/17
+ * @since 11/01/18
  *
  */
 public class Drivetrain extends Subsystem {
 
 	/** Drive Talons */
 	private WPI_TalonSRX leftMaster;
-	private WPI_TalonSRX leftSlave;
+	private WPI_TalonSRX leftSlave1;
+	private WPI_TalonSRX leftSlave2;
 	private WPI_TalonSRX rightMaster;
-	private WPI_TalonSRX rightSlave;
+	private WPI_TalonSRX rightSlave1;
+	private WPI_TalonSRX rightSlave2;
 
 	/** Encoders on the drive */
 	private boolean leftEncoderConnected = false;
 	private boolean rightEncoderConnected = false;
 
-	/** Gyro on the drive *//*
-							 * private SerialPort serialPort; private Nav6 gyro;
-							 */
+	/** Gyro on the drive */
 	AHRS gyro;
 
 	/** The drive PID controller. */
@@ -46,30 +45,13 @@ public class Drivetrain extends Subsystem {
 	/** The gyro PID conteroller. */
 	private PIDController gyroPID;
 	private String controlMode;
-	
 
 	/**
 	 * Instantiates a new drivetrain subsystem, this includes initializing all
 	 * components related to the subsystem
 	 */
 	public Drivetrain() {
-		/*
-		 * try { serialPort = new SerialPort(57600, SerialPort.Port.kOnboard);
-		 * 
-		 * // You can add a second parameter to modify the // update rate (in
-		 * hz) from 4 to 100. The default is 100. // If you need to minimize CPU
-		 * load, you can set it to a // lower value, as shown here, depending
-		 * upon your needs.
-		 * 
-		 * // You can also use the IMUAdvanced class for advanced // features.
-		 * 
-		 * byte update_rate_hz = 50; gyro = new Nav6(serialPort,
-		 * update_rate_hz);
-		 * 
-		 * if (!gyro.isCalibrating()) { Timer.delay(0.3); gyro.zeroYaw(); } }
-		 * catch (Exception e) { gyro = null; }
-		 */
-
+		
 		try {
 			gyro = new AHRS(SPI.Port.kMXP);
 		} catch (RuntimeException ex) {
@@ -80,20 +62,22 @@ public class Drivetrain extends Subsystem {
 		leftMaster = new WPI_TalonSRX(ElectricalConstants.LEFT_DRIVE_FRONT);
 		leftMaster.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 0);
 		leftMaster.setInverted(true);
-		// leftMaster.setVoltageRampRate(30);
 
-		leftSlave = new WPI_TalonSRX(ElectricalConstants.LEFT_DRIVE_BACK);
-		leftSlave.set(ControlMode.Follower, 0);
-		leftSlave.set(ElectricalConstants.LEFT_DRIVE_FRONT);
+		leftSlave1 = new WPI_TalonSRX(ElectricalConstants.LEFT_DRIVE_MIDDLE);
+		leftSlave1.set(ControlMode.Follower, ElectricalConstants.LEFT_DRIVE_FRONT);
+		
+		leftSlave2 = new WPI_TalonSRX(ElectricalConstants.LEFT_DRIVE_BACK);
+		leftSlave2.set(ControlMode.Follower, ElectricalConstants.LEFT_DRIVE_FRONT);
 
 		rightMaster = new WPI_TalonSRX(ElectricalConstants.RIGHT_DRIVE_FRONT);
 		rightMaster.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 0);
 		rightMaster.setInverted(false);
-		// rightMaster.setVoltageRampRate(30);
 
-		rightSlave = new WPI_TalonSRX(ElectricalConstants.RIGHT_DRIVE_BACK);
-		rightSlave.set(ControlMode.Follower, 2);
-		rightSlave.set(ElectricalConstants.RIGHT_DRIVE_FRONT);
+		rightSlave1 = new WPI_TalonSRX(ElectricalConstants.RIGHT_DRIVE_MIDDLE);
+		rightSlave1.set(ControlMode.Follower, ElectricalConstants.RIGHT_DRIVE_FRONT);
+		
+		rightSlave2 = new WPI_TalonSRX(ElectricalConstants.RIGHT_DRIVE_BACK);
+		rightSlave2.set(ControlMode.Follower, ElectricalConstants.RIGHT_DRIVE_FRONT);
 
 		// FeedbackDeviceStatus leftStatus =
 		// leftMaster.isSensorPresent(FeedbackDevice.CTRE_MagEncoder_Relative);
@@ -127,18 +111,19 @@ public class Drivetrain extends Subsystem {
 		leftPID = new PIDController(NumberConstants.pDrive, NumberConstants.iDrive, NumberConstants.dDrive);
 		rightPID = new PIDController(NumberConstants.pDrive, NumberConstants.iDrive, NumberConstants.dDrive);
 
-//		rightMaster.selectProfileSlot(0, 0);
-//		rightMaster.setPID(0.01, 0, 0);
-//		rightMaster.setF(0.2670508);
-//
-//		rightMaster.config_kP(val, timeoutMs);
-//		rightMaster.config_kI(val, timeoutMs);
-//		rightMaster.config_kD(val, timeoutMs);
-//		rightMaster.config_kF(val, timeoutMs);
-//
-//		leftMaster.setProfile(0);
-//		leftMaster.setPID(0.01, 0, 0);
-//		leftMaster.setF(0.2670508);
+		// rightMaster.selectProfileSlot(0, 0);
+		// rightMaster.setPID(0.01, 0, 0);
+		// rightMaster.setF(0.2670508);
+		//
+		// THIS MIGHT BE THE V5 CODE
+		// rightMaster.config_kP(val, timeoutMs);
+		// rightMaster.config_kI(val, timeoutMs);
+		// rightMaster.config_kD(val, timeoutMs);
+		// rightMaster.config_kF(val, timeoutMs);
+		//
+		// leftMaster.setProfile(0);
+		// leftMaster.setPID(0.01, 0, 0);
+		// leftMaster.setF(0.2670508);
 
 		controlMode = "PercentOutput";
 		resetEncoders();
@@ -151,25 +136,21 @@ public class Drivetrain extends Subsystem {
 
 	public void runLeftDrive(double input) {
 		String controlMode = this.controlMode;
-		if(controlMode.equalsIgnoreCase("PercentOutput"))
+		if (controlMode.equalsIgnoreCase("PercentOutput"))
 			leftMaster.set(ControlMode.PercentOutput, input);
-		else if(controlMode.equalsIgnoreCase("Velocity"))
+		else if (controlMode.equalsIgnoreCase("Velocity"))
 			leftMaster.set(ControlMode.Velocity, input);
-		else if(controlMode.equalsIgnoreCase("MotionProfile"))
-			leftMaster.set(ControlMode.MotionProfile, input);
-		else 
+		else
 			leftMaster.set(ControlMode.PercentOutput, input);
 	}
-	
+
 	public void runRightDrive(double input) {
 		String controlMode = this.controlMode;
-		if(controlMode.equalsIgnoreCase("PercentOutput"))
+		if (controlMode.equalsIgnoreCase("PercentOutput"))
 			rightMaster.set(ControlMode.PercentOutput, input);
-		else if(controlMode.equalsIgnoreCase("Velocity"))
+		else if (controlMode.equalsIgnoreCase("Velocity"))
 			rightMaster.set(ControlMode.Velocity, input);
-		else if(controlMode.equalsIgnoreCase("MotionProfile"))
-			rightMaster.set(ControlMode.MotionProfile, input);
-		else 
+		else
 			rightMaster.set(ControlMode.PercentOutput, input);
 	}
 
@@ -188,10 +169,11 @@ public class Drivetrain extends Subsystem {
 	public void voltageMode() {
 		controlMode = "PercentOutput";
 	}
-	
-	public void velocityMode(){
+
+	public void velocityMode() {
 		controlMode = "Velocity";
 	}
+
 	public void setLeftRampRate(double rampRate) {
 		leftMaster.set(ControlMode.Velocity, rampRate);
 	}
@@ -243,30 +225,7 @@ public class Drivetrain extends Subsystem {
 		runLeftDrive(-speed - angle);
 		runRightDrive(speed - angle);
 	}
-
-	/**
-	 * Converts the pixel offset from the center of the image to degrees, which
-	 * is then used for turning the turret
-	 *
-	 * @param pixel
-	 *            The x coordinate pixel from the image. Ranging from 0 to 640
-	 *            on a 480x640 image
-	 * @return the double
-	 */
-	public double pixelToDegree(double pixel) {
-		return Math.toDegrees(Math.atan(((pixel - 320) * Math.tan(Math.toRadians(31.81))) / 320));
-		/*
-		 * double y = 4*Math.pow(10, -13)*Math.pow(pixel,6) - 4*Math.pow(10,
-		 * -10)*Math.pow(pixel,5) + Math.pow(10, -7)*Math.pow(pixel,4)
-		 * -Math.pow(10, -5)*Math.pow(pixel,3) - 0.0011*Math.pow(pixel, 2) +
-		 * 0.0977*pixel + 11.537; return y;
-		 */
-	}
-
-	public double getOffset(double y) {
-		return 0.158593 * y - 1.375;
-	}
-
+	
 	public boolean drivePIDDone() {
 		return drivePID.isDone();
 	}
@@ -340,10 +299,6 @@ public class Drivetrain extends Subsystem {
 	public boolean gyroCalibrating() {
 		return gyro.isCalibrating();
 	}
-
-	/*
-	 * public double getYaw() { return gyro.getYaw(); }
-	 */
 
 	public double getYaw() {
 		return gyro.getAngle();
