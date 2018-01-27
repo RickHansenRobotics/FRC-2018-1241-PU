@@ -38,7 +38,7 @@ public class LEDstrips extends Subsystem {
 		setState(false, true);
 	}
 	
-	public static void gold() {
+	public static void solidGold() {
 		setState(true, false);
 	}
 	

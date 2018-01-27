@@ -1,6 +1,7 @@
 package org.usfirst.frc.team1241.robot.commands;
 
 import org.usfirst.frc.team1241.robot.Robot;
+import org.usfirst.frc.team1241.robot.subsystems.LEDstrips;
 
 import edu.wpi.first.wpilibj.command.Command;
 
@@ -21,15 +22,19 @@ public class IntakeCommand extends Command {
 	// Called repeatedly when this Command is scheduled to run
 	protected void execute() {
 
-		if (Robot.oi.getToolLeftButton())
+		if (Robot.oi.getToolLeftButton()){
 			Robot.intake.outtake();	
-		else if (Robot.intake.getOptic())
-			Robot.intake.stop();
-		else if (Robot.oi.getToolRightButton())
+		}else if (Robot.oi.getToolRightButton()){
 			Robot.intake.intake();
-		else
+		}else{
 			Robot.intake.stop();
+		}
 		
+		if (Robot.intake.getOptic()){
+			LEDstrips.solidBlue();
+		} else {
+			LEDstrips.solidGreen();
+		}
 	}
 
 	// Make this return true when this Command no longer needs to run execute()
