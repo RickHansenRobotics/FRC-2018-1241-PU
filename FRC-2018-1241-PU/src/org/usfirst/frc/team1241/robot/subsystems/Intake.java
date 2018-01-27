@@ -4,7 +4,7 @@ import org.usfirst.frc.team1241.robot.ElectricalConstants;
 import org.usfirst.frc.team1241.robot.commands.IntakeCommand;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
-import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.command.Subsystem;
@@ -15,33 +15,33 @@ import edu.wpi.first.wpilibj.command.Subsystem;
  */
 public class Intake extends Subsystem {
 
-	TalonSRX leftWheel;
-	TalonSRX rightWheel;
+	WPI_TalonSRX leftWheel;
+	WPI_TalonSRX rightWheel;
 
 	DigitalInput optical;
 	private boolean contains = false;
 
 	public Intake() {
-		leftWheel = new TalonSRX(ElectricalConstants.LEFT_INTAKE_MOTOR);
-		rightWheel = new TalonSRX(ElectricalConstants.RIGHT_INTAKE_MOTOR);
+		leftWheel = new WPI_TalonSRX(ElectricalConstants.LEFT_INTAKE_MOTOR);
+		rightWheel = new WPI_TalonSRX(ElectricalConstants.RIGHT_INTAKE_MOTOR);
 
 		optical = new DigitalInput(0);
 	}
 
 	public void intake() {
-		leftWheel.set(ControlMode.PercentOutput, 1);
-		rightWheel.set(ControlMode.PercentOutput, -1);
+		leftWheel.set(1);
+		rightWheel.set(-1);
 
 	}
 
 	public void outtake() {
-		leftWheel.set(ControlMode.PercentOutput, -1);
-		rightWheel.set(ControlMode.PercentOutput, 1);
+		leftWheel.set(-1);
+		rightWheel.set(1);
 	}
 
 	public void stop() {
-		leftWheel.set(ControlMode.PercentOutput, 0);
-		rightWheel.set(ControlMode.PercentOutput, 0);
+		leftWheel.set(0);
+		rightWheel.set(0);
 	}
 
 	public double getLeftVoltage() {
