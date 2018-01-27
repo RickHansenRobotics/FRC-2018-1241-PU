@@ -29,8 +29,7 @@ public class Climber extends Subsystem {
 		climberArm = new WPI_TalonSRX(ElectricalConstants.CLIMBER_ARM_MOTOR);
 		piston = new DoubleSolenoid(ElectricalConstants.HANGER_PISTON_A, ElectricalConstants.HANGER_PISTON_B);
 		
-		armPot = new AnalogInput(ElectricalConstants.ARM_POTENTIOMETER);
-		
+		armPot = new AnalogInput(ElectricalConstants.ARM_POTENTIOMETER);		
 		armPID = new PIDController(NumberConstants.pARM, NumberConstants.iARM, NumberConstants.dARM);
 	}
 
