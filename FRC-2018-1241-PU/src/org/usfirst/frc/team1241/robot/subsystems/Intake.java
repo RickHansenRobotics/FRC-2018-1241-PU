@@ -22,8 +22,8 @@ public class Intake extends Subsystem {
 	private boolean contains = false;
 
 	public Intake() {
-		leftWheel = new TalonSRX(ElectricalConstants.LEFT_INTAKE_MOTOR);
-		rightWheel = new TalonSRX(ElectricalConstants.RIGHT_INTAKE_MOTOR);
+		//leftWheel = new TalonSRX(ElectricalConstants.LEFT_INTAKE_MOTOR);
+		//rightWheel = new TalonSRX(ElectricalConstants.RIGHT_INTAKE_MOTOR);
 
 		optical = new DigitalInput(0);
 	}

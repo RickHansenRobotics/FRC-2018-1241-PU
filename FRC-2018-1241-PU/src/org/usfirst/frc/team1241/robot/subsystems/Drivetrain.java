@@ -153,6 +153,10 @@ public class Drivetrain extends Subsystem {
 		else
 			rightMaster.set(ControlMode.PercentOutput, input);
 	}
+	
+	public void runWinchPTO(double input){
+		leftMaster.set(input);
+	}
 
 	public WPI_TalonSRX getRightMaster() {
 		return rightMaster;

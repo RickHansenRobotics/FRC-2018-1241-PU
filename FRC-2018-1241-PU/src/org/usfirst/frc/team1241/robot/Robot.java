@@ -7,6 +7,7 @@
 
 package org.usfirst.frc.team1241.robot;
 
+import org.usfirst.frc.team1241.robot.subsystems.Climber;
 import org.usfirst.frc.team1241.robot.subsystems.Drivetrain;
 import org.usfirst.frc.team1241.robot.subsystems.Intake;
 import org.usfirst.frc.team1241.robot.subsystems.LEDstrips;
@@ -29,6 +30,7 @@ public class Robot extends TimedRobot {
 	public static OI oi;
 	public static Drivetrain drive;
 	public static Intake intake;
+	public static Climber climb;
 	public static LEDstrips ledstrips;
 
 	Command m_autonomousCommand;
@@ -43,6 +45,7 @@ public class Robot extends TimedRobot {
 		oi = new OI();
 		drive = new Drivetrain();
 		intake = new Intake();
+		climb = new Climber();
 		ledstrips = new LEDstrips();
 		// chooser.addObject("My Auto", new MyAutoCommand());
 		SmartDashboard.putData("Auto mode", m_chooser);

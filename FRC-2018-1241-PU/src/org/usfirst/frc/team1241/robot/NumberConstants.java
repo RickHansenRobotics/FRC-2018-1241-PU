@@ -27,6 +27,14 @@ public class NumberConstants {
 	
 	public static final double pGyro 									 = 0.015;
 	public static final double iGyro 									 = 0.0000003;
-	public static final double dGyro 									 = 0.05;	
+	public static final double dGyro 									 = 0.05;
+	
+	//**************************************************************************
+    //**************************** PID VALUES (ARM) ****************************
+    //**************************************************************************
+	
+	public static final double pARM 									 = 0.015;
+	public static final double iARM 									 = 0.0000003;
+	public static final double dARM 									 = 0.05;	
 	
 }
