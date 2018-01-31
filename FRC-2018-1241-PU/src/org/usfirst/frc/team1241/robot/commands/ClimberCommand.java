@@ -1,9 +1,7 @@
 package org.usfirst.frc.team1241.robot.commands;
 
 import org.usfirst.frc.team1241.robot.Robot;
-import org.usfirst.frc.team1241.robot.utilities.ToggleBoolean;
 
-import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
