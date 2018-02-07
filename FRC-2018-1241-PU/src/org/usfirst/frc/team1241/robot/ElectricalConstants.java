@@ -6,13 +6,13 @@ public class ElectricalConstants {
 	// *****************************DRIVE MOTORS*********************************
 	// **************************************************************************
 
-	public static final int LEFT_DRIVE_FRONT = 0;
-	public static final int LEFT_DRIVE_MIDDLE = 1;
-	public static final int LEFT_DRIVE_BACK = 2;
+	public static final int LEFT_DRIVE_FRONT = 1;
+	public static final int LEFT_DRIVE_MIDDLE = 2;
+	public static final int LEFT_DRIVE_BACK = 3;
 	
-	public static final int RIGHT_DRIVE_FRONT = 3;
-	public static final int RIGHT_DRIVE_MIDDLE = 4;
-	public static final int RIGHT_DRIVE_BACK = 5;	
+	public static final int RIGHT_DRIVE_FRONT = 10;
+	public static final int RIGHT_DRIVE_MIDDLE = 9;
+	public static final int RIGHT_DRIVE_BACK = 8;	
 	
 	// **************************************************************************
 	// ************************* DRIVE ENCODER CONSTANTS ************************
@@ -45,8 +45,8 @@ public class ElectricalConstants {
 	// *************************** INTAKE MOTORS *******************************
 	// *************************************************************************
 		
-	public static final int LEFT_INTAKE_MOTOR = 7;
-	public static final int RIGHT_INTAKE_MOTOR = 8;
+	public static final int LEFT_INTAKE_MOTOR = 4;
+	public static final int RIGHT_INTAKE_MOTOR = 5;
 
 	// **************************************************************************
 	// **************************** LED PWM CONSTANTS ***************************

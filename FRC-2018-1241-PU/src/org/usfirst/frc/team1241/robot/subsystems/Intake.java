@@ -33,6 +33,11 @@ public class Intake extends Subsystem {
 		rightWheel.set(-1);
 
 	}
+	
+	public void spinCube(){
+		leftWheel.set(1);
+		rightWheel.set(1);
+	}
 
 	public void outtake() {
 		leftWheel.set(-1);

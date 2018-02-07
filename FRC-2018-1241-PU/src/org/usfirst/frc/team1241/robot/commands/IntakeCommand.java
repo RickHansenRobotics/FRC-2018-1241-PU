@@ -22,19 +22,22 @@ public class IntakeCommand extends Command {
 	// Called repeatedly when this Command is scheduled to run
 	protected void execute() {
 
-		if (Robot.oi.getToolLeftButton()){
-			Robot.intake.outtake();	
-		}else if (Robot.oi.getToolRightButton()){
+		if (Robot.oi.getToolBackButton()) {
+			Robot.intake.spinCube();
+		} else if (Robot.oi.getToolLeftButton()) {
+			Robot.intake.outtake();
+		} else if (Robot.oi.getToolRightButton()) {
 			Robot.intake.intake();
-		}else{
+		} else {
 			Robot.intake.stop();
 		}
-		
-		if (Robot.intake.getOptic()){
+
+		if (Robot.intake.getOptic()) {
 			LEDstrips.solidBlue();
 		} else {
 			LEDstrips.solidGreen();
 		}
+
 	}
 
 	// Make this return true when this Command no longer needs to run execute()
