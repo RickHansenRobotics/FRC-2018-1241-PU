@@ -9,6 +9,7 @@ package org.usfirst.frc.team1241.robot;
 
 import org.usfirst.frc.team1241.robot.subsystems.Climber;
 import org.usfirst.frc.team1241.robot.subsystems.Drivetrain;
+import org.usfirst.frc.team1241.robot.subsystems.Elevator;
 import org.usfirst.frc.team1241.robot.subsystems.Intake;
 import org.usfirst.frc.team1241.robot.subsystems.LEDstrips;
 
@@ -31,6 +32,7 @@ public class Robot extends TimedRobot {
 	public static OI oi;
 	public static Drivetrain drive;
 	public static Intake intake;
+	public static Elevator elevator;
 	public static Climber climb;
 	public static LEDstrips ledstrips;
 	
@@ -47,6 +49,7 @@ public class Robot extends TimedRobot {
 	public void robotInit() {
 		oi = new OI();
 		drive = new Drivetrain();
+		elevator = new Elevator();
 		intake = new Intake();
 		climb = new Climber();
 		ledstrips = new LEDstrips();

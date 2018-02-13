@@ -30,6 +30,41 @@ public class NumberConstants {
 	public static final double dGyro 									 = 0.05;
 	
 	//**************************************************************************
+    //************************ PID VALUES (ELEVATOR) ***************************
+    //**************************************************************************
+	
+	public static final double fTalonElevator 							 = 0.0;
+	public static final double pTalonElevator 							 = 0.0;
+	public static final double iTalonElevator 							 = 0.0; 
+	public static final double dTalonElevator 							 = 0.0;
+	
+	public static final double pElevator 								 = 0.0;
+	public static final double iElevator 								 = 0.0; 
+	public static final double dElevator 								 = 0.0;
+	
+	public static final double pLockElevator 							 = 0.0;
+	public static final double iLockElevator 						     = 0.0; 
+	public static final double dLockElevator 							 = 0.0;
+	
+	//**************************************************************************
+    //*************************** Elevator Constants ***************************
+    //**************************************************************************
+	
+	public static final int bottomHardStop 							 	  = 0;
+	public static final int topHardStop 							      = 94;
+	
+	public static final double intakingPosition 						  = 0;
+	public static final double portalPosition 			     			  = 0;
+	public static final double switchLowPosition   						  = 0;
+	public static final double switchMidPosition 						  = 0;
+	public static final double switchHighPosition 						  = 0;
+	public static final double feederPosition 			    			  = 0;
+	public static final double scaleLowPosition 						  = 0;
+	public static final double scaleMidPosition 						  = 0;
+	public static final double scaleHighPosition 						  = 0;
+
+	
+	//**************************************************************************
     //**************************** PID VALUES (ARM) ****************************
     //**************************************************************************
 	

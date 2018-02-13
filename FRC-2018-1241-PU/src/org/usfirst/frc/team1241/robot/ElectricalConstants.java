@@ -10,9 +10,9 @@ public class ElectricalConstants {
 	public static final int LEFT_DRIVE_MIDDLE = 2;
 	public static final int LEFT_DRIVE_BACK = 3;
 	
-	public static final int RIGHT_DRIVE_FRONT = 8;
+	public static final int RIGHT_DRIVE_FRONT = 10;
 	public static final int RIGHT_DRIVE_MIDDLE = 9;
-	public static final int RIGHT_DRIVE_BACK = 10;	
+	public static final int RIGHT_DRIVE_BACK = 8;	
 	
 	// **************************************************************************
 	// ************************* DRIVE ENCODER CONSTANTS ************************
@@ -22,6 +22,22 @@ public class ElectricalConstants {
 	private static final double wheelRadius = 3;
 	public static final double ROTATIONS_TO_INCHES = 2*Math.PI*wheelRadius*encoderGearRatio;
 
+	// **************************************************************************
+	// ************************** ELEVATOR MOTORS *******************************
+	// **************************************************************************
+
+	public static final int ELEVATOR_CIM = 7;
+		
+	
+	// **************************************************************************
+	// ********************** ELEVATOR SENSOR CONSTANTS *************************
+	// **************************************************************************
+	
+	public static final double elevatorRotatationsToInches = 42 / 36;
+	public static final int OPTICAL_BOTTOM = 3;
+	
+
+	
 	// **************************************************************************
 	// *************************** CLIMBER MOTORS *******************************
 	// **************************************************************************
