@@ -29,19 +29,20 @@ public class Intake extends Subsystem {
 	}
 
 	public void intake() {
-		leftWheel.set(1);
-		rightWheel.set(-1);
+		leftWheel.set(0.6);
+		rightWheel.set(-0.75);
 
 	}
 	
 	public void spinCube(){
-		leftWheel.set(1);
-		rightWheel.set(1);
+		leftWheel.set(0.35);
+		rightWheel.set(0.35);
 	}
 
 	public void outtake() {
-		leftWheel.set(-1);
-		rightWheel.set(1);
+		
+		leftWheel.set(-0.6);
+		rightWheel.set(0.75);
 	}
 
 	public void stop() {

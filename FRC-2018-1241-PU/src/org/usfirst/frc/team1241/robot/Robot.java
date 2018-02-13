@@ -12,6 +12,7 @@ import org.usfirst.frc.team1241.robot.subsystems.Drivetrain;
 import org.usfirst.frc.team1241.robot.subsystems.Intake;
 import org.usfirst.frc.team1241.robot.subsystems.LEDstrips;
 
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
@@ -32,6 +33,8 @@ public class Robot extends TimedRobot {
 	public static Intake intake;
 	public static Climber climb;
 	public static LEDstrips ledstrips;
+	
+	String gameData;
 
 	Command m_autonomousCommand;
 	SendableChooser<Command> m_chooser = new SendableChooser<>();
@@ -82,6 +85,7 @@ public class Robot extends TimedRobot {
 	 */
 	@Override
 	public void autonomousInit() {
+		gameData = DriverStation.getInstance().getGameSpecificMessage();
 		m_autonomousCommand = m_chooser.getSelected();
 		LEDstrips.solidGold();
 		/*
@@ -123,6 +127,9 @@ public class Robot extends TimedRobot {
 	@Override
 	public void teleopPeriodic() {
 		Scheduler.getInstance().run();
+		updateSmartDashboard();
+		//drive.runLeftDrive(-Robot.oi.getDriveLeftY());
+		//drive.runRightDrive(Robot.oi.getDriveRightY());
 	}
 
 	/**
@@ -130,5 +137,10 @@ public class Robot extends TimedRobot {
 	 */
 	@Override
 	public void testPeriodic() {
+	}
+	
+	public void updateSmartDashboard() {
+		SmartDashboard.putNumber("Left joystick", Robot.oi.getDriveLeftY());
+		SmartDashboard.putNumber("Right joystick", Robot.oi.getDriveRightY());
 	}
 }

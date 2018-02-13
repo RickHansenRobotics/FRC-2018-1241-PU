@@ -28,11 +28,11 @@ public class ClimberCommand extends Command {
     		Robot.climb.stopPiston();
     	}
     	
-    	if(Robot.oi.getToolBackButton() && Robot.climb.ptoPosistionHanger()){
+    	/*if(Robot.oi.getToolBackButton() && Robot.climb.ptoPosistionHanger()){
     		Robot.drive.runWinchPTO(1);
     	} else {
     		Robot.drive.runWinchPTO(0);
-    	}
+    	}*/
 
     	if(Robot.climb.ptoPosistionHanger()){
     		Robot.climb.runClimberArm(Robot.oi.getToolLeftY());

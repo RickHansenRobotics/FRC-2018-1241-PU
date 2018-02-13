@@ -10,9 +10,9 @@ public class ElectricalConstants {
 	public static final int LEFT_DRIVE_MIDDLE = 2;
 	public static final int LEFT_DRIVE_BACK = 3;
 	
-	public static final int RIGHT_DRIVE_FRONT = 10;
+	public static final int RIGHT_DRIVE_FRONT = 8;
 	public static final int RIGHT_DRIVE_MIDDLE = 9;
-	public static final int RIGHT_DRIVE_BACK = 8;	
+	public static final int RIGHT_DRIVE_BACK = 10;	
 	
 	// **************************************************************************
 	// ************************* DRIVE ENCODER CONSTANTS ************************

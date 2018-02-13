@@ -61,8 +61,8 @@ public class Drivetrain extends Subsystem {
 		// Initialize Talons
 		leftMaster = new WPI_TalonSRX(ElectricalConstants.LEFT_DRIVE_FRONT);
 		leftMaster.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 0);
-		leftMaster.setInverted(true);
-
+		leftMaster.setInverted(false);
+//		
 		leftSlave1 = new WPI_TalonSRX(ElectricalConstants.LEFT_DRIVE_MIDDLE);
 		leftSlave1.set(ControlMode.Follower, ElectricalConstants.LEFT_DRIVE_FRONT);
 		
@@ -134,16 +134,6 @@ public class Drivetrain extends Subsystem {
 		setDefaultCommand(new TankDrive());
 	}
 
-	public void runLeftDrive(double input) {
-		String controlMode = this.controlMode;
-		if (controlMode.equalsIgnoreCase("PercentOutput"))
-			leftMaster.set(ControlMode.PercentOutput, input);
-		else if (controlMode.equalsIgnoreCase("Velocity"))
-			leftMaster.set(ControlMode.Velocity, input);
-		else
-			leftMaster.set(ControlMode.PercentOutput, input);
-	}
-
 	public void runRightDrive(double input) {
 		String controlMode = this.controlMode;
 		if (controlMode.equalsIgnoreCase("PercentOutput"))
@@ -152,6 +142,20 @@ public class Drivetrain extends Subsystem {
 			rightMaster.set(ControlMode.Velocity, input);
 		else
 			rightMaster.set(ControlMode.PercentOutput, input);
+	}
+	
+	public void runLeft(double leftInput) {
+		leftMaster.set(ControlMode.PercentOutput, leftInput);
+	}
+
+	public void runLeftDrive(double input) {
+		String controlMode = this.controlMode;
+		if (controlMode.equalsIgnoreCase("PercentOutput"))
+			leftMaster.set(ControlMode.PercentOutput, input);
+		else if (controlMode.equalsIgnoreCase("Velocity"))
+			leftMaster.set(ControlMode.Velocity, input);
+		else
+			leftMaster.set(ControlMode.PercentOutput, input);
 	}
 	
 	public void runWinchPTO(double input){
