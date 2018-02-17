@@ -29,8 +29,8 @@ public class Intake extends Subsystem {
 	}
 
 	public void intake() {
-		leftWheel.set(0.6);
-		rightWheel.set(-0.75);
+		leftWheel.set(0.7);
+		rightWheel.set(-0.85);
 
 	}
 	
@@ -41,8 +41,8 @@ public class Intake extends Subsystem {
 
 	public void outtake() {
 		
-		leftWheel.set(-0.6);
-		rightWheel.set(0.75);
+		leftWheel.set(-0.7);
+		rightWheel.set(0.7);
 	}
 
 	public void stop() {

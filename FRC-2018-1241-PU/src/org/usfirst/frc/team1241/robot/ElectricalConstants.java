@@ -26,14 +26,14 @@ public class ElectricalConstants {
 	// ************************** ELEVATOR MOTORS *******************************
 	// **************************************************************************
 
-	public static final int ELEVATOR_CIM = 7;
+	public static final int ELEVATOR_CIM = 6;
 		
 	
 	// **************************************************************************
 	// ********************** ELEVATOR SENSOR CONSTANTS *************************
 	// **************************************************************************
 	
-	public static final double elevatorRotatationsToInches = 42 / 36;
+	public static final double elevatorRotatationsToInches = 447.368421;
 	public static final int OPTICAL_BOTTOM = 3;
 	
 
@@ -42,14 +42,17 @@ public class ElectricalConstants {
 	// *************************** CLIMBER MOTORS *******************************
 	// **************************************************************************
 
-	public static final int CLIMBER_ARM_MOTOR = 6;
+	public static final int CLIMBER_ARM_MOTOR = 7;
 	
 	// **************************************************************************
 	// ************************** CLIMBER PISTONS *******************************
 	// **************************************************************************
 	
-	public static final int HANGER_PISTON_A = 0;
-	public static final int HANGER_PISTON_B = 1;	
+	public static final int PTO_PISTON_A = 0;
+	public static final int PTO_PISTON_B = 1;	
+	
+	public static final int HANGER_PISTON_A = 2;
+	public static final int HANGER_PISTON_B = 3;	
 	
 	// *************************************************************************
 	// ************************** CLIMBER SENSORS ******************************

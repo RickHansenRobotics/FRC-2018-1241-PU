@@ -21,12 +21,16 @@ public class ClimberCommand extends Command {
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
     	
-    	if(Robot.oi.getToolBackButton()){
-    		Robot.climb.extendPiston();
+    	if(Robot.oi.getToolStartButton()){
+    		Robot.climb.extendPTOPiston();
     		Robot.climb.setPtoHanger(true);
-    	} else {
-    		Robot.climb.stopPiston();
-    	}
+    	} else if(Robot.oi.getToolBackButton())
+    		Robot.climb.retractPTOPiston();
+    	
+    	if(Robot.oi.getToolRightTrigger()){
+    		Robot.climb.extendArmPiston();
+    	} else if(Robot.oi.getToolLeftTrigger())
+    		Robot.climb.retractArmPiston();
     	
     	/*if(Robot.oi.getToolBackButton() && Robot.climb.ptoPosistionHanger()){
     		Robot.drive.runWinchPTO(1);
@@ -34,9 +38,9 @@ public class ClimberCommand extends Command {
     		Robot.drive.runWinchPTO(0);
     	}*/
 
-    	if(Robot.climb.ptoPosistionHanger()){
-    		Robot.climb.runClimberArm(Robot.oi.getToolLeftY());
-    	}
+    	//if(Robot.climb.ptoPosistionHanger()){
+    		Robot.climb.runClimberArm(-Robot.oi.getToolLeftY());
+    	//}
     	
     }
 

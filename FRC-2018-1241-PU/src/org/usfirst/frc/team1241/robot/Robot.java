@@ -7,6 +7,10 @@
 
 package org.usfirst.frc.team1241.robot;
 
+import org.usfirst.frc.team1241.robot.auto.DriveTest;
+import org.usfirst.frc.team1241.robot.auto.ElevatorTest;
+import org.usfirst.frc.team1241.robot.auto.GyroTest;
+import org.usfirst.frc.team1241.robot.auto.NoAuto;
 import org.usfirst.frc.team1241.robot.subsystems.Climber;
 import org.usfirst.frc.team1241.robot.subsystems.Drivetrain;
 import org.usfirst.frc.team1241.robot.subsystems.Elevator;
@@ -14,6 +18,7 @@ import org.usfirst.frc.team1241.robot.subsystems.Intake;
 import org.usfirst.frc.team1241.robot.subsystems.LEDstrips;
 
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.Preferences;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
@@ -35,11 +40,38 @@ public class Robot extends TimedRobot {
 	public static Elevator elevator;
 	public static Climber climb;
 	public static LEDstrips ledstrips;
-	
+
+	Preferences pref;
+
+	public static double pDrive;
+	public static double iDrive;
+	public static double dDrive;
+	public static double pGyro;
+	public static double iGyro;
+	public static double dGyro;
+
+	public static double fTalonElevator;
+	public static double pTalonElevator;
+	public static double iTalonElevator;
+	public static double dTalonElevator;
+
+	public static double pElevator;
+	public static double iElevator;
+	public static double dElevator;
+
+	public static double pLockElevator;
+	public static double iLockElevator;
+	public static double dLockElevator;
+
+	SendableChooser autoChooser;
+
 	String gameData;
 
 	Command m_autonomousCommand;
 	SendableChooser<Command> m_chooser = new SendableChooser<>();
+	
+	//GET RID*********************************************************
+	double maxSpeed = 0;
 
 	/**
 	 * This function is run when the robot is first started up and should be
@@ -47,16 +79,24 @@ public class Robot extends TimedRobot {
 	 */
 	@Override
 	public void robotInit() {
+		pref = Preferences.getInstance();
+
 		oi = new OI();
 		drive = new Drivetrain();
 		elevator = new Elevator();
 		intake = new Intake();
 		climb = new Climber();
 		ledstrips = new LEDstrips();
-		// chooser.addObject("My Auto", new MyAutoCommand());
-		SmartDashboard.putData("Auto mode", m_chooser);
-		SmartDashboard.putNumber("Left Intake", intake.getLeftVoltage());
-		SmartDashboard.putNumber("Right Intake", intake.getRightVoltage());
+
+		autoChooser = new SendableChooser();
+
+		autoChooser.addDefault("No Auton", new NoAuto());
+		autoChooser.addObject("Gyro Testing", new GyroTest());
+		autoChooser.addObject("Drive Encoder Testing", new DriveTest());
+		autoChooser.addObject("Elevator Encoder Testing", new ElevatorTest());
+		
+		updateSmartDashboard();
+
 	}
 
 	/**
@@ -114,10 +154,7 @@ public class Robot extends TimedRobot {
 
 	@Override
 	public void teleopInit() {
-		// This makes sure that the autonomous stops running when
-		// teleop starts running. If you want the autonomous to
-		// continue until interrupted by another command, remove
-		// this line or comment it out.
+		pref = Preferences.getInstance();
 		LEDstrips.solidGreen();
 		if (m_autonomousCommand != null) {
 			m_autonomousCommand.cancel();
@@ -131,8 +168,6 @@ public class Robot extends TimedRobot {
 	public void teleopPeriodic() {
 		Scheduler.getInstance().run();
 		updateSmartDashboard();
-		//drive.runLeftDrive(-Robot.oi.getDriveLeftY());
-		//drive.runRightDrive(Robot.oi.getDriveRightY());
 	}
 
 	/**
@@ -141,9 +176,41 @@ public class Robot extends TimedRobot {
 	@Override
 	public void testPeriodic() {
 	}
-	
+
 	public void updateSmartDashboard() {
-		SmartDashboard.putNumber("Left joystick", Robot.oi.getDriveLeftY());
-		SmartDashboard.putNumber("Right joystick", Robot.oi.getDriveRightY());
+		SmartDashboard.putNumber("Gyro Angle", drive.getYaw());
+		SmartDashboard.putNumber("Right Encoder", drive.getRightDriveEncoder());
+		SmartDashboard.putNumber("Left Encoder", drive.getLeftDriveEncoder());
+		SmartDashboard.putNumber("Elevator Encoder", elevator.getElevatorEncoder());
+		SmartDashboard.putNumber("Elevator Encoder RAW", elevator.getElevatorRotations());
+		SmartDashboard.putNumber("Elevator RPM", elevator.getElevatorSpeed());
+
+		if(elevator.getElevatorSpeed() > maxSpeed){
+			maxSpeed = elevator.getElevatorSpeed();
+			SmartDashboard.putNumber("MAX Elevator RPM", maxSpeed);
+		}
+		drive.resetGyro();
+
+		pDrive = pref.getDouble("Drive pGain", 0.0);
+		iDrive = pref.getDouble("Drive iGain", 0.0);
+		dDrive = pref.getDouble("Drive dGain", 0.0);
+
+		pGyro = pref.getDouble("Gyro pGain", 0.0);
+		iGyro = pref.getDouble("Gyro iGain", 0.0);
+		dGyro = pref.getDouble("Gyro dGain", 0.0);
+
+		fTalonElevator = pref.getDouble("Elevator Profile fGain", 0.0);
+		pTalonElevator = pref.getDouble("Elevator Profile pGain", 0.0);
+		iTalonElevator = pref.getDouble("Elevator Profile iGain", 0.0);
+		dTalonElevator = pref.getDouble("Elevator Profile dGain", 0.0);
+
+		pElevator = pref.getDouble("Elevator pGain", 0.0);
+		iElevator = pref.getDouble("Elevator iGain", 0.0);
+		dElevator = pref.getDouble("Elevator dGain", 0.0);
+
+		pLockElevator = pref.getDouble("Elevator Lock pGain", 0.0);
+		iLockElevator = pref.getDouble("Elevator Lock ipGain", 0.0);
+		dLockElevator = pref.getDouble("Elevator Lock dGain", 0.0);
+
 	}
 }

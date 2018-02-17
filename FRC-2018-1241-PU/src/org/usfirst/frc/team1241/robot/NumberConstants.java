@@ -15,27 +15,30 @@ public class NumberConstants {
     //*************************** PID VALUES (DRIVE) ***************************
     //**************************************************************************
 	
-	public static final double pDrive 									 = 0.02;
+	public static final double fDrive 									 = 0;
+	public static final double pDrive 									 = 0;
 	public static final double iDrive 									 = 0.00;
-	public static final double dDrive 									 = 0.1;
+	public static final double dDrive 									 = 0.0;
 	
 	public static final double Drive_Scale 								 = 0.00;
+	
+	public static final int maxDriveSpeed								 = 0;
 	
 	//**************************************************************************
     //**************************** PID VALUES (GYRO) ***************************
     //**************************************************************************
 	
-	public static final double pGyro 									 = 0.015;
-	public static final double iGyro 									 = 0.0000003;
-	public static final double dGyro 									 = 0.05;
+	public static final double pGyro 									 = 0.00;
+	public static final double iGyro 									 = 0.000000;
+	public static final double dGyro 									 = 0.0;
 	
 	//**************************************************************************
     //************************ PID VALUES (ELEVATOR) ***************************
     //**************************************************************************
 	
-	public static final double fTalonElevator 							 = 0.0;
-	public static final double pTalonElevator 							 = 0.0;
-	public static final double iTalonElevator 							 = 0.0; 
+	public static final double fTalonElevator 							 = 0.4;//0.0058766;
+	public static final double pTalonElevator 							 = 0.4;
+	public static final double iTalonElevator 							 = 0.00; 
 	public static final double dTalonElevator 							 = 0.0;
 	
 	public static final double pElevator 								 = 0.0;
@@ -54,22 +57,23 @@ public class NumberConstants {
 	public static final int topHardStop 							      = 94;
 	
 	public static final double intakingPosition 						  = 0;
-	public static final double portalPosition 			     			  = 0;
-	public static final double switchLowPosition   						  = 0;
-	public static final double switchMidPosition 						  = 0;
-	public static final double switchHighPosition 						  = 0;
-	public static final double feederPosition 			    			  = 0;
-	public static final double scaleLowPosition 						  = 0;
-	public static final double scaleMidPosition 						  = 0;
-	public static final double scaleHighPosition 						  = 0;
+	public static final double vaultPosition 			     			  = 2;
+	public static final double switchLowPosition   						  = 18.75;
+	public static final double switchMidPosition 						  = 18.75;
+	public static final double switchHighPosition 						  = 18.75;
+	public static final double feederPosition 			    			  = 19;
+	public static final double scaleLowPosition 						  = 56;
+	public static final double scaleMidPosition 						  = 68;
+	public static final double scaleHighPosition 						  = 75;
+	public static final int maxElevatorSpeed                          = 2560;
 
 	
 	//**************************************************************************
     //**************************** PID VALUES (ARM) ****************************
     //**************************************************************************
 	
-	public static final double pARM 									 = 0.015;
-	public static final double iARM 									 = 0.0000003;
-	public static final double dARM 									 = 0.05;	
+	public static final double pARM 									 = 0.0;
+	public static final double iARM 									 = 0.000000;
+	public static final double dARM 									 = 0.0;	
 	
 }

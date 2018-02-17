@@ -51,7 +51,7 @@ public class Drivetrain extends Subsystem {
 	 * components related to the subsystem
 	 */
 	public Drivetrain() {
-		
+
 		try {
 			gyro = new AHRS(SPI.Port.kMXP);
 		} catch (RuntimeException ex) {
@@ -62,47 +62,26 @@ public class Drivetrain extends Subsystem {
 		leftMaster = new WPI_TalonSRX(ElectricalConstants.LEFT_DRIVE_FRONT);
 		leftMaster.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 0);
 		leftMaster.setInverted(false);
-//		
+		leftMaster.setSensorPhase(false);
+		leftMaster.setNeutralMode(com.ctre.phoenix.motorcontrol.NeutralMode.Brake);
+
 		leftSlave1 = new WPI_TalonSRX(ElectricalConstants.LEFT_DRIVE_MIDDLE);
 		leftSlave1.set(ControlMode.Follower, ElectricalConstants.LEFT_DRIVE_FRONT);
-		
+
 		leftSlave2 = new WPI_TalonSRX(ElectricalConstants.LEFT_DRIVE_BACK);
 		leftSlave2.set(ControlMode.Follower, ElectricalConstants.LEFT_DRIVE_FRONT);
 
 		rightMaster = new WPI_TalonSRX(ElectricalConstants.RIGHT_DRIVE_FRONT);
 		rightMaster.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 0);
 		rightMaster.setInverted(false);
+		rightMaster.setSensorPhase(false);
+		rightMaster.setNeutralMode(com.ctre.phoenix.motorcontrol.NeutralMode.Brake);
 
 		rightSlave1 = new WPI_TalonSRX(ElectricalConstants.RIGHT_DRIVE_MIDDLE);
 		rightSlave1.set(ControlMode.Follower, ElectricalConstants.RIGHT_DRIVE_FRONT);
-		
+
 		rightSlave2 = new WPI_TalonSRX(ElectricalConstants.RIGHT_DRIVE_BACK);
 		rightSlave2.set(ControlMode.Follower, ElectricalConstants.RIGHT_DRIVE_FRONT);
-
-		// FeedbackDeviceStatus leftStatus =
-		// leftMaster.isSensorPresent(FeedbackDevice.CTRE_MagEncoder_Relative);
-		// FeedbackDeviceStatus rightStatus =
-		// rightMaster.isSensorPresent(FeedbackDevice.CTRE_MagEncoder_Relative);
-		//
-		// switch (leftStatus) {
-		// case FeedbackStatusPresent:
-		// leftEncoderConnected = true;
-		// break;
-		// case FeedbackStatusNotPresent:
-		// break;
-		// case FeedbackStatusUnknown:
-		// break;
-		// }
-		//
-		// switch (rightStatus) {
-		// case FeedbackStatusPresent:
-		// rightEncoderConnected = true;
-		// break;
-		// case FeedbackStatusNotPresent:
-		// break;
-		// case FeedbackStatusUnknown:
-		// break;
-		// }
 
 		// Initialize PID controllers
 		drivePID = new PIDController(NumberConstants.pDrive, NumberConstants.iDrive, NumberConstants.dDrive);
@@ -111,19 +90,15 @@ public class Drivetrain extends Subsystem {
 		leftPID = new PIDController(NumberConstants.pDrive, NumberConstants.iDrive, NumberConstants.dDrive);
 		rightPID = new PIDController(NumberConstants.pDrive, NumberConstants.iDrive, NumberConstants.dDrive);
 
-		// rightMaster.selectProfileSlot(0, 0);
-		// rightMaster.setPID(0.01, 0, 0);
-		// rightMaster.setF(0.2670508);
-		//
-		// THIS MIGHT BE THE V5 CODE
-		// rightMaster.config_kP(val, timeoutMs);
-		// rightMaster.config_kI(val, timeoutMs);
-		// rightMaster.config_kD(val, timeoutMs);
-		// rightMaster.config_kF(val, timeoutMs);
-		//
-		// leftMaster.setProfile(0);
-		// leftMaster.setPID(0.01, 0, 0);
-		// leftMaster.setF(0.2670508);
+		leftMaster.config_kP(0, NumberConstants.pDrive, 0);
+		leftMaster.config_kI(0, NumberConstants.iDrive, 0);
+		leftMaster.config_kD(0, NumberConstants.dDrive, 0);
+		leftMaster.config_kF(0, NumberConstants.fDrive, 0);
+
+		rightMaster.config_kP(0, NumberConstants.pDrive, 0);
+		rightMaster.config_kI(0, NumberConstants.iDrive, 0);
+		rightMaster.config_kD(0, NumberConstants.dDrive, 0);
+		rightMaster.config_kF(0, NumberConstants.fDrive, 0);
 
 		controlMode = "PercentOutput";
 		resetEncoders();
@@ -143,7 +118,7 @@ public class Drivetrain extends Subsystem {
 		else
 			rightMaster.set(ControlMode.PercentOutput, input);
 	}
-	
+
 	public void runLeft(double leftInput) {
 		leftMaster.set(ControlMode.PercentOutput, leftInput);
 	}
@@ -157,8 +132,31 @@ public class Drivetrain extends Subsystem {
 		else
 			leftMaster.set(ControlMode.PercentOutput, input);
 	}
-	
-	public void runWinchPTO(double input){
+
+	public void runDriveMotionMagic(double setpoint) {
+		leftMaster.set(ControlMode.MotionMagic, -setpoint);
+		rightMaster.set(ControlMode.MotionMagic, setpoint);
+	}
+
+	public double getLeftMotionMagicError() {
+		return leftMaster.getClosedLoopError(0);
+	}
+
+	public double getRightMotionMagicError() {
+		return rightMaster.getClosedLoopError(0);
+	}
+
+	public void magicMotionSetpoint(double setpoint, int cruiseVelocity, double secsToMaxSpeed) {
+
+		leftMaster.configMotionCruiseVelocity(cruiseVelocity, 0);
+		leftMaster.configMotionAcceleration((int) (NumberConstants.maxDriveSpeed / secsToMaxSpeed), 0);
+
+		rightMaster.configMotionCruiseVelocity(cruiseVelocity, 0);
+		rightMaster.configMotionAcceleration((int) (NumberConstants.maxDriveSpeed / secsToMaxSpeed), 0);
+		runDriveMotionMagic(setpoint * -ElectricalConstants.ROTATIONS_TO_INCHES);
+	}
+
+	public void runWinchPTO(double input) {
 		leftMaster.set(input);
 	}
 
@@ -233,7 +231,7 @@ public class Drivetrain extends Subsystem {
 		runLeftDrive(-speed - angle);
 		runRightDrive(speed - angle);
 	}
-	
+
 	public boolean drivePIDDone() {
 		return drivePID.isDone();
 	}

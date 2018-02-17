@@ -5,6 +5,7 @@ import org.usfirst.frc.team1241.robot.NumberConstants;
 import org.usfirst.frc.team1241.robot.commands.ClimberCommand;
 import org.usfirst.frc.team1241.robot.pid.PIDController;
 
+import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
 import edu.wpi.first.wpilibj.AnalogInput;
@@ -17,7 +18,8 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 public class Climber extends Subsystem {
 
 	WPI_TalonSRX climberArm;
-	DoubleSolenoid piston;
+	DoubleSolenoid ptoPiston;
+	DoubleSolenoid armPiston;
 	
 	AnalogInput armPot;
 	
@@ -27,10 +29,12 @@ public class Climber extends Subsystem {
 
 	public Climber(){		
 		climberArm = new WPI_TalonSRX(ElectricalConstants.CLIMBER_ARM_MOTOR);
-		piston = new DoubleSolenoid(ElectricalConstants.HANGER_PISTON_A, ElectricalConstants.HANGER_PISTON_B);
+		ptoPiston = new DoubleSolenoid(ElectricalConstants.PTO_PISTON_A, ElectricalConstants.PTO_PISTON_B);
+		armPiston = new DoubleSolenoid(ElectricalConstants.HANGER_PISTON_A, ElectricalConstants.HANGER_PISTON_B);
 		
 		armPot = new AnalogInput(ElectricalConstants.ARM_POTENTIOMETER);		
 		armPID = new PIDController(NumberConstants.pARM, NumberConstants.iARM, NumberConstants.dARM);
+		//retractPiston();
 	}
 
 	public void initDefaultCommand() {
@@ -47,7 +51,7 @@ public class Climber extends Subsystem {
 
 	// method raises or lowers the climber arm
 	public void runClimberArm(double pwmVal) {
-		climberArm.set(pwmVal);
+		climberArm.set(ControlMode.PercentOutput, pwmVal);
 	}
 	
 	/** Sets wedge position using setpoints */
@@ -70,15 +74,23 @@ public class Climber extends Subsystem {
 	}
 
 	// Extends or retracts pistons for detaching the arm
-	public void extendPiston() {
-		piston.set(DoubleSolenoid.Value.kForward);
+	public void extendArmPiston() {
+		armPiston.set(DoubleSolenoid.Value.kForward);
 	}
 		
-	public void retractPiston() {
-		piston.set(DoubleSolenoid.Value.kReverse);
+	public void retractArmPiston() {
+		armPiston.set(DoubleSolenoid.Value.kReverse);
+	}
+	
+	public void extendPTOPiston() {
+		ptoPiston.set(DoubleSolenoid.Value.kForward);
+	}
+		
+	public void retractPTOPiston() {
+		ptoPiston.set(DoubleSolenoid.Value.kReverse);
 	}
 	
 	public void stopPiston() {
-		piston.set(DoubleSolenoid.Value.kOff);
+		ptoPiston.set(DoubleSolenoid.Value.kOff);
 	}
 }

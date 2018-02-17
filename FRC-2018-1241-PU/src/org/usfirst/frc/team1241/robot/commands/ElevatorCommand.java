@@ -26,7 +26,29 @@ public class ElevatorCommand extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
+    	//Robot.elevator.runElevator(Robot.oi.getToolRightY());
     	
+    	System.out.println("Joystick: " + Robot.oi.getToolRightY() + " Velocity: " + Robot.elevator.getElevatorSpeed());
+    	
+    	/*if (Robot.oi.getToolYButton()){
+			Robot.elevator.magicMotionSetpoint(85, NumberConstants.maxElevatorSpeed, 0.5);
+    	} else if (Robot.oi.getToolBButton()){
+    		Robot.elevator.magicMotionSetpoint(0, NumberConstants.maxElevatorSpeed, 1);
+    	}*/
+    	
+    	
+		if (Robot.oi.getToolRightY() < -0.7 ){
+    		Robot.elevator.magicMotionSetpoint(NumberConstants.scaleHighPosition, NumberConstants.maxElevatorSpeed, 1);
+		}
+		if (Robot.oi.getToolRightX() > 0.7){
+    		Robot.elevator.magicMotionSetpoint(NumberConstants.scaleMidPosition, NumberConstants.maxElevatorSpeed, 1);
+		}
+		if (Robot.oi.getToolRightY() > 0.7){
+    		Robot.elevator.magicMotionSetpoint(NumberConstants.intakingPosition, NumberConstants.maxElevatorSpeed, 1);
+		}
+		
+    	
+    	/*
     	if (!Robot.elevator.bottomHardstop()){
     		if (holdPosition){
     			Robot.elevator.elevatorHoldPosition(0.5);
@@ -67,7 +89,7 @@ public class ElevatorCommand extends Command {
     		if (Robot.oi.getToolBButton()){
     			Robot.elevator.runElevatorMotionMagic(NumberConstants.portalPosition);
     			holdPosition = true;
-    		}
+    		}*/
     		/*if(Robot.oi.getToolLeftX() > 1){
     			scaleLevel += 1;
     			
@@ -93,7 +115,7 @@ public class ElevatorCommand extends Command {
     			}*/
     		
     	}
-   }
+   //}
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
