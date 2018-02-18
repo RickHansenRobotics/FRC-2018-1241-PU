@@ -35,20 +35,20 @@ public class TankDrive extends Command {
 			Robot.drive.runRightDrive(Robot.oi.getDriveRightY());
 		}
 		
-		if (Robot.oi.getDriveAButton() && !isPTOengaged){
+	/*	if (Robot.oi.getDriveAButton() && !isPTOengaged){
 			hangSequence.start();
 			isPTOengaged = true;
 		}
 		if (hangSequence.isCompleted() && Robot.oi.getDriveAButton()){
 			Robot.drive.runLeftDrive(0.75);
 			Robot.drive.runRightDrive(-0.75);
-		}
-/*
-		if (Robot.oi.getDriveStartButton()) {
+		}*/
+
+		if (Robot.oi.getDriveAButton()) {
 			Robot.climber.extendPTOPiston();
 			Robot.climber.setPtoHanger(true);
-		} else if (Robot.oi.getDriveBackButton())
-			Robot.climber.retractPTOPiston();*/
+		} else if (Robot.oi.getDriveBButton())
+			Robot.climber.retractPTOPiston();
 		
 		if(Robot.oi.getDriveYButton()){
 			Robot.drive.magicMotionSetpoint(60, 2000, 1);

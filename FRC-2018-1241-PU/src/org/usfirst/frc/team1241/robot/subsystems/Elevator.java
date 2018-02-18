@@ -141,7 +141,7 @@ public class Elevator extends Subsystem {
 	}
 
 	public double getElevatorEncoder() {
-		return elevator.getSelectedSensorPosition(0) /ElectricalConstants.elevatorRotatationsToInches;
+		return elevator.getSelectedSensorPosition(0) / - ElectricalConstants.elevatorRotatationsToInches;
 	}
 
 	public double getElevatorRotations() {
