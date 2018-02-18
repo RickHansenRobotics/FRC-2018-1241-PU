@@ -63,12 +63,12 @@ public class ElevatorCommand extends Command {
 		}
 		
 		if (Robot.oi.getToolStartButton()){
-			Robot.elevator.runElevator(1);
+			Robot.elevator.runElevator(0.4);
 			backupEngaged = true;
 		}
 		
 		else if (Robot.oi.getToolBackButton()){
-			Robot.elevator.runElevator(-1);
+			Robot.elevator.runElevator(-0.4);
 			backupEngaged = true;
 		}
 		
