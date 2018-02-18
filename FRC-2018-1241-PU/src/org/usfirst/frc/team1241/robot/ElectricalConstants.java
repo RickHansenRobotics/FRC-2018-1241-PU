@@ -18,8 +18,8 @@ public class ElectricalConstants {
 	// ************************* DRIVE ENCODER CONSTANTS ************************
 	// **************************************************************************
 	
-	private static final double encoderGearRatio = 42 / 36;
-	private static final double wheelRadius = 3;
+	private static final double encoderGearRatio = 1;
+	private static final double wheelRadius = 3.125;
 	public static final double ROTATIONS_TO_INCHES = 2*Math.PI*wheelRadius*encoderGearRatio;
 
 	// **************************************************************************
@@ -54,6 +54,12 @@ public class ElectricalConstants {
 	public static final int HANGER_PISTON_A = 2;
 	public static final int HANGER_PISTON_B = 3;	
 	
+
+	
+	public static final int LEFT_INTAKE_PISTON_A = 4;
+	public static final int LEFT_INTAKE_PISTON_B = 5;
+	public static final int RIGHT_INTAKE_PISTON_A = 6;
+	public static final int RIGHT_INTAKE_PISTON_B = 7;
 	// *************************************************************************
 	// ************************** CLIMBER SENSORS ******************************
 	// *************************************************************************

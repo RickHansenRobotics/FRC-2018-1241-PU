@@ -1,4 +1,4 @@
-package org.usfirst.frc.team1241.robot.auto;
+package org.usfirst.frc.team1241.robot.auto.drive;
 
 import org.usfirst.frc.team1241.robot.NumberConstants;
 import org.usfirst.frc.team1241.robot.Robot;
@@ -40,7 +40,9 @@ public class DriveCommand extends Command {
     // Called just before this Command runs the first time
     protected void initialize() {
     	Robot.drive.changeDriveGains(NumberConstants.pDrive, NumberConstants.iDrive, NumberConstants.dDrive);
-    	Robot.drive.changeGyroGains(NumberConstants.pGyro, NumberConstants.iGyro, NumberConstants.dGyro);
+    	Robot.drive.changeGyroGains(NumberConstants.pGyro, NumberConstants.iGyro, 0);
+    	//Robot.drive.changeDriveGains(Robot.pDrive, Robot.iDrive, Robot.dDrive);
+    	//Robot.drive.changeGyroGains(Robot.pGyro, Robot.iGyro, 0);
     	Robot.drive.resetEncoders();
     	setTimeout(timeOut);
     }

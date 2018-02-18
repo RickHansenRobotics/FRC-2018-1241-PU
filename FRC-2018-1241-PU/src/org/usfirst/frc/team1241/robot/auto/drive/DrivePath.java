@@ -1,5 +1,6 @@
-package org.usfirst.frc.team1241.robot.auto;
+package org.usfirst.frc.team1241.robot.auto.drive;
 
+import org.usfirst.frc.team1241.robot.NumberConstants;
 import org.usfirst.frc.team1241.robot.Robot;
 import org.usfirst.frc.team1241.robot.utilities.BezierCurve;
 import org.usfirst.frc.team1241.robot.utilities.Point;
@@ -79,6 +80,8 @@ public class DrivePath extends Command {
 	protected void initialize() {
 		counter = 0;
 		setTimeout(timeOut);
+		Robot.drive.changeDriveGains(NumberConstants.pDrive, NumberConstants.iDrive, NumberConstants.dDrive);
+    	Robot.drive.changeGyroGains(NumberConstants.pGyro, NumberConstants.iGyro, 0);
 		Robot.drive.resetEncoders();
 	}
 
@@ -90,7 +93,7 @@ public class DrivePath extends Command {
 				counter++;
 			Robot.drive.driveSetpoint(-distance, speed, curve.findAngle(counter), 1);
 		} else {
-			if (Robot.drive.getAverageDistance() > curve.findHypotenuse(counter) && counter < curve.size())
+			if (Robot.drive.getAverageDistance() > curve.findHypotenuse(counter) && counter < curve.size()-1)
 				counter++;
 			System.out.println("Bezier Angle " + curve.findAngle(counter) + " " + distance); 	
 			Robot.drive.driveSetpoint(distance, speed, curve.findAngle(counter), 1);
@@ -100,7 +103,7 @@ public class DrivePath extends Command {
 	// Command is finished when average distance = total distance or command
 	// times out
 	protected boolean isFinished() {
-		return Robot.drive.getAverageDistance() == distance || isTimedOut();
+		return isTimedOut();
 	}
 
 	// At the end, stop drive motors
@@ -110,5 +113,7 @@ public class DrivePath extends Command {
 	}
 
 	protected void interrupted() {
+		Robot.drive.runLeftDrive(0);
+		Robot.drive.runRightDrive(0);
 	}
 }

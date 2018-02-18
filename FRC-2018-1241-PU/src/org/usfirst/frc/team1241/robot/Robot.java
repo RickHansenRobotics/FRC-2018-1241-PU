@@ -7,9 +7,7 @@
 
 package org.usfirst.frc.team1241.robot;
 
-import org.usfirst.frc.team1241.robot.auto.DriveTest;
-import org.usfirst.frc.team1241.robot.auto.ElevatorTest;
-import org.usfirst.frc.team1241.robot.auto.GyroTest;
+import org.usfirst.frc.team1241.robot.auto.LeftLeftSwitch;
 import org.usfirst.frc.team1241.robot.auto.NoAuto;
 import org.usfirst.frc.team1241.robot.subsystems.Climber;
 import org.usfirst.frc.team1241.robot.subsystems.Drivetrain;
@@ -38,7 +36,7 @@ public class Robot extends TimedRobot {
 	public static Drivetrain drive;
 	public static Intake intake;
 	public static Elevator elevator;
-	public static Climber climb;
+	public static Climber climber;
 	public static LEDstrips ledstrips;
 
 	Preferences pref;
@@ -69,10 +67,11 @@ public class Robot extends TimedRobot {
 
 	Command m_autonomousCommand;
 	SendableChooser<Command> m_chooser = new SendableChooser<>();
-	
-	//GET RID*********************************************************
-	double maxSpeed = 0;
 
+	// GET RID*********************************************************
+	double maxElevatorSpeed = 0;
+	double maxLeftDriveSpeed = 0;
+	double maxRightDriveSpeed = 0;
 	/**
 	 * This function is run when the robot is first started up and should be
 	 * used for any initialization code.
@@ -85,16 +84,13 @@ public class Robot extends TimedRobot {
 		drive = new Drivetrain();
 		elevator = new Elevator();
 		intake = new Intake();
-		climb = new Climber();
+		climber = new Climber();
 		ledstrips = new LEDstrips();
 
 		autoChooser = new SendableChooser();
 
-		autoChooser.addDefault("No Auton", new NoAuto());
-		autoChooser.addObject("Gyro Testing", new GyroTest());
-		autoChooser.addObject("Drive Encoder Testing", new DriveTest());
-		autoChooser.addObject("Elevator Encoder Testing", new ElevatorTest());
-		
+		autoChooser.addObject("No Auton", new NoAuto());
+
 		updateSmartDashboard();
 
 	}
@@ -112,6 +108,7 @@ public class Robot extends TimedRobot {
 	@Override
 	public void disabledPeriodic() {
 		Scheduler.getInstance().run();
+		updateSmartDashboard();
 	}
 
 	/**
@@ -128,8 +125,10 @@ public class Robot extends TimedRobot {
 	 */
 	@Override
 	public void autonomousInit() {
+		drive.reset();
+		elevator.resetEncoders();
 		gameData = DriverStation.getInstance().getGameSpecificMessage();
-		m_autonomousCommand = m_chooser.getSelected();
+		m_autonomousCommand = new LeftLeftSwitch();//new DriveTest();// m_chooser.getSelected();
 		LEDstrips.solidGold();
 		/*
 		 * String autoSelected = SmartDashboard.getString("Auto Selector",
@@ -149,6 +148,7 @@ public class Robot extends TimedRobot {
 	 */
 	@Override
 	public void autonomousPeriodic() {
+		updateSmartDashboard();
 		Scheduler.getInstance().run();
 	}
 
@@ -184,12 +184,23 @@ public class Robot extends TimedRobot {
 		SmartDashboard.putNumber("Elevator Encoder", elevator.getElevatorEncoder());
 		SmartDashboard.putNumber("Elevator Encoder RAW", elevator.getElevatorRotations());
 		SmartDashboard.putNumber("Elevator RPM", elevator.getElevatorSpeed());
-
-		if(elevator.getElevatorSpeed() > maxSpeed){
-			maxSpeed = elevator.getElevatorSpeed();
-			SmartDashboard.putNumber("MAX Elevator RPM", maxSpeed);
+		SmartDashboard.putNumber("Left Drive Speed", drive.getLeftSpeed());
+		SmartDashboard.putNumber("Right Drive Speed", drive.getRightSpeed());
+		
+		if (elevator.getElevatorSpeed() > maxElevatorSpeed) {
+			maxElevatorSpeed = elevator.getElevatorSpeed();
+			SmartDashboard.putNumber("MAX Elevator RPM", maxElevatorSpeed);
 		}
-		drive.resetGyro();
+		
+		if (drive.getLeftSpeed() < maxLeftDriveSpeed) {
+			maxLeftDriveSpeed = drive.getLeftSpeed();
+			SmartDashboard.putNumber("Left Drive Max Speed", maxLeftDriveSpeed);
+		}
+		
+		if (drive.getRightSpeed() < maxRightDriveSpeed) {
+			maxRightDriveSpeed = drive.getRightSpeed();
+			SmartDashboard.putNumber("Right Drive Max Speed", maxRightDriveSpeed);
+		}
 
 		pDrive = pref.getDouble("Drive pGain", 0.0);
 		iDrive = pref.getDouble("Drive iGain", 0.0);

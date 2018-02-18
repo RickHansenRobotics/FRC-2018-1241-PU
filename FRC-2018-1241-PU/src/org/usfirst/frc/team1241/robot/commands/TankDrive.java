@@ -1,6 +1,7 @@
 package org.usfirst.frc.team1241.robot.commands;
 
 import org.usfirst.frc.team1241.robot.Robot;
+import org.usfirst.frc.team1241.robot.auto.climber.HangSequence;
 
 import edu.wpi.first.wpilibj.command.Command;
 
@@ -12,9 +13,11 @@ import edu.wpi.first.wpilibj.command.Command;
  * @since 11/01/18
  */
 public class TankDrive extends Command {
-
+	private HangSequence hangSequence;
+	private boolean isPTOengaged = false;
 	public TankDrive() {
 		requires(Robot.drive);
+		hangSequence = new HangSequence();
 	}
 
 	// Called just before this Command runs the first time
@@ -26,19 +29,34 @@ public class TankDrive extends Command {
 		if (Robot.oi.getDriveRightBumper()) {
 			Robot.drive.runLeftDrive(-0.5 * Robot.oi.getDriveLeftY());
 			Robot.drive.runRightDrive(0.5 * Robot.oi.getDriveRightY());
-		} else if(Robot.oi.getDriveAButton()) {
-			Robot.drive.runLeftDrive(0.25);
-			Robot.drive.runRightDrive(-0.25);
-		}
-		else if(Robot.oi.getDriveBButton()) {
-			Robot.drive.runLeftDrive(0.5);
-			Robot.drive.runRightDrive(-0.5);
-		}
-		else {
+			
+		} else {
 			Robot.drive.runLeftDrive(-Robot.oi.getDriveLeftY());
 			Robot.drive.runRightDrive(Robot.oi.getDriveRightY());
 		}
-
+		
+		if (Robot.oi.getDriveAButton() && !isPTOengaged){
+			hangSequence.start();
+			isPTOengaged = true;
+		}
+		if (hangSequence.isCompleted() && Robot.oi.getDriveAButton()){
+			Robot.drive.runLeftDrive(0.75);
+			Robot.drive.runRightDrive(-0.75);
+		}
+/*
+		if (Robot.oi.getDriveStartButton()) {
+			Robot.climber.extendPTOPiston();
+			Robot.climber.setPtoHanger(true);
+		} else if (Robot.oi.getDriveBackButton())
+			Robot.climber.retractPTOPiston();*/
+		
+		if(Robot.oi.getDriveYButton()){
+			Robot.drive.magicMotionSetpoint(60, 2000, 1);
+		}
+		
+		//System.out.println("Joystick: " + Robot.oi.getDriveLeftY() + " Velocity: " + Robot.drive.getLeftSpeed());
+		//System.out.println("Joystick: " + Robot.oi.getDriveRightY() + " Velocity: " + Robot.drive.getRightSpeed());
+		System.out.println("INSIDE TANKDRIVE");
 	}
 
 	// Make this return true when this Command no longer needs to run execute()

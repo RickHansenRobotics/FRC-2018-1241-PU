@@ -17,10 +17,10 @@ import java.util.ArrayList;
 public class BezierCurve {
 
 	/** Used to save number of points generated */
-	private static int size = 1000;
+	private static int size = 20;
 	
 	/** Used to save number of points generated */
-	public double segmentStep = 0.005;
+	public double segmentStep = 0.05;
 
 	/** Used to store inputed coordinates */
 	public Point[] cubicVector = new Point[4];

@@ -9,125 +9,131 @@ import edu.wpi.first.wpilibj.command.Command;
  *
  */
 public class ElevatorCommand extends Command {
-	
+
 	public static int scaleLevel;
-	public static boolean holdPosition; 
+	public static boolean backupEngaged;
 
-    public ElevatorCommand() {
-        // Use requires() here to declare subsystem dependencies
-        requires(Robot.elevator);
-    }
+	public ElevatorCommand() {
+		// Use requires() here to declare subsystem dependencies
+		requires(Robot.elevator);
+	}
 
-    // Called just before this Command runs the first time
-    protected void initialize() {
-    	scaleLevel = 0;
-    	holdPosition = false;
-    }
+	// Called just before this Command runs the first time
+	protected void initialize() {
+		scaleLevel = 0;
+		backupEngaged = false;
+	}
 
-    // Called repeatedly when this Command is scheduled to run
-    protected void execute() {
-    	//Robot.elevator.runElevator(Robot.oi.getToolRightY());
-    	
-    	System.out.println("Joystick: " + Robot.oi.getToolRightY() + " Velocity: " + Robot.elevator.getElevatorSpeed());
-    	
-    	/*if (Robot.oi.getToolYButton()){
-			Robot.elevator.magicMotionSetpoint(85, NumberConstants.maxElevatorSpeed, 0.5);
-    	} else if (Robot.oi.getToolBButton()){
-    		Robot.elevator.magicMotionSetpoint(0, NumberConstants.maxElevatorSpeed, 1);
-    	}*/
-    	
-    	
-		if (Robot.oi.getToolRightY() < -0.7 ){
-    		Robot.elevator.magicMotionSetpoint(NumberConstants.scaleHighPosition, NumberConstants.maxElevatorSpeed, 1);
+	// Called repeatedly when this Command is scheduled to run
+	protected void execute() {
+		
+		
+		//System.out.println("Joystick: " + Robot.oi.getToolRightY() + " Velocity: " + Robot.elevator.getElevatorSpeed());
+		if (Robot.oi.getToolRightY() < -0.7) {
+			Robot.elevator.magicMotionSetpoint(NumberConstants.scaleHighPosition, NumberConstants.maxElevatorSpeed, 1);
+			backupEngaged = false;
 		}
-		if (Robot.oi.getToolRightX() > 0.7){
-    		Robot.elevator.magicMotionSetpoint(NumberConstants.scaleMidPosition, NumberConstants.maxElevatorSpeed, 1);
+		if (Robot.oi.getToolRightX() > 0.7) {
+			Robot.elevator.magicMotionSetpoint(NumberConstants.scaleMidPosition, NumberConstants.maxElevatorSpeed, 1);
+			backupEngaged = false;
 		}
-		if (Robot.oi.getToolRightY() > 0.7){
-    		Robot.elevator.magicMotionSetpoint(NumberConstants.intakingPosition, NumberConstants.maxElevatorSpeed, 1);
+		if (Robot.oi.getToolRightY() > 0.7) {
+			Robot.elevator.magicMotionSetpoint(NumberConstants.scaleLowPosition, NumberConstants.maxElevatorSpeed, 1);
+			backupEngaged = false;
+		}
+
+		if (Robot.oi.getToolAButton()) {
+			Robot.elevator.magicMotionSetpoint(NumberConstants.intakingPosition, NumberConstants.maxElevatorSpeed, 1);
+			backupEngaged = false;
+		}
+
+		if (Robot.oi.getToolBButton()) {
+			Robot.elevator.magicMotionSetpoint(NumberConstants.portalPosition, NumberConstants.maxElevatorSpeed, 1);
+			backupEngaged = false;
+		}
+
+		if (Robot.oi.getToolXButton()) {
+			Robot.elevator.magicMotionSetpoint(NumberConstants.exchangePosition, NumberConstants.maxElevatorSpeed, 1);
+			backupEngaged = false;
+		}
+
+		if (Robot.oi.getToolYButton()) {
+			Robot.elevator.magicMotionSetpoint(NumberConstants.switchPosition, NumberConstants.maxElevatorSpeed, 1);
+			backupEngaged = false;
 		}
 		
-    	
-    	/*
-    	if (!Robot.elevator.bottomHardstop()){
-    		if (holdPosition){
-    			Robot.elevator.elevatorHoldPosition(0.5);
-    		}
-    		if (Robot.oi.getToolLeftX() > 0){
-    			Robot.elevator.runElevatorMotionMagic(NumberConstants.scaleLowPosition);
-    			holdPosition = true;
-    		}
-    		if (Robot.oi.getToolLeftY() > 0 ){
-    			Robot.elevator.runElevatorMotionMagic(NumberConstants.scaleMidPosition);
-    			holdPosition = true;
-    		}
-    		if (Robot.oi.getToolLeftY() < 0){
-    			Robot.elevator.runElevatorMotionMagic(NumberConstants.scaleHighPosition);
-    			holdPosition = true;
-    		}
-    		
-    		if (Robot.oi.getToolRightX() > 0){
-    			Robot.elevator.runElevatorMotionMagic(NumberConstants.switchLowPosition);
-    			holdPosition = true;
+		if (Robot.oi.getToolStartButton()){
+			Robot.elevator.runElevator(0.25);
+			backupEngaged = true;
+		}
+		
+		else if (Robot.oi.getToolBackButton()){
+			Robot.elevator.runElevator(-0.25);
+			backupEngaged = true;
+		}
+		
+		else if (backupEngaged){
+			Robot.elevator.runElevator(0);
+		}
 
-    		}
-    		if (Robot.oi.getToolRightY() > 0 ){
-    			Robot.elevator.runElevatorMotionMagic(NumberConstants.switchMidPosition);
-    			holdPosition = true;
+		/*
+		 * if (!Robot.elevator.bottomHardstop()){ if (holdPosition){
+		 * Robot.elevator.elevatorHoldPosition(0.5); } if
+		 * (Robot.oi.getToolLeftX() > 0){
+		 * Robot.elevator.runElevatorMotionMagic(NumberConstants.
+		 * scaleLowPosition); holdPosition = true; } if (Robot.oi.getToolLeftY()
+		 * > 0 ){ Robot.elevator.runElevatorMotionMagic(NumberConstants.
+		 * scaleMidPosition); holdPosition = true; } if (Robot.oi.getToolLeftY()
+		 * < 0){ Robot.elevator.runElevatorMotionMagic(NumberConstants.
+		 * scaleHighPosition); holdPosition = true; }
+		 * 
+		 * if (Robot.oi.getToolRightX() > 0){
+		 * Robot.elevator.runElevatorMotionMagic(NumberConstants.
+		 * switchLowPosition); holdPosition = true;
+		 * 
+		 * } if (Robot.oi.getToolRightY() > 0 ){
+		 * Robot.elevator.runElevatorMotionMagic(NumberConstants.
+		 * switchMidPosition); holdPosition = true;
+		 * 
+		 * } if (Robot.oi.getToolRightY() < 0){
+		 * Robot.elevator.runElevatorMotionMagic(NumberConstants.
+		 * switchHighPosition); holdPosition = true; }
+		 * 
+		 * if (Robot.oi.getToolAButton()){
+		 * Robot.elevator.runElevatorMotionMagic(NumberConstants.
+		 * intakingPosition); holdPosition = true; }
+		 * 
+		 * if (Robot.oi.getToolBButton()){
+		 * Robot.elevator.runElevatorMotionMagic(NumberConstants.portalPosition)
+		 * ; holdPosition = true; }
+		 */
+		/*
+		 * if(Robot.oi.getToolLeftX() > 1){ scaleLevel += 1;
+		 * 
+		 * switch (scaleLevel){ case 1: holdPosition = false;
+		 * Robot.elevator.runElevatorMotionMagic(NumberConstants.
+		 * scaleLowPosition); holdPosition = true; break; case 2: holdPosition =
+		 * false; Robot.elevator.runElevatorMotionMagic(NumberConstants.
+		 * scaleMidPosition); holdPosition = true; break; case 3: holdPosition =
+		 * true; Robot.elevator.runElevatorMotionMagic(NumberConstants.
+		 * scaleHighPosition); holdPosition = true; } if (scaleLevel == 3){
+		 * scaleLevel = 0; } }
+		 */
 
-    		}
-    		if (Robot.oi.getToolRightY() < 0){
-    			Robot.elevator.runElevatorMotionMagic(NumberConstants.switchHighPosition);
-    			holdPosition = true;
-    		}
-    		
-    		if (Robot.oi.getToolAButton()){
-    			Robot.elevator.runElevatorMotionMagic(NumberConstants.intakingPosition);
-    			holdPosition = true;
-    		}
-    		
-    		if (Robot.oi.getToolBButton()){
-    			Robot.elevator.runElevatorMotionMagic(NumberConstants.portalPosition);
-    			holdPosition = true;
-    		}*/
-    		/*if(Robot.oi.getToolLeftX() > 1){
-    			scaleLevel += 1;
-    			
-    			switch (scaleLevel){
-    			case 1:
-    			holdPosition = false;
-        		Robot.elevator.runElevatorMotionMagic(NumberConstants.scaleLowPosition);
-        		holdPosition = true;
-        		break;
-    			case 2:
-        		holdPosition = false;
-    			Robot.elevator.runElevatorMotionMagic(NumberConstants.scaleMidPosition);
-        		holdPosition = true;
-    			break;
-    			case 3: 
-    			holdPosition = true;
-    			Robot.elevator.runElevatorMotionMagic(NumberConstants.scaleHighPosition);
-        		holdPosition = true;
-    				}
-    			if (scaleLevel == 3){
-    				scaleLevel = 0;
-    			}
-    			}*/
-    		
-    	}
-   //}
+	}
+	// }
 
-    // Make this return true when this Command no longer needs to run execute()
-    protected boolean isFinished() {
-        return false;
-    }
+	// Make this return true when this Command no longer needs to run execute()
+	protected boolean isFinished() {
+		return false;
+	}
 
-    // Called once after isFinished returns true
-    protected void end() {
-    }
+	// Called once after isFinished returns true
+	protected void end() {
+	}
 
-    // Called when another command which requires one or more of the same
-    // subsystems is scheduled to run
-    protected void interrupted() {
-    }
+	// Called when another command which requires one or more of the same
+	// subsystems is scheduled to run
+	protected void interrupted() {
+	}
 }

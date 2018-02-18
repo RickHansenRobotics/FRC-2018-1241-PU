@@ -3,10 +3,10 @@ package org.usfirst.frc.team1241.robot.subsystems;
 import org.usfirst.frc.team1241.robot.ElectricalConstants;
 import org.usfirst.frc.team1241.robot.commands.IntakeCommand;
 
-import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
 import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
 /**
@@ -18,6 +18,7 @@ public class Intake extends Subsystem {
 	WPI_TalonSRX leftWheel;
 	WPI_TalonSRX rightWheel;
 
+	DoubleSolenoid piston;
 	DigitalInput optical;
 	private boolean contains = false;
 
@@ -25,29 +26,40 @@ public class Intake extends Subsystem {
 		leftWheel = new WPI_TalonSRX(ElectricalConstants.LEFT_INTAKE_MOTOR);
 		rightWheel = new WPI_TalonSRX(ElectricalConstants.RIGHT_INTAKE_MOTOR);
 
+		piston = new DoubleSolenoid(ElectricalConstants.LEFT_INTAKE_PISTON_A,
+				ElectricalConstants.LEFT_INTAKE_PISTON_B);
+
 		optical = new DigitalInput(0);
 	}
 
-	public void intake() {
-		leftWheel.set(0.7);
-		rightWheel.set(-0.85);
+	public void intake(double power) {
+		leftWheel.set(-power);
+		rightWheel.set(power);
 
 	}
-	
-	public void spinCube(){
+
+	public void spinCube() {
 		leftWheel.set(0.35);
 		rightWheel.set(0.35);
 	}
 
-	public void outtake() {
-		
-		leftWheel.set(-0.7);
-		rightWheel.set(0.7);
+	public void outtake(double power) {
+
+		leftWheel.set(power);
+		rightWheel.set(-power);
 	}
 
 	public void stop() {
 		leftWheel.set(0);
 		rightWheel.set(0);
+	}
+	
+	public void extendIntakePistons(){
+		piston.set(DoubleSolenoid.Value.kForward);
+	}
+	
+	public void retractIntakePistons(){
+		piston.set(DoubleSolenoid.Value.kReverse);
 	}
 
 	public double getLeftVoltage() {
@@ -57,7 +69,7 @@ public class Intake extends Subsystem {
 	public double getRightVoltage() {
 		return rightWheel.getMotorOutputVoltage();
 	}
-	
+
 	public void setContains(boolean state) {
 		this.contains = state;
 	}

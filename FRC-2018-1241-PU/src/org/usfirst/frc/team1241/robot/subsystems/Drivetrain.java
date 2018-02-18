@@ -74,7 +74,7 @@ public class Drivetrain extends Subsystem {
 		rightMaster = new WPI_TalonSRX(ElectricalConstants.RIGHT_DRIVE_FRONT);
 		rightMaster.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 0);
 		rightMaster.setInverted(false);
-		rightMaster.setSensorPhase(false);
+		rightMaster.setSensorPhase(true);
 		rightMaster.setNeutralMode(com.ctre.phoenix.motorcontrol.NeutralMode.Brake);
 
 		rightSlave1 = new WPI_TalonSRX(ElectricalConstants.RIGHT_DRIVE_MIDDLE);
@@ -90,15 +90,19 @@ public class Drivetrain extends Subsystem {
 		leftPID = new PIDController(NumberConstants.pDrive, NumberConstants.iDrive, NumberConstants.dDrive);
 		rightPID = new PIDController(NumberConstants.pDrive, NumberConstants.iDrive, NumberConstants.dDrive);
 
-		leftMaster.config_kP(0, NumberConstants.pDrive, 0);
-		leftMaster.config_kI(0, NumberConstants.iDrive, 0);
-		leftMaster.config_kD(0, NumberConstants.dDrive, 0);
-		leftMaster.config_kF(0, NumberConstants.fDrive, 0);
+		leftMaster.config_kP(0, NumberConstants.pTalonDrive, 0);
+		leftMaster.config_kI(0, NumberConstants.iTalonDrive, 0);
+		leftMaster.config_kD(0, NumberConstants.dTalonDrive, 0);
+		leftMaster.config_kF(0, NumberConstants.fTalonDrive, 0);
 
-		rightMaster.config_kP(0, NumberConstants.pDrive, 0);
-		rightMaster.config_kI(0, NumberConstants.iDrive, 0);
-		rightMaster.config_kD(0, NumberConstants.dDrive, 0);
-		rightMaster.config_kF(0, NumberConstants.fDrive, 0);
+		rightMaster.config_kP(0, NumberConstants.pTalonDrive, 0);
+		rightMaster.config_kI(0, NumberConstants.iTalonDrive, 0);
+		rightMaster.config_kD(0, NumberConstants.dTalonDrive, 0);
+		rightMaster.config_kF(0, NumberConstants.fTalonDrive, 0);
+		
+		leftMaster.selectProfileSlot(0, 0);
+		rightMaster.selectProfileSlot(0, 0);
+
 
 		controlMode = "PercentOutput";
 		resetEncoders();
@@ -134,8 +138,8 @@ public class Drivetrain extends Subsystem {
 	}
 
 	public void runDriveMotionMagic(double setpoint) {
-		leftMaster.set(ControlMode.MotionMagic, -setpoint);
-		rightMaster.set(ControlMode.MotionMagic, setpoint);
+		leftMaster.set(ControlMode.MotionMagic, setpoint);
+		rightMaster.set(ControlMode.MotionMagic, -setpoint);
 	}
 
 	public double getLeftMotionMagicError() {
@@ -147,13 +151,13 @@ public class Drivetrain extends Subsystem {
 	}
 
 	public void magicMotionSetpoint(double setpoint, int cruiseVelocity, double secsToMaxSpeed) {
-
 		leftMaster.configMotionCruiseVelocity(cruiseVelocity, 0);
 		leftMaster.configMotionAcceleration((int) (NumberConstants.maxDriveSpeed / secsToMaxSpeed), 0);
 
 		rightMaster.configMotionCruiseVelocity(cruiseVelocity, 0);
 		rightMaster.configMotionAcceleration((int) (NumberConstants.maxDriveSpeed / secsToMaxSpeed), 0);
-		runDriveMotionMagic(setpoint * -ElectricalConstants.ROTATIONS_TO_INCHES);
+		
+		runDriveMotionMagic(setpoint * NumberConstants.nativeToInches);
 	}
 
 	public void runWinchPTO(double input) {
@@ -192,8 +196,8 @@ public class Drivetrain extends Subsystem {
 		double output = drivePID.calcPID(setPoint, getAverageDistance(), tolerance);
 		double angle = gyroPID.calcPID(setAngle, getYaw(), tolerance);
 		SmartDashboard.putNumber("PID OUTPUT", angle);
-		runLeftDrive((-output - angle) * speed);
-		runRightDrive((output - angle) * speed);
+		runLeftDrive((output + angle) * speed);
+		runRightDrive((-output + angle) * speed);
 	}
 
 	public void driveVelocitySetpoint(double setPoint, double speed, double setAngle, double tolerance) {
@@ -214,22 +218,22 @@ public class Drivetrain extends Subsystem {
 			runLeftDrive(0);
 			runRightDrive(0);
 		} else if (angle > -min && angle < 0) {
-			runLeftDrive(min);
-			runRightDrive(min);
-		} else if (angle < min && angle > 0) {
 			runLeftDrive(-min);
 			runRightDrive(-min);
+		} else if (angle < min && angle > 0) {
+			runLeftDrive(min);
+			runRightDrive(min);
 		} else {
-			runLeftDrive(-angle * speed);
-			runRightDrive(-angle * speed);
+			runLeftDrive(angle * speed);
+			runRightDrive(angle * speed);
 		}
 	}
 
 	public void driveAngle(double setAngle, double speed) {
 		double angle = gyroPID.calcPID(setAngle, getYaw(), 1);
 
-		runLeftDrive(-speed - angle);
-		runRightDrive(speed - angle);
+		runLeftDrive(speed + angle);
+		runRightDrive(-speed + angle);
 	}
 
 	public boolean drivePIDDone() {
@@ -256,19 +260,19 @@ public class Drivetrain extends Subsystem {
 	// ENCODER FUNCTIONS
 
 	public double getLeftDriveEncoder() {
-		return leftMaster.getSelectedSensorPosition(0) * ElectricalConstants.ROTATIONS_TO_INCHES;
+		return -leftMaster.getSelectedSensorPosition(0) / NumberConstants.nativeToInches;
 	}
 
 	public double getRightDriveEncoder() {
-		return rightMaster.getSelectedSensorPosition(0) * ElectricalConstants.ROTATIONS_TO_INCHES;
+		return -rightMaster.getSelectedSensorPosition(0) / NumberConstants.nativeToInches;
 	}
 
-	public double getLeftDriveRotations() {
-		return leftMaster.getSelectedSensorPosition(0);
+	public double getLeftDriveRaw() {
+		return -leftMaster.getSelectedSensorPosition(0);
 	}
 
-	public double getRightDriveRotations() {
-		return rightMaster.getSelectedSensorPosition(0);
+	public double getRightDriveRaw() {
+		return -rightMaster.getSelectedSensorPosition(0);
 	}
 
 	public double getLeftSpeed() {

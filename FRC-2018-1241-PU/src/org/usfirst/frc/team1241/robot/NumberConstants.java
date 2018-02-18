@@ -15,22 +15,28 @@ public class NumberConstants {
     //*************************** PID VALUES (DRIVE) ***************************
     //**************************************************************************
 	
-	public static final double fDrive 									 = 0;
-	public static final double pDrive 									 = 0;
-	public static final double iDrive 									 = 0.00;
-	public static final double dDrive 									 = 0.0;
+	public static final double pDrive 									 = 0.009;
+	public static final double iDrive 									 = 0.0;
+	public static final double dDrive 									 = 0.06;
+	
+	public static final double fTalonDrive 							 	= 0.25575;
+	public static final double pTalonDrive 							 	= 0.0;
+	public static final double iTalonDrive 							 	= 0.0; 
+	public static final double dTalonDrive 							 	= 0.0;
 	
 	public static final double Drive_Scale 								 = 0.00;
 	
-	public static final int maxDriveSpeed								 = 0;
+	public static final int maxDriveSpeed								 = 4000;
+	
+	public static final double nativeToInches							 = 201.66;
 	
 	//**************************************************************************
     //**************************** PID VALUES (GYRO) ***************************
     //**************************************************************************
 	
-	public static final double pGyro 									 = 0.00;
-	public static final double iGyro 									 = 0.000000;
-	public static final double dGyro 									 = 0.0;
+	public static final double pGyro 									 = 0.01;
+	public static final double iGyro 									 = 0.0;
+	public static final double dGyro 									 = 0.9;
 	
 	//**************************************************************************
     //************************ PID VALUES (ELEVATOR) ***************************
@@ -57,11 +63,9 @@ public class NumberConstants {
 	public static final int topHardStop 							      = 94;
 	
 	public static final double intakingPosition 						  = 0;
-	public static final double vaultPosition 			     			  = 2;
-	public static final double switchLowPosition   						  = 18.75;
-	public static final double switchMidPosition 						  = 18.75;
-	public static final double switchHighPosition 						  = 18.75;
-	public static final double feederPosition 			    			  = 19;
+	public static final double exchangePosition 			     		  = 2;
+	public static final double switchPosition   						  = 25;
+	public static final double portalPosition 			    			  = 19;
 	public static final double scaleLowPosition 						  = 56;
 	public static final double scaleMidPosition 						  = 68;
 	public static final double scaleHighPosition 						  = 75;

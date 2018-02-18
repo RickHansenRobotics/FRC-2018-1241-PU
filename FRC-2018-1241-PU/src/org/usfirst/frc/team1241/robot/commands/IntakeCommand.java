@@ -2,8 +2,10 @@ package org.usfirst.frc.team1241.robot.commands;
 
 import org.usfirst.frc.team1241.robot.Robot;
 import org.usfirst.frc.team1241.robot.subsystems.LEDstrips;
+import org.usfirst.frc.team1241.robot.utilities.ToggleBoolean;
 
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  * @author Kaveesha Siribaddana
@@ -11,6 +13,8 @@ import edu.wpi.first.wpilibj.command.Command;
  */
 public class IntakeCommand extends Command {
 
+	ToggleBoolean toggle = new ToggleBoolean();
+	
 	public IntakeCommand() {
 		requires(Robot.intake);
 	}
@@ -22,16 +26,22 @@ public class IntakeCommand extends Command {
 	// Called repeatedly when this Command is scheduled to run
 	protected void execute() {
 
-		if (Robot.oi.getToolAButton()) {
-			Robot.intake.spinCube();
-		} else if (Robot.oi.getToolLeftBumper()) {
-			Robot.intake.outtake();
+		if (Robot.oi.getToolLeftBumper()) {
+			Robot.intake.outtake(0.7);
 		} else if (Robot.oi.getToolRightBumper()) {
-			Robot.intake.intake();
+			Robot.intake.intake(0.7);
 		} else {
 			Robot.intake.stop();
 		}
 
+		toggle.set(Robot.oi.getToolRightTrigger());
+		
+		if(toggle.get()) {
+			Robot.intake.retractIntakePistons();
+		} else {
+			Robot.intake.extendIntakePistons();
+		} 
+		
 		if (Robot.intake.getOptic()) {
 			LEDstrips.solidBlue();
 		} else {

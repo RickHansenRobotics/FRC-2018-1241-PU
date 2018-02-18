@@ -1,4 +1,4 @@
-package org.usfirst.frc.team1241.robot.auto;
+package org.usfirst.frc.team1241.robot.auto.drive;
 
 import org.usfirst.frc.team1241.robot.NumberConstants;
 import org.usfirst.frc.team1241.robot.Robot;
