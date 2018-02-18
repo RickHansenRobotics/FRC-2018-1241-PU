@@ -30,13 +30,14 @@ public class ElevatorSetpoint extends Command {
 		/*Robot.elevator.changeElevatorGains(NumberConstants.pElevator, NumberConstants.iElevator,
 				NumberConstants.dElevator);*/
 		setTimeout(timeOut);
+		Robot.elevator.magicMotionSetpoint(setpoint, speed, timeToMax);
 		//Robot.elevator.magicMotionSetpoint(setpoint, speed, timeToMax);
 	}
 
 	// Called repeatedly when this Command is scheduled to run
 	protected void execute() {
 		//Robot.elevator.elevatorSetpoint(setpoint, speed, tolerance);
-		Robot.elevator.magicMotionSetpoint(setpoint, speed, timeToMax);
+		System.out.println("Inside Elevator " + Robot.drive.getAverageDistance());
 	}
 
 	// Make this return true when this Command no longer needs to run execute()

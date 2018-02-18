@@ -27,7 +27,7 @@ public class IntakeCommand extends Command {
 	protected void execute() {
 
 		if (Robot.oi.getToolLeftBumper()) {
-			Robot.intake.outtake(0.7);
+			Robot.intake.outtake(1);
 		} else if (Robot.oi.getToolRightBumper()) {
 			Robot.intake.intake(0.7);
 		} else {

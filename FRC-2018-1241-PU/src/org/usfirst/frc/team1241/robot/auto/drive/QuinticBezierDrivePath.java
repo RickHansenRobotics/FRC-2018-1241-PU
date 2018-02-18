@@ -1,5 +1,6 @@
 package org.usfirst.frc.team1241.robot.auto.drive;
 
+import org.usfirst.frc.team1241.robot.NumberConstants;
 import org.usfirst.frc.team1241.robot.Robot;
 import org.usfirst.frc.team1241.robot.utilities.BezierCurve;
 import org.usfirst.frc.team1241.robot.utilities.Point;
@@ -89,7 +90,9 @@ public class QuinticBezierDrivePath extends Command {
 	protected void initialize() {
 		counter = 0;
 		setTimeout(timeOut);
-		Robot.drive.reset();
+		Robot.drive.changeDriveGains(NumberConstants.pDrive, NumberConstants.iDrive, NumberConstants.dDrive);
+    	Robot.drive.changeGyroGains(NumberConstants.pGyro, NumberConstants.iGyro, 0);
+		Robot.drive.resetEncoders();
 	}
 
 	// Give set distance for robot to travel, at each point change angle to

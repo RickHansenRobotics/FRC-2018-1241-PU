@@ -7,8 +7,10 @@
 
 package org.usfirst.frc.team1241.robot;
 
+import org.usfirst.frc.team1241.robot.auto.LeftLeftScale;
 import org.usfirst.frc.team1241.robot.auto.LeftLeftSwitch;
 import org.usfirst.frc.team1241.robot.auto.NoAuto;
+import org.usfirst.frc.team1241.robot.auto.QuinticBezierTest;
 import org.usfirst.frc.team1241.robot.subsystems.Climber;
 import org.usfirst.frc.team1241.robot.subsystems.Drivetrain;
 import org.usfirst.frc.team1241.robot.subsystems.Elevator;
@@ -127,8 +129,9 @@ public class Robot extends TimedRobot {
 	public void autonomousInit() {
 		drive.reset();
 		elevator.resetEncoders();
+		intake.extendIntakePistons();
 		gameData = DriverStation.getInstance().getGameSpecificMessage();
-		m_autonomousCommand = new LeftLeftSwitch();//new DriveTest();// m_chooser.getSelected();
+		m_autonomousCommand = new LeftLeftScale();//new DriveTest();// m_chooser.getSelected();
 		LEDstrips.solidGold();
 		/*
 		 * String autoSelected = SmartDashboard.getString("Auto Selector",

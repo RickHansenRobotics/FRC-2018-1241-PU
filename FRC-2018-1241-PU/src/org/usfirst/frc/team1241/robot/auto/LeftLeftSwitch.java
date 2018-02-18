@@ -15,9 +15,9 @@ public class LeftLeftSwitch extends CommandGroup {
 
     public LeftLeftSwitch() {
     	addParallel(new ElevatorSetpoint(NumberConstants.switchPosition, NumberConstants.maxElevatorSpeed, 1, 2));
+    	addParallel(new SetIntakeSpeedCommand(true, 0.75, 1.25));
     	addSequential(new DrivePath(new Point(0,0), new Point(-10,40), new Point(0,75), new Point(36,110), 1.5, 1));
-        
-        
+    	
         addSequential(new SetIntakeSpeedCommand(false, 0.65, 1));
     }
 }
