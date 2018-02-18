@@ -24,7 +24,7 @@ public class NumberConstants {
 	public static final double iTalonDrive 							 	= 0.0; 
 	public static final double dTalonDrive 							 	= 0.0;
 	
-	public static final double Drive_Scale 								 = 0.00;
+	public static final double Drive_Scale 								 = 0.0;
 	
 	public static final int maxDriveSpeed								 = 4000;
 	
