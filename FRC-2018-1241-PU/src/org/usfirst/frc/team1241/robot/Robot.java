@@ -7,6 +7,7 @@
 
 package org.usfirst.frc.team1241.robot;
 
+import org.usfirst.frc.team1241.robot.auto.LeftLeftScale;
 import org.usfirst.frc.team1241.robot.auto.LeftLeftSwitch;
 import org.usfirst.frc.team1241.robot.auto.NoAuto;
 import org.usfirst.frc.team1241.robot.subsystems.Climber;
@@ -128,7 +129,7 @@ public class Robot extends TimedRobot {
 		drive.reset();
 		elevator.resetEncoders();
 		gameData = DriverStation.getInstance().getGameSpecificMessage();
-		m_autonomousCommand = new LeftLeftSwitch();//new DriveTest();// m_chooser.getSelected();
+		m_autonomousCommand = new LeftLeftScale();//new DriveTest();// m_chooser.getSelected();
 		LEDstrips.solidGold();
 		/*
 		 * String autoSelected = SmartDashboard.getString("Auto Selector",

@@ -12,7 +12,7 @@ public class HangSequence extends CommandGroup {
     public HangSequence() {
     	
     	addParallel (new ContinousMotion (0.25, 0, 10, 1));
-    	addSequential (new PTODelayedFire ());
+    	addSequential (new PTODelayedFire());
     	
     	
         // Add Commands here:

@@ -13,11 +13,11 @@ import edu.wpi.first.wpilibj.command.Command;
  * @since 11/01/18
  */
 public class TankDrive extends Command {
-	private HangSequence hangSequence;
+	//private HangSequence hangSequence;
 	private boolean isPTOengaged = false;
 	public TankDrive() {
 		requires(Robot.drive);
-		hangSequence = new HangSequence();
+		//hangSequence = new HangSequence();
 	}
 
 	// Called just before this Command runs the first time
@@ -35,20 +35,22 @@ public class TankDrive extends Command {
 			Robot.drive.runRightDrive(Robot.oi.getDriveRightY());
 		}
 		
-		if (Robot.oi.getDriveAButton() && !isPTOengaged){
+		/*if (Robot.oi.getDriveAButton() && !isPTOengaged){
 			hangSequence.start();
 			isPTOengaged = true;
 		}
 		if (hangSequence.isCompleted() && Robot.oi.getDriveAButton()){
 			Robot.drive.runLeftDrive(0.75);
 			Robot.drive.runRightDrive(-0.75);
-		}
-/*
+		}*/
+
 		if (Robot.oi.getDriveStartButton()) {
 			Robot.climber.extendPTOPiston();
-			Robot.climber.setPtoHanger(true);
-		} else if (Robot.oi.getDriveBackButton())
-			Robot.climber.retractPTOPiston();*/
+			System.out.println("INSIDE Start");
+		} else if (Robot.oi.getDriveBackButton()){
+			Robot.climber.retractPTOPiston();
+			System.out.println("INSIDE Back");
+		}
 		
 		if(Robot.oi.getDriveYButton()){
 			Robot.drive.magicMotionSetpoint(60, 2000, 1);
@@ -56,7 +58,7 @@ public class TankDrive extends Command {
 		
 		//System.out.println("Joystick: " + Robot.oi.getDriveLeftY() + " Velocity: " + Robot.drive.getLeftSpeed());
 		//System.out.println("Joystick: " + Robot.oi.getDriveRightY() + " Velocity: " + Robot.drive.getRightSpeed());
-		System.out.println("INSIDE TANKDRIVE");
+		
 	}
 
 	// Make this return true when this Command no longer needs to run execute()
