@@ -30,45 +30,45 @@ public class ElevatorCommand extends Command {
 		
 		//System.out.println("Joystick: " + Robot.oi.getToolRightY() + " Velocity: " + Robot.elevator.getElevatorSpeed());
 		if (Robot.oi.getToolRightY() < -0.7) {
-			Robot.elevator.magicMotionSetpoint(NumberConstants.scaleHighPosition, NumberConstants.maxElevatorSpeed, 1);
+			Robot.elevator.magicMotionSetpoint(NumberConstants.scaleHighPosition, NumberConstants.maxElevatorSpeed, 0.35);
 			backupEngaged = false;
 		}
 		if (Robot.oi.getToolRightX() > 0.7) {
-			Robot.elevator.magicMotionSetpoint(NumberConstants.scaleMidPosition, NumberConstants.maxElevatorSpeed, 1);
+			Robot.elevator.magicMotionSetpoint(NumberConstants.scaleMidPosition, NumberConstants.maxElevatorSpeed, 0.35);
 			backupEngaged = false;
 		}
 		if (Robot.oi.getToolRightY() > 0.7) {
-			Robot.elevator.magicMotionSetpoint(NumberConstants.scaleLowPosition, NumberConstants.maxElevatorSpeed, 1);
+			Robot.elevator.magicMotionSetpoint(NumberConstants.scaleLowPosition, NumberConstants.maxElevatorSpeed, 0.35);
 			backupEngaged = false;
 		}
 
 		if (Robot.oi.getToolAButton()) {
-			Robot.elevator.magicMotionSetpoint(NumberConstants.intakingPosition, NumberConstants.maxElevatorSpeed, 1);
+			Robot.elevator.magicMotionSetpoint(NumberConstants.intakingPosition, NumberConstants.maxElevatorSpeed, 0.35);
 			backupEngaged = false;
 		}
 
-		if (Robot.oi.getToolBButton()) {
+		/*if (Robot.oi.getToolBButton()) {
 			Robot.elevator.magicMotionSetpoint(NumberConstants.portalPosition, NumberConstants.maxElevatorSpeed, 1);
 			backupEngaged = false;
-		}
+		}*/
 
 		if (Robot.oi.getToolXButton()) {
-			Robot.elevator.magicMotionSetpoint(NumberConstants.exchangePosition, NumberConstants.maxElevatorSpeed, 1);
+			Robot.elevator.magicMotionSetpoint(NumberConstants.exchangePosition, NumberConstants.maxElevatorSpeed, 0.35);
 			backupEngaged = false;
 		}
 
 		if (Robot.oi.getToolYButton()) {
-			Robot.elevator.magicMotionSetpoint(NumberConstants.switchPosition, NumberConstants.maxElevatorSpeed, 1);
+			Robot.elevator.magicMotionSetpoint(NumberConstants.switchPosition, NumberConstants.maxElevatorSpeed, 0.35);
 			backupEngaged = false;
 		}
 		
 		if (Robot.oi.getToolStartButton()){
-			Robot.elevator.runElevator(0.4);
+			Robot.elevator.runElevator(-1);
 			backupEngaged = true;
 		}
 		
 		else if (Robot.oi.getToolBackButton()){
-			Robot.elevator.runElevator(-0.4);
+			Robot.elevator.runElevator(1);
 			backupEngaged = true;
 		}
 		

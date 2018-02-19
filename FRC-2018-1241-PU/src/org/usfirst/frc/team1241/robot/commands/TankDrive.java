@@ -44,13 +44,13 @@ public class TankDrive extends Command {
 			Robot.drive.runRightDrive(-0.75);
 		}*/
 
-		if (Robot.oi.getDriveStartButton()) {
+		/*if (Robot.oi.getDriveStartButton()) {
 			Robot.climber.extendPTOPiston();
 			System.out.println("INSIDE Start");
 		} else if (Robot.oi.getDriveBackButton()){
 			Robot.climber.retractPTOPiston();
 			System.out.println("INSIDE Back");
-		}
+		}*/
 		
 		if(Robot.oi.getDriveYButton()){
 			Robot.drive.magicMotionSetpoint(60, 2000, 1);
