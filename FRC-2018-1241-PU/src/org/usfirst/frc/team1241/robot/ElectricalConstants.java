@@ -48,18 +48,18 @@ public class ElectricalConstants {
 	// ************************** CLIMBER PISTONS *******************************
 	// **************************************************************************
 	
-	public static final int PTO_PISTON_A = 0;
-	public static final int PTO_PISTON_B = 1;	
+	public static final int PTO_PISTON_A = 1;
+	public static final int PTO_PISTON_B = 0;	
 	
-	public static final int HANGER_PISTON_A = 2;
-	public static final int HANGER_PISTON_B = 3;	
+	public static final int HANGER_PISTON_A = 6;
+	public static final int HANGER_PISTON_B = 7;	
 	
 
 	
 	public static final int LEFT_INTAKE_PISTON_A = 4;
 	public static final int LEFT_INTAKE_PISTON_B = 5;
-	public static final int RIGHT_INTAKE_PISTON_A = 6;
-	public static final int RIGHT_INTAKE_PISTON_B = 7;
+	public static final int RIGHT_INTAKE_PISTON_A = 2;
+	public static final int RIGHT_INTAKE_PISTON_B = 3;
 	// *************************************************************************
 	// ************************** CLIMBER SENSORS ******************************
 	// *************************************************************************

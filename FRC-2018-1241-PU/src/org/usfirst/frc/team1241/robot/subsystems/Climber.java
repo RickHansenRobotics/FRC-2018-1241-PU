@@ -35,7 +35,7 @@ public class Climber extends Subsystem {
 		armPot = new AnalogInput(ElectricalConstants.ARM_POTENTIOMETER);		
 		armPID = new PIDController(NumberConstants.pARM, NumberConstants.iARM, NumberConstants.dARM);
 		
-		extendPTOPiston();
+		retractPTOPiston();
 	}
 
 	public void initDefaultCommand() {

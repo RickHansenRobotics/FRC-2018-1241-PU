@@ -29,8 +29,21 @@ public class TankDrive extends Command {
 		if (Robot.oi.getDriveRightBumper()) {
 			Robot.drive.runLeftDrive(-0.5 * Robot.oi.getDriveLeftY());
 			Robot.drive.runRightDrive(0.5 * Robot.oi.getDriveRightY());
+		}else if (Robot.oi.getDriveRightTrigger()) {
+			Robot.drive.runLeftDrive(-0.75 * Robot.oi.getDriveLeftY());
+			Robot.drive.runRightDrive(0.75 * Robot.oi.getDriveRightY());
 			
-		} else {
+		}/* else if (Robot.oi.getDriveAButton()) {
+			Robot.climber.extendPTOPiston();
+			Robot.drive.runLeftDrive(0.25);
+			Robot.drive.runRightDrive(-0.25);
+		} else if (Robot.oi.getDriveBButton())
+			Robot.climber.retractPTOPiston();
+		else if (Robot.oi.getDriveXButton()){
+			Robot.drive.runLeftDrive(0.75);
+			Robot.drive.runRightDrive(-0.75);
+		}*/
+		else {
 			Robot.drive.runLeftDrive(-Robot.oi.getDriveLeftY());
 			Robot.drive.runRightDrive(Robot.oi.getDriveRightY());
 		}
@@ -44,15 +57,10 @@ public class TankDrive extends Command {
 			Robot.drive.runRightDrive(-0.75);
 		}*/
 
-		if (Robot.oi.getDriveAButton()) {
-			Robot.climber.extendPTOPiston();
-			Robot.climber.setPtoHanger(true);
-		} else if (Robot.oi.getDriveBButton())
-			Robot.climber.retractPTOPiston();
 		
-		if(Robot.oi.getDriveYButton()){
+		/*if(Robot.oi.getDriveYButton()){
 			Robot.drive.magicMotionSetpoint(60, 2000, 1);
-		}
+		}*/
 		
 		//System.out.println("Joystick: " + Robot.oi.getDriveLeftY() + " Velocity: " + Robot.drive.getLeftSpeed());
 		//System.out.println("Joystick: " + Robot.oi.getDriveRightY() + " Velocity: " + Robot.drive.getRightSpeed());
