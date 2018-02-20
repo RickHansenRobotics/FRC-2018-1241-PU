@@ -62,7 +62,7 @@ public class NumberConstants {
 	public static final int bottomHardStop 							 	  = 0;
 	public static final int topHardStop 							      = 94;
 	
-	public static final double intakingPosition 						  = 0;
+	public static final double intakingPosition 						  = -1;
 	public static final double exchangePosition 			     		  = 2;
 	public static final double switchPosition   						  = 25;
 	public static final double portalPosition 			    			  = 19;
@@ -70,6 +70,7 @@ public class NumberConstants {
 	public static final double scaleMidPosition 						  = 68;
 	public static final double scaleHighPosition 						  = 75;
 	public static final int maxElevatorSpeed                          = 2560;
+	public static final int slowElevatorSpeed                          = 1700;
 
 	
 	//**************************************************************************

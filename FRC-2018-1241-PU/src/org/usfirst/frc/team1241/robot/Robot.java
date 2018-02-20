@@ -17,7 +17,9 @@ import org.usfirst.frc.team1241.robot.auto.LeftRightSwitch;
 import org.usfirst.frc.team1241.robot.auto.NoAuto;
 import org.usfirst.frc.team1241.robot.auto.RightLeftScale;
 import org.usfirst.frc.team1241.robot.auto.RightRightScale;
+import org.usfirst.frc.team1241.robot.auto.RightRightScaleSwitch;
 import org.usfirst.frc.team1241.robot.auto.RightRightSwitch;
+import org.usfirst.frc.team1241.robot.auto.drive.ContinousMotion;
 import org.usfirst.frc.team1241.robot.auto.drive.TurnCommand;
 import org.usfirst.frc.team1241.robot.subsystems.Climber;
 import org.usfirst.frc.team1241.robot.subsystems.Drivetrain;
@@ -71,7 +73,7 @@ public class Robot extends TimedRobot {
 	public static double iLockElevator;
 	public static double dLockElevator;
 
-	SendableChooser autoChooser;
+	SendableChooser<Command> autoChooser;
 
 	String gameData;
 
@@ -96,24 +98,22 @@ public class Robot extends TimedRobot {
 		climber = new Climber();
 		ledstrips = new LEDstrips();
 
-		autoChooser = new SendableChooser();
+		autoChooser = new SendableChooser<Command>();
 
 		autoChooser.addDefault("BaseLine", new CrossBaseline());
 		autoChooser.addObject("Left Left Scale", new LeftLeftScale());
 		autoChooser.addObject("Left Left Switch", new LeftLeftSwitch());
 		autoChooser.addObject("Center Left Switch", new CenterLeftSwitch());
 		autoChooser.addObject("Center Right Switch", new CenterRightSwitch());
-		autoChooser.addObject("Gyro Test", new TurnCommand(90, 1, 5, 1));
+		autoChooser.addObject("Gyro Test", new TurnCommand(90, 1, 5));
 		autoChooser.addObject("Right Right Scale", new RightRightScale());
+		autoChooser.addObject("Right Right Scale Switch", new RightRightScaleSwitch());
 		autoChooser.addObject("Right Right Switch", new RightRightSwitch());
 		autoChooser.addObject("Left Right Switch", new LeftRightSwitch());
 		autoChooser.addObject("Left Right Scale", new LeftRightScale());
 		autoChooser.addObject("Right Left Scale", new RightLeftScale());
-
-
-
-		autoChooser.addObject("Gyro Test", new TurnCommand(90, 1, 5, 1));
-
+		autoChooser.addObject("Continous Motion", new ContinousMotion(40, 0.8, 0, 1.5, true));
+		
 		autoChooser.addObject("No Auton", new NoAuto());
 
 		updateSmartDashboard();
@@ -234,9 +234,9 @@ public class Robot extends TimedRobot {
 		iDrive = pref.getDouble("Drive iGain", 0.0);
 		dDrive = pref.getDouble("Drive dGain", 0.0);
 
-		pGyro = pref.getDouble("Gyro pGain", 0.0);
-		iGyro = pref.getDouble("Gyro iGain", 0.0);
-		dGyro = pref.getDouble("Gyro dGain", 0.0);
+		pGyro = pref.getDouble("pGyro", 0.0);
+		iGyro = pref.getDouble("iGyro", 0.0);
+		dGyro = pref.getDouble("dGyro", 0.0);
 
 		fTalonElevator = pref.getDouble("Elevator Profile fGain", 0.0);
 		pTalonElevator = pref.getDouble("Elevator Profile pGain", 0.0);

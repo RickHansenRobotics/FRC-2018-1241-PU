@@ -14,6 +14,7 @@ public class ContinousMotion extends Command {
 	private double setPoint;
 	private double timeOut;
 	private double angle;
+	private boolean stop;
 
 	/**
 	 * Instantiates a new continous motion.
@@ -25,16 +26,17 @@ public class ContinousMotion extends Command {
 	 * @param timeOut
 	 *            The time out in seconds
 	 */
-	public ContinousMotion(double speed, double angle, double setPoint, double timeOut) {
+	public ContinousMotion(double setPoint, double speed, double angle, double timeOut, boolean stop) {
 		this.speed = speed;
 		this.angle = angle;
 		this.setPoint = setPoint;
 		this.timeOut = timeOut;
+		this.stop = stop;
 	}
 
 	// Called just before this Command runs the first time
 	protected void initialize() {
-		Robot.drive.reset();
+		Robot.drive.resetEncoders();
 		setTimeout(timeOut);
 	}
 
@@ -54,6 +56,10 @@ public class ContinousMotion extends Command {
 
 	// Called once after isFinished returns true
 	protected void end() {
+		if (stop){
+			Robot.drive.runLeftDrive(0);
+			Robot.drive.runLeftDrive(0);
+		}
 	}
 
 	// Called when another command which requires one or more of the same

@@ -23,7 +23,7 @@ public class LeftRightSwitch extends CommandGroup {
     	addParallel(new ExecuteAfterDistance(EncoderWaitCommand.DRIVE, 34,1.5,
 				new ElevatorSetpoint(NumberConstants.switchPosition, NumberConstants.maxElevatorSpeed,1, 2.5)));
 		addSequential(new QuinticBezierDrivePath (new Point(0,0), new Point (-38,134), new Point (41,132), new Point (-67,242), new Point (97, 201), new Point(222,216), 20, 0.05, 5, 1 ));
-		addSequential (new TurnCommand (180, 1, 1, 1));
+		addSequential (new TurnCommand (180, 1, 1));
 		addSequential(new SetIntakeSpeedCommand(false, 0.65, 1));
         // Add Commands here:
         // e.g. addSequential(new Command1());

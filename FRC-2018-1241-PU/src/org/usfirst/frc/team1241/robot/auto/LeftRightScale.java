@@ -25,7 +25,7 @@ public class LeftRightScale extends CommandGroup {
 				new ElevatorSetpoint(NumberConstants.scaleHighPosition, NumberConstants.maxElevatorSpeed,1, 2.5)));*/
 		addSequential(new QuinticBezierDrivePath (new Point(0,0), new Point (-38,134), new Point (41,132), new Point (-67,242), new Point (97, 201), new Point(272,210), 20, 0.05, 6, 1 ));
 		addParallel(new ElevatorSetpoint(NumberConstants.scaleHighPosition, NumberConstants.maxElevatorSpeed, 1, 2));
-		addSequential (new TurnCommand (0, 1, 2, 1));
+		addSequential (new TurnCommand (0, 1, 2));
 		addSequential (new DriveCommand (28, 1, 0, 1));
 		addSequential(new SetIntakeSpeedCommand(false, 0.5, 1));
         // Add Commands here:

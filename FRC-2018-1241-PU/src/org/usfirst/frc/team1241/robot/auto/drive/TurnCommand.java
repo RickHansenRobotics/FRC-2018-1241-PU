@@ -28,11 +28,10 @@ public class TurnCommand extends Command {
 	 * @param tolerance
 	 * 			  How close to target is considered "reached"
 	 */
-	public TurnCommand(double angle, double speed, double timeOut, double tolerance) {
+	public TurnCommand(double angle, double speed, double timeOut) {
 		this.angle = angle;
 		this.speed = speed;
 		this.timeOut = timeOut;
-		this.tolerance = tolerance;
 		requires(Robot.drive);
 	}
 	
@@ -42,13 +41,13 @@ public class TurnCommand extends Command {
 
 	// Called just before this Command runs the first time
 	protected void initialize() {
-		Robot.drive.changeGyroGains(0.01, NumberConstants.iGyro, NumberConstants.dGyro);
+		Robot.drive.changeGyroGains(Robot.pGyro, Robot.iGyro, Robot.dGyro);
 		setTimeout(timeOut);
 	}
 
 	// Called repeatedly when this Command is scheduled to run
 	protected void execute() {
-		Robot.drive.turnDrive(angle, speed, tolerance);
+		Robot.drive.turnDrive(angle, speed, 1);
 	}
 
 	// Command is finished when timed out
