@@ -26,8 +26,8 @@ public class Intake extends Subsystem {
 		leftWheel = new WPI_TalonSRX(ElectricalConstants.LEFT_INTAKE_MOTOR);
 		rightWheel = new WPI_TalonSRX(ElectricalConstants.RIGHT_INTAKE_MOTOR);
 
-		piston = new DoubleSolenoid(ElectricalConstants.LEFT_INTAKE_PISTON_A,
-				ElectricalConstants.LEFT_INTAKE_PISTON_B);
+		piston = new DoubleSolenoid(ElectricalConstants.INTAKE_PISTON_A,
+				ElectricalConstants.INTAKE_PISTON_B);
 
 		optical = new DigitalInput(0);
 	}

@@ -15,7 +15,7 @@ public class NumberConstants {
     //*************************** PID VALUES (DRIVE) ***************************
     //**************************************************************************
 	
-	public static final double pDrive 									 = 0.009;
+	public static final double pDrive 									 = 0.007;
 	public static final double iDrive 									 = 0.0;
 	public static final double dDrive 									 = 0.06;
 	
@@ -34,9 +34,9 @@ public class NumberConstants {
     //**************************** PID VALUES (GYRO) ***************************
     //**************************************************************************
 	
-	public static final double pGyro 									 = 0.01;
+	public static final double pGyro 									 = 0.02;
 	public static final double iGyro 									 = 0.0;
-	public static final double dGyro 									 = 0.9;
+	public static final double dGyro 									 = 0.0;
 	
 	//**************************************************************************
     //************************ PID VALUES (ELEVATOR) ***************************

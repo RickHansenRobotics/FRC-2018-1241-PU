@@ -12,7 +12,6 @@ public class IntakePistonCommand extends Command {
 	private boolean extend;
 
 	public IntakePistonCommand(boolean extend) {
-		requires(Robot.intake);
 		this.extend = extend;
 	}
 

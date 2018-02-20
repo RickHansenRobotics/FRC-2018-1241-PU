@@ -42,7 +42,7 @@ public class TurnCommand extends Command {
 
 	// Called just before this Command runs the first time
 	protected void initialize() {
-		Robot.drive.changeGyroGains(NumberConstants.pGyro, NumberConstants.iGyro, NumberConstants.dGyro);
+		Robot.drive.changeGyroGains(0.01, NumberConstants.iGyro, NumberConstants.dGyro);
 		setTimeout(timeOut);
 	}
 

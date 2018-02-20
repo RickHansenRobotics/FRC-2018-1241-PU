@@ -56,10 +56,9 @@ public class ElectricalConstants {
 	
 
 	
-	public static final int LEFT_INTAKE_PISTON_A = 4;
-	public static final int LEFT_INTAKE_PISTON_B = 5;
-	public static final int RIGHT_INTAKE_PISTON_A = 6;
-	public static final int RIGHT_INTAKE_PISTON_B = 7;
+	public static final int INTAKE_PISTON_A = 5;
+	public static final int INTAKE_PISTON_B = 4;
+	
 	// *************************************************************************
 	// ************************** CLIMBER SENSORS ******************************
 	// *************************************************************************

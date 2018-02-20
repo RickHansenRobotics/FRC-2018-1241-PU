@@ -7,9 +7,18 @@
 
 package org.usfirst.frc.team1241.robot;
 
+import org.usfirst.frc.team1241.robot.auto.CenterLeftSwitch;
+import org.usfirst.frc.team1241.robot.auto.CenterRightSwitch;
+import org.usfirst.frc.team1241.robot.auto.CrossBaseline;
 import org.usfirst.frc.team1241.robot.auto.LeftLeftScale;
 import org.usfirst.frc.team1241.robot.auto.LeftLeftSwitch;
+import org.usfirst.frc.team1241.robot.auto.LeftRightScale;
+import org.usfirst.frc.team1241.robot.auto.LeftRightSwitch;
 import org.usfirst.frc.team1241.robot.auto.NoAuto;
+import org.usfirst.frc.team1241.robot.auto.RightLeftScale;
+import org.usfirst.frc.team1241.robot.auto.RightRightScale;
+import org.usfirst.frc.team1241.robot.auto.RightRightSwitch;
+import org.usfirst.frc.team1241.robot.auto.drive.TurnCommand;
 import org.usfirst.frc.team1241.robot.subsystems.Climber;
 import org.usfirst.frc.team1241.robot.subsystems.Drivetrain;
 import org.usfirst.frc.team1241.robot.subsystems.Elevator;
@@ -67,7 +76,6 @@ public class Robot extends TimedRobot {
 	String gameData;
 
 	Command m_autonomousCommand;
-	SendableChooser<Command> m_chooser = new SendableChooser<>();
 
 	// GET RID*********************************************************
 	double maxElevatorSpeed = 0;
@@ -89,6 +97,22 @@ public class Robot extends TimedRobot {
 		ledstrips = new LEDstrips();
 
 		autoChooser = new SendableChooser();
+
+		autoChooser.addDefault("BaseLine", new CrossBaseline());
+		autoChooser.addObject("Left Left Scale", new LeftLeftScale());
+		autoChooser.addObject("Left Left Switch", new LeftLeftSwitch());
+		autoChooser.addObject("Center Left Switch", new CenterLeftSwitch());
+		autoChooser.addObject("Center Right Switch", new CenterRightSwitch());
+		autoChooser.addObject("Gyro Test", new TurnCommand(90, 1, 5, 1));
+		autoChooser.addObject("Right Right Scale", new RightRightScale());
+		autoChooser.addObject("Right Right Switch", new RightRightSwitch());
+		autoChooser.addObject("Left Right Switch", new LeftRightSwitch());
+		autoChooser.addObject("Left Right Scale", new LeftRightScale());
+		autoChooser.addObject("Right Left Scale", new RightLeftScale());
+
+
+
+		autoChooser.addObject("Gyro Test", new TurnCommand(90, 1, 5, 1));
 
 		autoChooser.addObject("No Auton", new NoAuto());
 
@@ -128,8 +152,9 @@ public class Robot extends TimedRobot {
 	public void autonomousInit() {
 		drive.reset();
 		elevator.resetEncoders();
+		intake.extendIntakePistons();
 		gameData = DriverStation.getInstance().getGameSpecificMessage();
-		m_autonomousCommand = new LeftLeftScale();//new DriveTest();// m_chooser.getSelected();
+		m_autonomousCommand = (Command) autoChooser.getSelected();
 		LEDstrips.solidGold();
 		/*
 		 * String autoSelected = SmartDashboard.getString("Auto Selector",
@@ -157,6 +182,7 @@ public class Robot extends TimedRobot {
 	public void teleopInit() {
 		pref = Preferences.getInstance();
 		LEDstrips.solidGreen();
+		intake.extendIntakePistons();
 		if (m_autonomousCommand != null) {
 			m_autonomousCommand.cancel();
 		}
@@ -179,6 +205,7 @@ public class Robot extends TimedRobot {
 	}
 
 	public void updateSmartDashboard() {
+		SmartDashboard.putData("Auto Modes", autoChooser);
 		SmartDashboard.putNumber("Gyro Angle", drive.getYaw());
 		SmartDashboard.putNumber("Right Encoder", drive.getRightDriveEncoder());
 		SmartDashboard.putNumber("Left Encoder", drive.getLeftDriveEncoder());
