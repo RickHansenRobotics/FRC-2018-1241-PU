@@ -34,14 +34,14 @@ public class TankDrive extends Command {
 			Robot.drive.runRightDrive(0.75 * Robot.oi.getDriveRightY());
 			
 		} else if (Robot.oi.getDriveAButton()) {
-			Robot.drive.runLeftDrive(0.25);
-			Robot.drive.runRightDrive(-0.25);
+			Robot.climber.extendPTOPiston();
+			Robot.drive.runLeftDrive(0.5);
+			Robot.drive.runRightDrive(-0.5);
 		} else if (Robot.oi.getDriveBButton())
 			Robot.climber.retractPTOPiston();
 		else if (Robot.oi.getDriveXButton()){
-			Robot.climber.extendPTOPiston();
-			Robot.drive.runLeftDrive(-0.5);
-			Robot.drive.runRightDrive(0.5);
+			Robot.drive.runLeftDrive(0.75);
+			Robot.drive.runRightDrive(-0.75);
 		}
 		else {
 			Robot.drive.runLeftDrive(-Robot.oi.getDriveLeftY());
