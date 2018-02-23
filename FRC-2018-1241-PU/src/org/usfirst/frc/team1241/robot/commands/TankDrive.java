@@ -32,7 +32,7 @@ public class TankDrive extends Command {
 			
 		} else {
 			Robot.drive.runLeftDrive(-Robot.oi.getDriveLeftY());
-			Robot.drive.runRightDrive(Robot.oi.getDriveRightY());
+			Robot.drive.runRightDrive(Robot.oi.getDriveRightY()* 0.95);
 		}
 		
 		/*if (Robot.oi.getDriveAButton() && !isPTOengaged){

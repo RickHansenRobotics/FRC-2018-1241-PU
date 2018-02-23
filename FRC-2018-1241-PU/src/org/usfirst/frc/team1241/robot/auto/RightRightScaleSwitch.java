@@ -32,11 +32,11 @@ public class RightRightScaleSwitch extends CommandGroup {
 		addParallel(new ElevatorSetpoint(NumberConstants.intakingPosition, NumberConstants.slowElevatorSpeed, 1, 2));
 		addSequential(new nested());
 		addParallel(new SetIntakeSpeedCommand(true, 0.865, 3));
-		//addSequential(new DriveCommand(40, 1, -134, 1.5));
-		addSequential(new ContinousMotion(17, 0.5, -134, 1.5, true));
+		addSequential(new DriveCommand(40, 1, -134, 1.5));
+		//addSequential(new ContinousMotion(17, 0.5, -134, 1.5, true));
 
-		addParallel(new ElevatorSetpoint(NumberConstants.switchPosition+5, NumberConstants.maxElevatorSpeed, 1, 2));
-		addSequential(new ExecuteAfterDistance(EncoderWaitCommand.ELEVATOR, NumberConstants.switchPosition-15, 1.5, new DriveCommand(23, 1, -145, 1.5)));
+		addParallel(new ElevatorSetpoint(NumberConstants.switchPosition+5, NumberConstants.maxElevatorSpeed, 0.35, 2));
+		addSequential(new ExecuteAfterDistance(EncoderWaitCommand.ELEVATOR, NumberConstants.switchPosition-15, 1.1, new DriveCommand(23, 1, -145, 1)));
 		addSequential(new SetIntakeSpeedCommand(false, 0.50, 3));
 		
     }

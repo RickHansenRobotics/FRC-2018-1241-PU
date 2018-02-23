@@ -197,7 +197,7 @@ public class Drivetrain extends Subsystem {
 		double angle = gyroPID.calcPID(setAngle, getYaw(), tolerance);
 		SmartDashboard.putNumber("PID OUTPUT", angle);
 		runLeftDrive((output + angle) * speed);
-		runRightDrive((-output + angle) * speed);
+		runRightDrive((-output + angle) * speed * 0.95);
 	}
 
 	public void driveVelocitySetpoint(double setPoint, double speed, double setAngle, double tolerance) {

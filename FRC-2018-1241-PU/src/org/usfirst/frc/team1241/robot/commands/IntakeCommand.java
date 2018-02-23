@@ -4,6 +4,7 @@ import org.usfirst.frc.team1241.robot.Robot;
 import org.usfirst.frc.team1241.robot.subsystems.LEDstrips;
 import org.usfirst.frc.team1241.robot.utilities.ToggleBoolean;
 
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -25,29 +26,30 @@ public class IntakeCommand extends Command {
 
 	// Called repeatedly when this Command is scheduled to run
 	protected void execute() {
-
-		if (Robot.oi.getToolLeftBumper()) {
-			Robot.intake.outtake(0.6);
-		} else if (Robot.oi.getToolRightBumper()) {
-			Robot.intake.intake(0.7);
-		} else if (Robot.oi.getToolBButton())
-			Robot.intake.spinCube();
-		else {
-			Robot.intake.stop();
-		}
-
-		toggle.set(Robot.oi.getToolRightTrigger());
-		
-		if(toggle.get()) {
-			Robot.intake.retractIntakePistons();
-		} else {
-			Robot.intake.extendIntakePistons();
-		} 
-		
-		if (Robot.intake.getOptic()) {
-			LEDstrips.solidBlue();
-		} else {
-			LEDstrips.solidGreen();
+		if(!DriverStation.getInstance().isAutonomous()){
+			if (Robot.oi.getToolLeftBumper()) {
+				Robot.intake.outtake(0.6);
+			} else if (Robot.oi.getToolRightBumper()) {
+				Robot.intake.intake(0.7);
+			} else if (Robot.oi.getToolBButton())
+				Robot.intake.spinCube();
+			else {
+				Robot.intake.stop();
+			}
+	
+			toggle.set(Robot.oi.getToolRightTrigger());
+			
+			if(toggle.get()) {
+				Robot.intake.retractIntakePistons();
+			} else {
+				Robot.intake.extendIntakePistons();
+			} 
+			
+			if (Robot.intake.getOptic()) {
+				LEDstrips.solidBlue();
+			} else {
+				LEDstrips.solidGreen();
+			}
 		}
 
 	}

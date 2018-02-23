@@ -11,8 +11,10 @@ import org.usfirst.frc.team1241.robot.auto.CenterLeftSwitch;
 import org.usfirst.frc.team1241.robot.auto.CenterRightSwitch;
 import org.usfirst.frc.team1241.robot.auto.CrossBaseline;
 import org.usfirst.frc.team1241.robot.auto.LeftLeftScale;
+import org.usfirst.frc.team1241.robot.auto.LeftLeftScaleSwitch;
 import org.usfirst.frc.team1241.robot.auto.LeftLeftSwitch;
 import org.usfirst.frc.team1241.robot.auto.LeftRightScale;
+import org.usfirst.frc.team1241.robot.auto.LeftRightScaleSwitch;
 import org.usfirst.frc.team1241.robot.auto.LeftRightSwitch;
 import org.usfirst.frc.team1241.robot.auto.NoAuto;
 import org.usfirst.frc.team1241.robot.auto.RightLeftScale;
@@ -111,6 +113,11 @@ public class Robot extends TimedRobot {
 		autoChooser.addObject("Right Right Switch", new RightRightSwitch());
 		autoChooser.addObject("Left Right Switch", new LeftRightSwitch());
 		autoChooser.addObject("Left Right Scale", new LeftRightScale());
+		autoChooser.addObject("Left Left Scale Switch", new LeftLeftScaleSwitch());
+		
+		autoChooser.addObject("Left Right Scale Switch", new LeftRightScaleSwitch());
+
+
 		autoChooser.addObject("Right Left Scale", new RightLeftScale());
 		autoChooser.addObject("Continous Motion", new ContinousMotion(40, 0.8, 0, 1.5, true));
 		

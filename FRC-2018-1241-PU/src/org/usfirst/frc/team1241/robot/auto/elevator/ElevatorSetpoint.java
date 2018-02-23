@@ -41,7 +41,7 @@ public class ElevatorSetpoint extends Command {
 
 	// Make this return true when this Command no longer needs to run execute()
 	protected boolean isFinished() {
-		return isTimedOut();// Robot.elevator.elevatorPIDDone() || isTimedOut();
+		return isTimedOut() || Math.abs(Robot.elevator.getMotionMagicError()) < 450;// Robot.elevator.elevatorPIDDone() || isTimedOut();
 	}
 
 	// Called once after isFinished returns true
