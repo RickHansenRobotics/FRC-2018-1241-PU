@@ -21,6 +21,7 @@ public class Intake extends Subsystem {
 	DoubleSolenoid piston;
 	DigitalInput optical;
 	private boolean contains = false;
+	private boolean extended = false;
 
 	public Intake() {
 		leftWheel = new WPI_TalonSRX(ElectricalConstants.LEFT_INTAKE_MOTOR);
@@ -56,10 +57,16 @@ public class Intake extends Subsystem {
 	
 	public void extendIntakePistons(){
 		piston.set(DoubleSolenoid.Value.kForward);
+		extended = true;
 	}
 	
 	public void retractIntakePistons(){
 		piston.set(DoubleSolenoid.Value.kReverse);
+		extended = false;
+	}
+	
+	public boolean isExtended(){
+		return extended;
 	}
 
 	public double getLeftVoltage() {

@@ -30,19 +30,31 @@ public class ElevatorCommand extends Command {
 		
 		//System.out.println("Joystick: " + Robot.oi.getToolRightY() + " Velocity: " + Robot.elevator.getElevatorSpeed());
 		if (Robot.oi.getToolRightY() < -0.7) {
+			if(!Robot.intake.isExtended()){
+				Robot.intake.extendIntakePistons();
+			}
 			Robot.elevator.magicMotionSetpoint(NumberConstants.scaleHighPosition, NumberConstants.maxElevatorSpeed, 0.35);
 			backupEngaged = false;
 		}
 		if (Robot.oi.getToolRightX() > 0.7) {
+			if(!Robot.intake.isExtended()){
+				Robot.intake.extendIntakePistons();
+			}
 			Robot.elevator.magicMotionSetpoint(NumberConstants.scaleMidPosition, NumberConstants.maxElevatorSpeed, 0.35);
 			backupEngaged = false;
 		}
 		if (Robot.oi.getToolRightY() > 0.7) {
+			if(!Robot.intake.isExtended()){
+				Robot.intake.extendIntakePistons();
+			}
 			Robot.elevator.magicMotionSetpoint(NumberConstants.scaleLowPosition, NumberConstants.maxElevatorSpeed, 0.35);
 			backupEngaged = false;
 		}
 
 		if (Robot.oi.getToolAButton()) {
+			if(!Robot.intake.isExtended()){
+				Robot.intake.extendIntakePistons();
+			}
 			Robot.elevator.magicMotionSetpoint(NumberConstants.intakingPosition, NumberConstants.maxElevatorSpeed, 0.35);
 			backupEngaged = false;
 		}
@@ -53,11 +65,17 @@ public class ElevatorCommand extends Command {
 		}*/
 
 		if (Robot.oi.getToolXButton()) {
+			if(!Robot.intake.isExtended()){
+				Robot.intake.extendIntakePistons();
+			}
 			Robot.elevator.magicMotionSetpoint(NumberConstants.exchangePosition, NumberConstants.maxElevatorSpeed, 0.35);
 			backupEngaged = false;
 		}
 
 		if (Robot.oi.getToolYButton()) {
+			if(!Robot.intake.isExtended()){
+				Robot.intake.extendIntakePistons();
+			}
 			Robot.elevator.magicMotionSetpoint(NumberConstants.switchPosition, NumberConstants.maxElevatorSpeed, 0.35);
 			backupEngaged = false;
 		}
