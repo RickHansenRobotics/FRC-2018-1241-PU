@@ -18,6 +18,7 @@ import org.usfirst.frc.team1241.robot.auto.LeftRightScaleSwitch;
 import org.usfirst.frc.team1241.robot.auto.LeftRightSwitch;
 import org.usfirst.frc.team1241.robot.auto.NoAuto;
 import org.usfirst.frc.team1241.robot.auto.RightLeftScale;
+import org.usfirst.frc.team1241.robot.auto.RightLeftScaleSwitch;
 import org.usfirst.frc.team1241.robot.auto.RightRightScale;
 import org.usfirst.frc.team1241.robot.auto.RightRightScaleSwitch;
 import org.usfirst.frc.team1241.robot.auto.RightRightSwitch;
@@ -118,13 +119,13 @@ public class Robot extends TimedRobot {
 		autoLRChooser.addObject("Gyro Test", new TurnCommand(90, 1, 5));
 		autoLRChooser.addObject("Right Right Scale", new RightRightScale());
 		autoLRChooser.addObject("Right Right Scale Switch", new RightRightScaleSwitch());
+		autoLRChooser.addObject("Right Left Scale Switch", new RightLeftScaleSwitch());
 		autoLRChooser.addObject("Right Right Switch", new RightRightSwitch());
 		autoLRChooser.addObject("Left Right Switch", new LeftRightSwitch());
 		autoLRChooser.addObject("Left Right Scale", new LeftRightScale());
 		autoLRChooser.addObject("Left Left Scale Switch", new LeftLeftScaleSwitch());
 		autoLRChooser.addObject("Left Right Scale Switch", new LeftRightScaleSwitch());
 		autoLRChooser.addObject("Right Left Scale", new RightLeftScale());
-		autoLRChooser.addObject("Continous Motion", new ContinousMotion(40, 0.8, 0, 1.5, true));
 		autoLRChooser.addObject("No Auton", new NoAuto());
 		
 		autoRLChooser.setName("Right Switch Left Scale");
@@ -136,13 +137,13 @@ public class Robot extends TimedRobot {
 		autoRLChooser.addObject("Gyro Test", new TurnCommand(90, 1, 5));
 		autoRLChooser.addObject("Right Right Scale", new RightRightScale());
 		autoRLChooser.addObject("Right Right Scale Switch", new RightRightScaleSwitch());
+		autoRLChooser.addObject("Right Left Scale Switch", new RightLeftScaleSwitch());
 		autoRLChooser.addObject("Right Right Switch", new RightRightSwitch());
 		autoRLChooser.addObject("Left Right Switch", new LeftRightSwitch());
 		autoRLChooser.addObject("Left Right Scale", new LeftRightScale());
 		autoRLChooser.addObject("Left Left Scale Switch", new LeftLeftScaleSwitch());
 		autoRLChooser.addObject("Left Right Scale Switch", new LeftRightScaleSwitch());
 		autoRLChooser.addObject("Right Left Scale", new RightLeftScale());
-		autoRLChooser.addObject("Continous Motion", new ContinousMotion(40, 0.8, 0, 1.5, true));
 		autoRLChooser.addObject("No Auton", new NoAuto());
 		
 		autoLLChooser.setName("Left Switch Left Scale");
@@ -154,13 +155,13 @@ public class Robot extends TimedRobot {
 		autoLLChooser.addObject("Gyro Test", new TurnCommand(90, 1, 5));
 		autoLLChooser.addObject("Right Right Scale", new RightRightScale());
 		autoLLChooser.addObject("Right Right Scale Switch", new RightRightScaleSwitch());
+		autoLLChooser.addObject("Right Left Scale Switch", new RightLeftScaleSwitch());
 		autoLLChooser.addObject("Right Right Switch", new RightRightSwitch());
 		autoLLChooser.addObject("Left Right Switch", new LeftRightSwitch());
 		autoLLChooser.addObject("Left Right Scale", new LeftRightScale());
 		autoLLChooser.addObject("Left Left Scale Switch", new LeftLeftScaleSwitch());
 		autoLLChooser.addObject("Left Right Scale Switch", new LeftRightScaleSwitch());
 		autoLLChooser.addObject("Right Left Scale", new RightLeftScale());
-		autoLLChooser.addObject("Continous Motion", new ContinousMotion(40, 0.8, 0, 1.5, true));
 		autoLLChooser.addObject("No Auton", new NoAuto());
 		
 		autoRRChooser.setName("Right Switch Right Scale");
@@ -172,13 +173,13 @@ public class Robot extends TimedRobot {
 		autoRRChooser.addObject("Gyro Test", new TurnCommand(90, 1, 5));
 		autoRRChooser.addObject("Right Right Scale", new RightRightScale());
 		autoRRChooser.addObject("Right Right Scale Switch", new RightRightScaleSwitch());
+		autoRRChooser.addObject("Right Left Scale Switch", new RightLeftScaleSwitch());
 		autoRRChooser.addObject("Right Right Switch", new RightRightSwitch());
 		autoRRChooser.addObject("Left Right Switch", new LeftRightSwitch());
 		autoRRChooser.addObject("Left Right Scale", new LeftRightScale());
 		autoRRChooser.addObject("Left Left Scale Switch", new LeftLeftScaleSwitch());
 		autoRRChooser.addObject("Left Right Scale Switch", new LeftRightScaleSwitch());
 		autoRRChooser.addObject("Right Left Scale", new RightLeftScale());
-		autoRRChooser.addObject("Continous Motion", new ContinousMotion(40, 0.8, 0, 1.5, true));
 		autoRRChooser.addObject("No Auton", new NoAuto());
 
 		updateSmartDashboard();
