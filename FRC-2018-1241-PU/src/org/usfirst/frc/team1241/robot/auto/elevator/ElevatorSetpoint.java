@@ -1,6 +1,5 @@
 package org.usfirst.frc.team1241.robot.auto.elevator;
 
-import org.usfirst.frc.team1241.robot.NumberConstants;
 import org.usfirst.frc.team1241.robot.Robot;
 
 import edu.wpi.first.wpilibj.command.Command;

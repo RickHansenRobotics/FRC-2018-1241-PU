@@ -1,6 +1,5 @@
 package org.usfirst.frc.team1241.robot.auto.drive;
 
-import org.usfirst.frc.team1241.robot.NumberConstants;
 import org.usfirst.frc.team1241.robot.Robot;
 
 import edu.wpi.first.wpilibj.command.Command;
@@ -14,7 +13,6 @@ public class TurnCommand extends Command {
 	private double angle;
 	private double speed;
 	private double timeOut;
-	private double tolerance;
 
 	/**
 	 * Instantiates a new turn command.
@@ -26,7 +24,7 @@ public class TurnCommand extends Command {
 	 * @param timeOut
 	 *            The time out in seconds
 	 * @param tolerance
-	 * 			  How close to target is considered "reached"
+	 *            How close to target is considered "reached"
 	 */
 	public TurnCommand(double angle, double speed, double timeOut) {
 		this.angle = angle;
@@ -34,8 +32,8 @@ public class TurnCommand extends Command {
 		this.timeOut = timeOut;
 		requires(Robot.drive);
 	}
-	
-	public void changeAngle(double angle){
+
+	public void changeAngle(double angle) {
 		this.angle = angle;
 	}
 

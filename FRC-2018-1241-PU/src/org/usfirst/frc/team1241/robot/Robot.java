@@ -7,23 +7,14 @@
 
 package org.usfirst.frc.team1241.robot;
 
-import org.usfirst.frc.team1241.robot.auto.CenterLeftSwitch;
-import org.usfirst.frc.team1241.robot.auto.CenterRightSwitch;
 import org.usfirst.frc.team1241.robot.auto.CrossBaseline;
-import org.usfirst.frc.team1241.robot.auto.LeftLeftScale;
-import org.usfirst.frc.team1241.robot.auto.LeftLeftScaleSwitch;
-import org.usfirst.frc.team1241.robot.auto.LeftLeftSwitch;
-import org.usfirst.frc.team1241.robot.auto.LeftRightScale;
-import org.usfirst.frc.team1241.robot.auto.LeftRightScaleSwitch;
-import org.usfirst.frc.team1241.robot.auto.LeftRightSwitch;
+import org.usfirst.frc.team1241.robot.auto.LeftScale;
+import org.usfirst.frc.team1241.robot.auto.LeftSwitch;
+import org.usfirst.frc.team1241.robot.auto.LeftSwitchLeftScale;
 import org.usfirst.frc.team1241.robot.auto.NoAuto;
-import org.usfirst.frc.team1241.robot.auto.RightLeftScale;
-import org.usfirst.frc.team1241.robot.auto.RightLeftScaleSwitch;
-import org.usfirst.frc.team1241.robot.auto.RightRightScale;
-import org.usfirst.frc.team1241.robot.auto.RightRightScaleSwitch;
-import org.usfirst.frc.team1241.robot.auto.RightRightSwitch;
-import org.usfirst.frc.team1241.robot.auto.drive.ContinousMotion;
-import org.usfirst.frc.team1241.robot.auto.drive.TurnCommand;
+import org.usfirst.frc.team1241.robot.auto.RightScale;
+import org.usfirst.frc.team1241.robot.auto.RightSwitch;
+import org.usfirst.frc.team1241.robot.auto.RightSwitchRightScale;
 import org.usfirst.frc.team1241.robot.subsystems.Climber;
 import org.usfirst.frc.team1241.robot.subsystems.Drivetrain;
 import org.usfirst.frc.team1241.robot.subsystems.Elevator;
@@ -116,65 +107,32 @@ public class Robot extends TimedRobot {
 		positionChooser.addDefault("Left", 0);
 		positionChooser.addObject("Center", 1);
 		positionChooser.addObject("Right", 2);
-
-		// autoLLChooser.addObject("Left Left Scale", new LeftLeftScale());
-		// autoLLChooser.addObject("Left Left Switch", new LeftLeftSwitch());
-		// autoLLChooser.addObject("Center Left Switch", new
-		// CenterLeftSwitch());
-		// autoLLChooser.addObject("Center Right Switch", new
-		// CenterRightSwitch());
-		// autoLLChooser.addObject("Gyro Test", new TurnCommand(90, 1, 5));
-		// autoLLChooser.addObject("Right Right Scale", new RightRightScale());
-		// autoLLChooser.addObject("Right Right Scale Switch", new
-		// RightRightScaleSwitch());
-		// autoLLChooser.addObject("Right Left Scale Switch", new
-		// RightLeftScaleSwitch());
-		// autoLLChooser.addObject("Right Right Switch", new
-		// RightRightSwitch());
-		// autoLLChooser.addObject("Left Right Switch", new LeftRightSwitch());
-		// autoLLChooser.addObject("Left Right Scale", new LeftRightScale());
-		// autoLLChooser.addObject("Left Left Scale Switch", new
-		// LeftLeftScaleSwitch());
-		// autoLLChooser.addObject("Left Right Scale Switch", new
-		// LeftRightScaleSwitch());
-		// autoLLChooser.addObject("Right Left Scale", new RightLeftScale());
-		// autoLLChooser.addObject("No Auton", new NoAuto());
+		
 
 		autoLRChooser.setName("Left Switch Right Scale");
 		autoLRChooser.addDefault("BaseLine", new CrossBaseline());
-		autoLRChooser.addObject("Left Left Scale", new LeftLeftScale());
-		autoLRChooser.addObject("Left Left Switch", new LeftLeftSwitch());
-		autoLRChooser.addObject("Center Left Switch", new CenterLeftSwitch());
-		autoLRChooser.addObject("Right Right Scale", new RightRightScale());
-		autoLRChooser.addObject("Left Right Scale", new LeftRightScale());
+		autoLRChooser.addObject("Left Switch", new LeftSwitch(positionChooser.getSelected()));
+		autoLRChooser.addObject("Right Scale", new RightScale(positionChooser.getSelected()));
 		autoLRChooser.addObject("No Auton", new NoAuto());
 
 		autoRLChooser.setName("Right Switch Left Scale");
 		autoRLChooser.addDefault("BaseLine", new CrossBaseline());
-		autoRLChooser.addObject("Left Left Scale", new LeftLeftScale());
-		autoRLChooser.addObject("Center Right Switch", new CenterRightSwitch());
-		autoRLChooser.addObject("Left Right Scale", new LeftRightScale());
+		autoRLChooser.addObject("Right Switch", new RightSwitch(positionChooser.getSelected()));
+		autoRLChooser.addObject("Left Scale", new LeftScale(positionChooser.getSelected()));
 		autoRLChooser.addObject("No Auton", new NoAuto());
 
 		autoLLChooser.setName("Left Switch Left Scale");
 		autoLLChooser.addDefault("BaseLine", new CrossBaseline());
-		autoLLChooser.addObject("Left Left Scale", new LeftLeftScale());
-		autoLLChooser.addObject("Left Left Switch", new LeftLeftSwitch());
-		autoLLChooser.addObject("Center Left Switch", new CenterLeftSwitch());
-		autoLLChooser.addObject("Right Left Scale Switch", new RightLeftScaleSwitch());
-		autoLLChooser.addObject("Left Left Scale Switch", new LeftLeftScaleSwitch());
-		autoLLChooser.addObject("Right Left Scale", new RightLeftScale());
+		autoLLChooser.addObject("Left Switch", new LeftSwitch(positionChooser.getSelected()));
+		autoLLChooser.addObject("Left Scale", new LeftScale(positionChooser.getSelected()));
+		autoLLChooser.addObject("Left Switch, Left Scale", new LeftSwitchLeftScale(positionChooser.getSelected()));
 		autoLLChooser.addObject("No Auton", new NoAuto());
 
 		autoRRChooser.setName("Right Switch Right Scale");
 		autoRRChooser.addDefault("BaseLine", new CrossBaseline());
-		autoRRChooser.addObject("Center Right Switch", new CenterRightSwitch());
-		autoRRChooser.addObject("Right Right Scale", new RightRightScale());
-		autoRRChooser.addObject("Right Right Scale Switch", new RightRightScaleSwitch());
-		autoRRChooser.addObject("Right Right Switch", new RightRightSwitch());
-		autoRRChooser.addObject("Left Right Switch", new LeftRightSwitch());
-		autoRRChooser.addObject("Left Right Scale", new LeftRightScale());
-		autoRRChooser.addObject("Left Right Scale Switch", new LeftRightScaleSwitch());
+		autoRRChooser.addObject("Right Switch", new RightSwitch(positionChooser.getSelected()));
+		autoRRChooser.addObject("Right Scale", new RightScale(positionChooser.getSelected()));
+		autoRRChooser.addObject("Right Switch Right Scale", new RightSwitchRightScale(positionChooser.getSelected()));
 		autoRRChooser.addObject("No Auton", new NoAuto());
 
 		updateSmartDashboard();
@@ -281,7 +239,7 @@ public class Robot extends TimedRobot {
 	}
 
 	public void updateSmartDashboard() {
-		SmartDashboard.putData("Auto Modes", autoLRChooser);
+		
 		SmartDashboard.putNumber("Gyro Angle", drive.getYaw());
 		SmartDashboard.putNumber("Right Encoder", drive.getRightDriveEncoder());
 		SmartDashboard.putNumber("Left Encoder", drive.getLeftDriveEncoder());

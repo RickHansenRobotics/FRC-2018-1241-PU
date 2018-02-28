@@ -2,8 +2,6 @@ package org.usfirst.frc.team1241.robot.auto;
 
 import org.usfirst.frc.team1241.robot.NumberConstants;
 import org.usfirst.frc.team1241.robot.auto.drive.DriveCommand;
-import org.usfirst.frc.team1241.robot.auto.drive.EncoderWaitCommand;
-import org.usfirst.frc.team1241.robot.auto.drive.ExecuteAfterDistance;
 import org.usfirst.frc.team1241.robot.auto.drive.QuinticBezierDrivePath;
 import org.usfirst.frc.team1241.robot.auto.drive.TurnCommand;
 import org.usfirst.frc.team1241.robot.auto.elevator.ElevatorSetpoint;

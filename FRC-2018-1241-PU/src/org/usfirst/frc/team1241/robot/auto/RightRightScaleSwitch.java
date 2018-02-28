@@ -1,7 +1,6 @@
 package org.usfirst.frc.team1241.robot.auto;
 
 import org.usfirst.frc.team1241.robot.NumberConstants;
-import org.usfirst.frc.team1241.robot.auto.drive.ContinousMotion;
 import org.usfirst.frc.team1241.robot.auto.drive.DriveCommand;
 import org.usfirst.frc.team1241.robot.auto.drive.EncoderWaitCommand;
 import org.usfirst.frc.team1241.robot.auto.drive.ExecuteAfterDistance;

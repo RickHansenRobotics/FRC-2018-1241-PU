@@ -6,7 +6,6 @@ import org.usfirst.frc.team1241.robot.utilities.ToggleBoolean;
 
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.command.Command;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  * @author Kaveesha Siribaddana

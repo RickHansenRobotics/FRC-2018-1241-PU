@@ -1,7 +1,6 @@
 package org.usfirst.frc.team1241.robot.commands;
 
 import org.usfirst.frc.team1241.robot.Robot;
-import org.usfirst.frc.team1241.robot.auto.climber.HangSequence;
 
 import edu.wpi.first.wpilibj.command.Command;
 
@@ -14,7 +13,6 @@ import edu.wpi.first.wpilibj.command.Command;
  */
 public class TankDrive extends Command {
 	//private HangSequence hangSequence;
-	private boolean isPTOengaged = false;
 	public TankDrive() {
 		requires(Robot.drive);
 		//hangSequence = new HangSequence();

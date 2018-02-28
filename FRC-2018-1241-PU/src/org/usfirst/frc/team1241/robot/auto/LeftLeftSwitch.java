@@ -1,7 +1,6 @@
 package org.usfirst.frc.team1241.robot.auto;
 
 import org.usfirst.frc.team1241.robot.NumberConstants;
-import org.usfirst.frc.team1241.robot.auto.drive.DriveCommand;
 import org.usfirst.frc.team1241.robot.auto.drive.DrivePath;
 import org.usfirst.frc.team1241.robot.auto.elevator.ElevatorSetpoint;
 import org.usfirst.frc.team1241.robot.auto.intake.IntakePistonCommand;
