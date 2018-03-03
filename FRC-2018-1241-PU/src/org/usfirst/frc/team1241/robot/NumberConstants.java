@@ -43,9 +43,9 @@ public class NumberConstants {
     //**************************************************************************
 	
 	public static final double fTalonElevator 							 = 0.4;//0.0058766;
-	public static final double pTalonElevator 							 = 0.4;
-	public static final double iTalonElevator 							 = 0.00; 
-	public static final double dTalonElevator 							 = 0.0;
+	public static final double pTalonElevator 							 = 0.225;
+	public static final double iTalonElevator 							 = 0.0; 
+	public static final double dTalonElevator 							 = 0.00001;
 	
 	public static final double pElevator 								 = 0.0;
 	public static final double iElevator 								 = 0.0; 
@@ -63,13 +63,13 @@ public class NumberConstants {
 	public static final int topHardStop 							      = 94;
 	
 	public static final double intakingPosition 						  = -1;
-	public static final double exchangePosition 			     		  = 2;
+	public static final double exchangePosition 			     		  = 4.25;
 	public static final double switchPosition   						  = 25;
 	public static final double portalPosition 			    			  = 19;
-	public static final double scaleLowPosition 						  = 56;
-	public static final double scaleMidPosition 						  = 68;
-	public static final double scaleHighPosition 						  = 75;
-	public static final int maxElevatorSpeed                          = 2560;
+	public static final double scaleLowPosition 						  = 60;
+	public static final double scaleMidPosition 						  = 70;
+	public static final double scaleHighPosition 						  = 77.5;
+	public static final int maxElevatorSpeed                              = 2700;
 
 	
 	//**************************************************************************

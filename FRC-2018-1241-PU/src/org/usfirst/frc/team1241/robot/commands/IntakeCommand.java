@@ -27,9 +27,11 @@ public class IntakeCommand extends Command {
 	protected void execute() {
 
 		if (Robot.oi.getToolLeftBumper()) {
-			Robot.intake.outtake(1);
+//			Robot.intake.outtake(0.61);
+			Robot.intake.outtake(Robot.outtakeSpeed);
 		} else if (Robot.oi.getToolRightBumper()) {
-			Robot.intake.intake(0.7);
+//			Robot.intake.intake(0.76);
+			Robot.intake.intake(Robot.intakeSpeed);
 		} else {
 			Robot.intake.stop();
 		}

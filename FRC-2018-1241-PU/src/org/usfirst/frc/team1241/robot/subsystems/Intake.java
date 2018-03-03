@@ -70,6 +70,14 @@ public class Intake extends Subsystem {
 		return rightWheel.getMotorOutputVoltage();
 	}
 
+	public double getLeftCurrent() {
+		return leftWheel.getOutputCurrent();
+	}
+	
+	public double getRightCurrent() {
+		return rightWheel.getOutputCurrent();
+	}
+	
 	public void setContains(boolean state) {
 		this.contains = state;
 	}

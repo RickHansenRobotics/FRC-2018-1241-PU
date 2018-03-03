@@ -19,7 +19,9 @@ import org.usfirst.frc.team1241.robot.subsystems.Intake;
 import org.usfirst.frc.team1241.robot.subsystems.LEDstrips;
 
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.PowerDistributionPanel;
 import edu.wpi.first.wpilibj.Preferences;
+import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
@@ -63,8 +65,12 @@ public class Robot extends TimedRobot {
 	public static double pLockElevator;
 	public static double iLockElevator;
 	public static double dLockElevator;
+	
+	public static double intakeSpeed, outtakeSpeed;
 
 	SendableChooser autoChooser;
+	
+	PowerDistributionPanel pdp;
 
 	String gameData;
 
@@ -91,6 +97,9 @@ public class Robot extends TimedRobot {
 		ledstrips = new LEDstrips();
 
 		autoChooser = new SendableChooser();
+		
+		pdp = new PowerDistributionPanel(11);
+
 
 		autoChooser.addObject("No Auton", new NoAuto());
 
@@ -172,7 +181,8 @@ public class Robot extends TimedRobot {
 	public void teleopPeriodic() {
 		Scheduler.getInstance().run();
 		updateSmartDashboard();
-	}
+		
+		}
 
 	/**
 	 * This function is called periodically during test mode.
@@ -190,18 +200,35 @@ public class Robot extends TimedRobot {
 		SmartDashboard.putNumber("Elevator RPM", elevator.getElevatorSpeed());
 		SmartDashboard.putNumber("Left Drive Speed", drive.getLeftSpeed());
 		SmartDashboard.putNumber("Right Drive Speed", drive.getRightSpeed());
+		SmartDashboard.putNumber("Left Intake Motor Current", intake.getLeftVoltage());
 		
-		if (elevator.getElevatorSpeed() > maxElevatorSpeed) {
+		SmartDashboard.putNumber("Left Drive 1", pdp.getCurrent(15));
+		SmartDashboard.putNumber("Left Drive 2", pdp.getCurrent(14));
+		SmartDashboard.putNumber("Left Drive 3", pdp.getCurrent(13));
+		
+		SmartDashboard.putNumber("Right Drive 1", pdp.getCurrent(0));
+		SmartDashboard.putNumber("Right Drive 2", pdp.getCurrent(1));
+		SmartDashboard.putNumber("Right Drive 3", pdp.getCurrent(2));
+		
+		SmartDashboard.putNumber("Left Intake Current", intake.getLeftCurrent());
+		SmartDashboard.putNumber("Right Intake Current", intake.getRightCurrent());
+		SmartDashboard.putNumber("Left Intake Voltage", intake.getLeftVoltage());
+		SmartDashboard.putNumber("Right Intake Voltage", intake.getRightVoltage());
+		SmartDashboard.putNumber("Battery Voltage", RobotController.getBatteryVoltage());
+		SmartDashboard.putNumber("PDP Current", pdp.getTotalCurrent());
+		SmartDashboard.putNumber("Match Time", DriverStation.getInstance().getMatchTime());
+		
+		if (elevator.getElevatorSpeed() > maxElevatorSpeed) { //update max elevator speed
 			maxElevatorSpeed = elevator.getElevatorSpeed();
 			SmartDashboard.putNumber("MAX Elevator RPM", maxElevatorSpeed);
 		}
 		
-		if (drive.getLeftSpeed() < maxLeftDriveSpeed) {
+		if (drive.getLeftSpeed() < maxLeftDriveSpeed) { //update max left drive speed
 			maxLeftDriveSpeed = drive.getLeftSpeed();
 			SmartDashboard.putNumber("Left Drive Max Speed", maxLeftDriveSpeed);
 		}
 		
-		if (drive.getRightSpeed() < maxRightDriveSpeed) {
+		if (drive.getRightSpeed() < maxRightDriveSpeed) { //update max right drive speed
 			maxRightDriveSpeed = drive.getRightSpeed();
 			SmartDashboard.putNumber("Right Drive Max Speed", maxRightDriveSpeed);
 		}
@@ -227,5 +254,7 @@ public class Robot extends TimedRobot {
 		iLockElevator = pref.getDouble("Elevator Lock ipGain", 0.0);
 		dLockElevator = pref.getDouble("Elevator Lock dGain", 0.0);
 
+		intakeSpeed = pref.getDouble("Intake Speed", 0.76);
+		outtakeSpeed = pref.getDouble("Outtake Speed", 0.61);
 	}
 }

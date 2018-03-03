@@ -64,7 +64,7 @@ public class TankDrive extends Command {
 		
 		//System.out.println("Joystick: " + Robot.oi.getDriveLeftY() + " Velocity: " + Robot.drive.getLeftSpeed());
 		//System.out.println("Joystick: " + Robot.oi.getDriveRightY() + " Velocity: " + Robot.drive.getRightSpeed());
-		System.out.println("INSIDE TANKDRIVE");
+//		System.out.println("INSIDE TANKDRIVE");
 	}
 
 	// Make this return true when this Command no longer needs to run execute()
