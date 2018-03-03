@@ -33,7 +33,7 @@ public class ElectricalConstants {
 	// ********************** ELEVATOR SENSOR CONSTANTS *************************
 	// **************************************************************************
 	
-	public static final double elevatorRotatationsToInches = 447.368421;
+	public static final double elevatorRotatationsToInches = 364.9;//447.368421
 	public static final int OPTICAL_BOTTOM = 3;
 	
 

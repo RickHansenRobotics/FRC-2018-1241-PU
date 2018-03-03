@@ -155,6 +155,10 @@ public class Elevator extends Subsystem {
 	public void resetEncoders() {
 		elevator.setSelectedSensorPosition(0, 0, 0);
 	}
+	
+	public double elevatorCurrentDraw(){
+		return elevator.getOutputCurrent();
+	}
 
 	// ************************** PID Functions ******************************
 	public void changeElevatorGains(double p, double i, double d) {

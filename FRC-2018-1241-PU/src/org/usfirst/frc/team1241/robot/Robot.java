@@ -22,6 +22,7 @@ import org.usfirst.frc.team1241.robot.subsystems.Intake;
 import org.usfirst.frc.team1241.robot.subsystems.LEDstrips;
 
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.PowerDistributionPanel;
 import edu.wpi.first.wpilibj.Preferences;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Command;
@@ -72,6 +73,9 @@ public class Robot extends TimedRobot {
 	SendableChooser<Command> autoRLChooser;
 	SendableChooser<Command> autoLLChooser;
 	SendableChooser<Command> autoRRChooser;
+	
+	PowerDistributionPanel pdp;
+	double elevatorCurrentDraw = 0;
 
 	String gameData = "";
 
@@ -102,6 +106,8 @@ public class Robot extends TimedRobot {
 		autoRLChooser = new SendableChooser<Command>();
 		autoLLChooser = new SendableChooser<Command>();
 		autoRRChooser = new SendableChooser<Command>();
+		
+		pdp = new PowerDistributionPanel(0);
 
 		positionChooser.setName("Position Chooser");
 		positionChooser.addDefault("Left", 0);
@@ -229,6 +235,7 @@ public class Robot extends TimedRobot {
 	public void teleopPeriodic() {
 		Scheduler.getInstance().run();
 		updateSmartDashboard();
+		elevatorCurrentDraw = pdp.getCurrent(9);
 	}
 
 	/**
@@ -246,6 +253,8 @@ public class Robot extends TimedRobot {
 		SmartDashboard.putNumber("Elevator Encoder", elevator.getElevatorEncoder());
 		SmartDashboard.putNumber("Elevator Encoder RAW", elevator.getElevatorRotations());
 		SmartDashboard.putNumber("Elevator RPM", elevator.getElevatorSpeed());
+		SmartDashboard.putNumber("Elevator Current", this.elevatorCurrentDraw);
+
 		SmartDashboard.putNumber("Left Drive Speed", drive.getLeftSpeed());
 		SmartDashboard.putNumber("Right Drive Speed", drive.getRightSpeed());
 
