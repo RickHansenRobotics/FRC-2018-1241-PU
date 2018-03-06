@@ -64,12 +64,14 @@ public class NumberConstants {
 	
 	public static final double intakingPosition 						  = -1;
 	public static final double exchangePosition 			     		  = 4.25;
-	public static final double switchPosition   						  = 25;
+	public static final double switchPosition   						  = 28;
 	public static final double portalPosition 			    			  = 19;
 	public static final double scaleLowPosition 						  = 60;
 	public static final double scaleMidPosition 						  = 70;
-	public static final double scaleHighPosition 						  = 77.5;
+	public static final double scaleHighPosition 						  = 78.5;
 	public static final int maxElevatorSpeed                              = 2700;
+	public static final int slowElevatorSpeed							  = 2000;
+
 
 	
 	//**************************************************************************

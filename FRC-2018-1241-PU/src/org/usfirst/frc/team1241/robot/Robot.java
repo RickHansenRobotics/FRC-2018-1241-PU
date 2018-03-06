@@ -7,11 +7,19 @@
 
 package org.usfirst.frc.team1241.robot;
 
+import org.usfirst.frc.team1241.robot.auto.CrossBaseline;
 import org.usfirst.frc.team1241.robot.auto.LeftLeftScale;
+import org.usfirst.frc.team1241.robot.auto.LeftLeftScaleSwitch;
 import org.usfirst.frc.team1241.robot.auto.LeftLeftSwitch;
 import org.usfirst.frc.team1241.robot.auto.LeftRightSwitch;
+import org.usfirst.frc.team1241.robot.auto.LeftScale;
+import org.usfirst.frc.team1241.robot.auto.LeftSwitch;
+import org.usfirst.frc.team1241.robot.auto.LeftSwitchLeftScale;
 import org.usfirst.frc.team1241.robot.auto.NoAuto;
 import org.usfirst.frc.team1241.robot.auto.QuinticBezierTest;
+import org.usfirst.frc.team1241.robot.auto.RightScale;
+import org.usfirst.frc.team1241.robot.auto.RightSwitch;
+import org.usfirst.frc.team1241.robot.auto.RightSwitchRightScale;
 import org.usfirst.frc.team1241.robot.subsystems.Climber;
 import org.usfirst.frc.team1241.robot.subsystems.Drivetrain;
 import org.usfirst.frc.team1241.robot.subsystems.Elevator;
@@ -67,15 +75,21 @@ public class Robot extends TimedRobot {
 	public static double dLockElevator;
 	
 	public static double intakeSpeed, outtakeSpeed;
-
-	SendableChooser autoChooser;
 	
 	PowerDistributionPanel pdp;
 
-	String gameData;
-
 	Command m_autonomousCommand;
+	
+	SendableChooser<Integer> positionChooser;
+	SendableChooser<Command> autoLRChooser;
+	SendableChooser<Command> autoRLChooser;
+	SendableChooser<Command> autoLLChooser;
+	SendableChooser<Command> autoRRChooser;
+
 	SendableChooser<Command> m_chooser = new SendableChooser<>();
+	String gameData = "";
+	public static double maxIntakeCurrent = -1;
+	String clipboard = "Match Strategy";
 
 	// GET RID*********************************************************
 	double maxElevatorSpeed = 0;
@@ -95,13 +109,47 @@ public class Robot extends TimedRobot {
 		intake = new Intake();
 		climber = new Climber();
 		ledstrips = new LEDstrips();
+		
+		positionChooser = new SendableChooser<Integer>();
+		autoLRChooser = new SendableChooser<Command>();
+		autoRLChooser = new SendableChooser<Command>();
+		autoLLChooser = new SendableChooser<Command>();
+		autoRRChooser = new SendableChooser<Command>();
+		
+		pdp = new PowerDistributionPanel(0);
 
-		autoChooser = new SendableChooser();
+		positionChooser.setName("Position Chooser");
+		positionChooser.addDefault("Left", 0);
+		positionChooser.addObject("Center", 1);
+		positionChooser.addObject("Right", 2);
+
+		autoLRChooser.setName("Left Switch Right Scale");
+		autoLRChooser.addDefault("BaseLine", new CrossBaseline());
+		autoLRChooser.addObject("Left Switch", new LeftSwitch(positionChooser.getSelected()));
+		autoLRChooser.addObject("Right Scale", new RightScale(positionChooser.getSelected()));
+		autoLRChooser.addObject("No Auton", new NoAuto());
+
+		autoRLChooser.setName("Right Switch Left Scale");
+		autoRLChooser.addDefault("BaseLine", new CrossBaseline());
+		autoRLChooser.addObject("Right Switch", new RightSwitch(positionChooser.getSelected()));
+		autoRLChooser.addObject("Left Scale", new LeftScale(positionChooser.getSelected()));
+		autoRLChooser.addObject("No Auton", new NoAuto());
+
+		autoLLChooser.setName("Left Switch Left Scale");
+		autoLLChooser.addDefault("BaseLine", new CrossBaseline());
+		autoLLChooser.addObject("Left Switch", new LeftSwitch(positionChooser.getSelected()));
+		autoLLChooser.addObject("Left Scale", new LeftScale(positionChooser.getSelected()));
+		autoLLChooser.addObject("Left Switch, Left Scale", new LeftSwitchLeftScale(positionChooser.getSelected()));
+		autoLLChooser.addObject("No Auton", new NoAuto());
+
+		autoRRChooser.setName("Right Switch Right Scale");
+		autoRRChooser.addDefault("BaseLine", new CrossBaseline());
+		autoRRChooser.addObject("Right Switch", new RightSwitch(positionChooser.getSelected()));
+		autoRRChooser.addObject("Right Scale", new RightScale(positionChooser.getSelected()));
+		autoRRChooser.addObject("Right Switch Right Scale", new RightSwitchRightScale(positionChooser.getSelected()));
+		autoRRChooser.addObject("No Auton", new NoAuto());
 		
 		pdp = new PowerDistributionPanel(11);
-
-
-		autoChooser.addObject("No Auton", new NoAuto());
 
 		updateSmartDashboard();
 
@@ -140,15 +188,24 @@ public class Robot extends TimedRobot {
 		drive.reset();
 		elevator.resetEncoders();
 		intake.extendIntakePistons();
-		gameData = DriverStation.getInstance().getGameSpecificMessage();
-		m_autonomousCommand = new LeftRightSwitch();//new DriveTest();// m_chooser.getSelected();
+		/*while (gameData.length() < 3) {
+			gameData = DriverStation.getInstance().getGameSpecificMessage();
+		}
+
+		if (gameData.charAt(0) == 'L' && gameData.charAt(1) == 'R') {
+			m_autonomousCommand = (Command) autoLRChooser.getSelected();
+		} else if (gameData.charAt(0) == 'R' && gameData.charAt(1) == 'L') {
+			m_autonomousCommand = (Command) autoRLChooser.getSelected();
+		} else if (gameData.charAt(0) == 'R' && gameData.charAt(1) == 'R') {
+			m_autonomousCommand = (Command) autoRRChooser.getSelected();
+		} else if (gameData.charAt(0) == 'L' && gameData.charAt(1) == 'L') {
+			m_autonomousCommand = (Command) autoLLChooser.getSelected();
+		} else {
+			m_autonomousCommand = (Command) new CrossBaseline();
+		}*/
+		m_autonomousCommand = (Command) new LeftLeftScaleSwitch();
+
 		LEDstrips.solidGold();
-		/*
-		 * String autoSelected = SmartDashboard.getString("Auto Selector",
-		 * "Default"); switch(autoSelected) { case "My Auto": autonomousCommand
-		 * = new MyAutoCommand(); break; case "Default Auto": default:
-		 * autonomousCommand = new ExampleCommand(); break; }
-		 */
 
 		// schedule the autonomous command (example)
 		if (m_autonomousCommand != null) {
@@ -192,46 +249,26 @@ public class Robot extends TimedRobot {
 	}
 
 	public void updateSmartDashboard() {
+		//AUTO
+		SmartDashboard.putData(autoLLChooser);
+		SmartDashboard.putData(autoLRChooser);
+		SmartDashboard.putData(autoRLChooser);
+		SmartDashboard.putData(autoRRChooser);
+		SmartDashboard.putData(positionChooser);
+		
 		SmartDashboard.putNumber("Gyro Angle", drive.getYaw());
 		SmartDashboard.putNumber("Right Encoder", drive.getRightDriveEncoder());
 		SmartDashboard.putNumber("Left Encoder", drive.getLeftDriveEncoder());
 		SmartDashboard.putNumber("Elevator Encoder", elevator.getElevatorEncoder());
-		SmartDashboard.putNumber("Elevator Encoder RAW", elevator.getElevatorRotations());
 		SmartDashboard.putNumber("Elevator RPM", elevator.getElevatorSpeed());
 		SmartDashboard.putNumber("Left Drive Speed", drive.getLeftSpeed());
 		SmartDashboard.putNumber("Right Drive Speed", drive.getRightSpeed());
-		SmartDashboard.putNumber("Left Intake Motor Current", intake.getLeftVoltage());
-		
-		SmartDashboard.putNumber("Left Drive 1", pdp.getCurrent(15));
-		SmartDashboard.putNumber("Left Drive 2", pdp.getCurrent(14));
-		SmartDashboard.putNumber("Left Drive 3", pdp.getCurrent(13));
-		
-		SmartDashboard.putNumber("Right Drive 1", pdp.getCurrent(0));
-		SmartDashboard.putNumber("Right Drive 2", pdp.getCurrent(1));
-		SmartDashboard.putNumber("Right Drive 3", pdp.getCurrent(2));
-		
-		SmartDashboard.putNumber("Left Intake Current", intake.getLeftCurrent());
-		SmartDashboard.putNumber("Right Intake Current", intake.getRightCurrent());
-		SmartDashboard.putNumber("Left Intake Voltage", intake.getLeftVoltage());
-		SmartDashboard.putNumber("Right Intake Voltage", intake.getRightVoltage());
 		SmartDashboard.putNumber("Battery Voltage", RobotController.getBatteryVoltage());
-		SmartDashboard.putNumber("PDP Current", pdp.getTotalCurrent());
 		SmartDashboard.putNumber("Match Time", DriverStation.getInstance().getMatchTime());
 		
-		if (elevator.getElevatorSpeed() > maxElevatorSpeed) { //update max elevator speed
-			maxElevatorSpeed = elevator.getElevatorSpeed();
-			SmartDashboard.putNumber("MAX Elevator RPM", maxElevatorSpeed);
-		}
-		
-		if (drive.getLeftSpeed() < maxLeftDriveSpeed) { //update max left drive speed
-			maxLeftDriveSpeed = drive.getLeftSpeed();
-			SmartDashboard.putNumber("Left Drive Max Speed", maxLeftDriveSpeed);
-		}
-		
-		if (drive.getRightSpeed() < maxRightDriveSpeed) { //update max right drive speed
-			maxRightDriveSpeed = drive.getRightSpeed();
-			SmartDashboard.putNumber("Right Drive Max Speed", maxRightDriveSpeed);
-		}
+		SmartDashboard.putString("Game Message", DriverStation.getInstance().getGameSpecificMessage());
+		SmartDashboard.putString("Match Strategy", clipboard);
+		SmartDashboard.putBoolean("Cube In", intake.currentCubeIn()); 
 
 		pDrive = pref.getDouble("Drive pGain", 0.0);
 		iDrive = pref.getDouble("Drive iGain", 0.0);
@@ -256,5 +293,7 @@ public class Robot extends TimedRobot {
 
 		intakeSpeed = pref.getDouble("Intake Speed", 0.76);
 		outtakeSpeed = pref.getDouble("Outtake Speed", 0.61);
+		maxIntakeCurrent = pref.getDouble("MaxIntakeCurrent", 27);
+		clipboard = pref.getString("Match Strategy", "Defeat the Boss!");
 	}
 }

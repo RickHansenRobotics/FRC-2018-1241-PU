@@ -4,6 +4,8 @@ import org.usfirst.frc.team1241.robot.Robot;
 import org.usfirst.frc.team1241.robot.subsystems.LEDstrips;
 import org.usfirst.frc.team1241.robot.utilities.ToggleBoolean;
 
+import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -26,11 +28,16 @@ public class IntakeCommand extends Command {
 	// Called repeatedly when this Command is scheduled to run
 	protected void execute() {
 
-		if (Robot.oi.getToolLeftBumper()) {
-//			Robot.intake.outtake(0.61);
+		if (Robot.oi.getToolLeftBumper()) { //outtake
 			Robot.intake.outtake(Robot.outtakeSpeed);
-		} else if (Robot.oi.getToolRightBumper()) {
-//			Robot.intake.intake(0.76);
+			/* if elevator height < exchange position
+			 * 	outtake @ 1
+			 * else if elevator height > exchange && < scale low position
+			 * 	outtake @ 0.75
+			 * else if elevator height > scale low && < scale high position
+			 * 	outtake @ 0.5
+			 */
+		} else if (Robot.oi.getToolRightBumper()) { //intake
 			Robot.intake.intake(Robot.intakeSpeed);
 		} else {
 			Robot.intake.stop();

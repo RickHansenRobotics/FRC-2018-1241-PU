@@ -28,11 +28,11 @@ public class TurnCommand extends Command {
 	 * @param tolerance
 	 * 			  How close to target is considered "reached"
 	 */
-	public TurnCommand(double angle, double speed, double timeOut, double tolerance) {
+	public TurnCommand(double angle, double speed, double timeOut) {
 		this.angle = angle;
 		this.speed = speed;
 		this.timeOut = timeOut;
-		this.tolerance = tolerance;
+		//this.tolerance = tolerance;
 		requires(Robot.drive);
 	}
 	
@@ -48,7 +48,7 @@ public class TurnCommand extends Command {
 
 	// Called repeatedly when this Command is scheduled to run
 	protected void execute() {
-		Robot.drive.turnDrive(angle, speed, tolerance);
+		Robot.drive.turnDrive(angle, speed);
 	}
 
 	// Command is finished when timed out

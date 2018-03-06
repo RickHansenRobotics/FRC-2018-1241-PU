@@ -102,8 +102,7 @@ public class Drivetrain extends Subsystem {
 		
 		leftMaster.selectProfileSlot(0, 0);
 		rightMaster.selectProfileSlot(0, 0);
-
-
+		
 		controlMode = "PercentOutput";
 		resetEncoders();
 		resetGyro();
@@ -210,11 +209,11 @@ public class Drivetrain extends Subsystem {
 		runRightDrive((rightOutput - angle) * speed * 0.975);
 	}
 
-	public void turnDrive(double setAngle, double speed, double tolerance) {
-		double angle = gyroPID.calcPID(setAngle, getYaw(), tolerance);
+	public void turnDrive(double setAngle, double speed) {
+		double angle = gyroPID.calcPID(setAngle, getYaw(), 0.5);
 		double min = 0.15;
 
-		if (Math.abs(setAngle - getYaw()) < tolerance) {
+		if (Math.abs(setAngle - getYaw()) < 0.5) {
 			runLeftDrive(0);
 			runRightDrive(0);
 		} else if (angle > -min && angle < 0) {

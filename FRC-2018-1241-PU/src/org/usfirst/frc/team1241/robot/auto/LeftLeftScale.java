@@ -19,12 +19,24 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
 public class LeftLeftScale extends CommandGroup {
 
 	public LeftLeftScale() {
-		addParallel(new SetIntakeSpeedCommand(true, 0.75, 2));
+		/*addParallel(new SetIntakeSpeedCommand(true, 0.75, 2));
 		addParallel(new IntakePistonCommand(true));
     	addParallel(new QuinticBezierDrivePath (new Point(0,0), new Point (0,88), new Point (0,129), new Point (18,156), new Point (26, 191), new Point(33,243), 20, 0.05, 3, 1 ));
 		addSequential(new ExecuteAfterDistance(EncoderWaitCommand.DRIVE, 34,1.5,
 				new ElevatorSetpoint(NumberConstants.scaleMidPosition, NumberConstants.maxElevatorSpeed,1, 2.5),
 				new ExecuteAfterDistance(EncoderWaitCommand.ELEVATOR, 60, 1.5, new IntakePistonCommand(false))));
+		addSequential(new SetIntakeSpeedCommand(false, 0.50, 3));*/
+		
+		
+		addParallel(new SetIntakeSpeedCommand(true, 0.75, 2));
+		addParallel(new IntakePistonCommand(true));
+		/*addParallel(new ExecuteAfterDistance(EncoderWaitCommand.DRIVE, 34,1.5,
+				new ElevatorSetpoint(NumberConstants.scaleMidPosition, NumberConstants.maxElevatorSpeed,1, 2.5),
+				new ExecuteAfterDistance(EncoderWaitCommand.ELEVATOR, 60, 1.5, new IntakePistonCommand(false))));*/
+		addParallel(new ExecuteAfterDistance(EncoderWaitCommand.DRIVE, 34,1.5,
+				new ElevatorSetpoint(NumberConstants.scaleMidPosition, NumberConstants.maxElevatorSpeed,1, 2.5)));
+		addSequential(new QuinticBezierDrivePath (new Point(0,0), new Point (0,87), new Point (0,141), new Point (0,174), new Point (-16, 242), new Point(34,268), 20, 0.05, 3.5, 1 ));
 		addSequential(new SetIntakeSpeedCommand(false, 0.50, 3));
+
 	}
 }//240, 115

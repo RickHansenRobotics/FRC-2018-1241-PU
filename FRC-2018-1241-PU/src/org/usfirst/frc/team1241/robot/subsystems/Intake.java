@@ -1,8 +1,10 @@
 package org.usfirst.frc.team1241.robot.subsystems;
 
 import org.usfirst.frc.team1241.robot.ElectricalConstants;
+import org.usfirst.frc.team1241.robot.Robot;
 import org.usfirst.frc.team1241.robot.commands.IntakeCommand;
 
+import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
 import edu.wpi.first.wpilibj.DigitalInput;
@@ -28,8 +30,10 @@ public class Intake extends Subsystem {
 
 		piston = new DoubleSolenoid(ElectricalConstants.LEFT_INTAKE_PISTON_A,
 				ElectricalConstants.LEFT_INTAKE_PISTON_B);
-
+		
 		optical = new DigitalInput(0);
+		leftWheel.configContinuousCurrentLimit(27, 600);
+		rightWheel.configContinuousCurrentLimit(27, 600);
 	}
 
 	public void intake(double power) {
@@ -71,11 +75,16 @@ public class Intake extends Subsystem {
 	}
 
 	public double getLeftCurrent() {
-		return leftWheel.getOutputCurrent();
+		return leftWheel.getOutputCurrent(); //spike >22 then drop
 	}
 	
 	public double getRightCurrent() {
 		return rightWheel.getOutputCurrent();
+	}
+	
+	public double getAverageCurrent() {
+		double averageCurrent = (getLeftCurrent() + getRightCurrent())/2;
+		return averageCurrent;
 	}
 	
 	public void setContains(boolean state) {
@@ -88,6 +97,14 @@ public class Intake extends Subsystem {
 
 	public boolean getOptic() {
 		return optical.get();
+	}
+	
+	public boolean currentCubeIn() {
+		if (getAverageCurrent() > Robot.maxIntakeCurrent) {
+			return true;
+		} else {
+			return false;
+		}
 	}
 
 	public void initDefaultCommand() {
