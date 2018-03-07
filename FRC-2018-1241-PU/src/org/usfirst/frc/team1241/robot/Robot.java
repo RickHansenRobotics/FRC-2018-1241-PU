@@ -8,18 +8,14 @@
 package org.usfirst.frc.team1241.robot;
 
 import org.usfirst.frc.team1241.robot.auto.CrossBaseline;
-import org.usfirst.frc.team1241.robot.auto.LeftLeftScale;
-import org.usfirst.frc.team1241.robot.auto.LeftLeftScaleSwitch;
-import org.usfirst.frc.team1241.robot.auto.LeftLeftSwitch;
-import org.usfirst.frc.team1241.robot.auto.LeftRightSwitch;
 import org.usfirst.frc.team1241.robot.auto.LeftScale;
 import org.usfirst.frc.team1241.robot.auto.LeftSwitch;
 import org.usfirst.frc.team1241.robot.auto.LeftSwitchLeftScale;
 import org.usfirst.frc.team1241.robot.auto.NoAuto;
-import org.usfirst.frc.team1241.robot.auto.QuinticBezierTest;
 import org.usfirst.frc.team1241.robot.auto.RightScale;
 import org.usfirst.frc.team1241.robot.auto.RightSwitch;
 import org.usfirst.frc.team1241.robot.auto.RightSwitchRightScale;
+import org.usfirst.frc.team1241.robot.auto.drive.DriveCommand;
 import org.usfirst.frc.team1241.robot.subsystems.Climber;
 import org.usfirst.frc.team1241.robot.subsystems.Drivetrain;
 import org.usfirst.frc.team1241.robot.subsystems.Elevator;
@@ -30,6 +26,7 @@ import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.PowerDistributionPanel;
 import edu.wpi.first.wpilibj.Preferences;
 import edu.wpi.first.wpilibj.RobotController;
+import edu.wpi.first.wpilibj.Sendable;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
@@ -73,18 +70,25 @@ public class Robot extends TimedRobot {
 	public static double pLockElevator;
 	public static double iLockElevator;
 	public static double dLockElevator;
-	
+
 	public static double intakeSpeed, outtakeSpeed;
-	
+
 	PowerDistributionPanel pdp;
 
 	Command m_autonomousCommand;
-	
+
 	SendableChooser<Integer> positionChooser;
-	SendableChooser<Command> autoLRChooser;
-	SendableChooser<Command> autoRLChooser;
-	SendableChooser<Command> autoLLChooser;
-	SendableChooser<Command> autoRRChooser;
+
+	public static int autoLLNum;
+	public static int autoLRNum;
+	public static int autoRLNum;
+	public static int autoRRNum;
+	public static int positionNum;
+
+	SendableChooser<Integer> autoLRChooser;
+	SendableChooser<Integer> autoRLChooser;
+	SendableChooser<Integer> autoLLChooser;
+	SendableChooser<Integer> autoRRChooser;
 
 	SendableChooser<Command> m_chooser = new SendableChooser<>();
 	String gameData = "";
@@ -95,6 +99,7 @@ public class Robot extends TimedRobot {
 	double maxElevatorSpeed = 0;
 	double maxLeftDriveSpeed = 0;
 	double maxRightDriveSpeed = 0;
+
 	/**
 	 * This function is run when the robot is first started up and should be
 	 * used for any initialization code.
@@ -109,46 +114,46 @@ public class Robot extends TimedRobot {
 		intake = new Intake();
 		climber = new Climber();
 		ledstrips = new LEDstrips();
-		
-		positionChooser = new SendableChooser<Integer>();
-		autoLRChooser = new SendableChooser<Command>();
-		autoRLChooser = new SendableChooser<Command>();
-		autoLLChooser = new SendableChooser<Command>();
-		autoRRChooser = new SendableChooser<Command>();
-		
+
 		pdp = new PowerDistributionPanel(0);
+
+		positionChooser = new SendableChooser<Integer>();
+		autoLRChooser = new SendableChooser<Integer>();
+		autoRLChooser = new SendableChooser<Integer>();
+		autoLLChooser = new SendableChooser<Integer>();
+		autoRRChooser = new SendableChooser<Integer>();
 
 		positionChooser.setName("Position Chooser");
 		positionChooser.addDefault("Left", 0);
 		positionChooser.addObject("Center", 1);
 		positionChooser.addObject("Right", 2);
 
+		autoLLChooser.setName("Left Switch Left Scale");
+		autoLLChooser.addDefault("BaseLine", 0);
+		autoLLChooser.addObject("Left Switch", 1);
+		autoLLChooser.addObject("Left Scale", 2);
+		autoLLChooser.addObject("Left Switch, Left Scale", 3);
+		autoLLChooser.addObject("No Auton", 4);
+
 		autoLRChooser.setName("Left Switch Right Scale");
-		autoLRChooser.addDefault("BaseLine", new CrossBaseline());
-		autoLRChooser.addObject("Left Switch", new LeftSwitch(positionChooser.getSelected()));
-		autoLRChooser.addObject("Right Scale", new RightScale(positionChooser.getSelected()));
-		autoLRChooser.addObject("No Auton", new NoAuto());
+		autoLRChooser.addDefault("BaseLine", 0);
+		autoLRChooser.addObject("Left Switch", 1);
+		autoLRChooser.addObject("Right Scale", 2);
+		autoLRChooser.addObject("No Auton", 3);
 
 		autoRLChooser.setName("Right Switch Left Scale");
-		autoRLChooser.addDefault("BaseLine", new CrossBaseline());
-		autoRLChooser.addObject("Right Switch", new RightSwitch(positionChooser.getSelected()));
-		autoRLChooser.addObject("Left Scale", new LeftScale(positionChooser.getSelected()));
-		autoRLChooser.addObject("No Auton", new NoAuto());
-
-		autoLLChooser.setName("Left Switch Left Scale");
-		autoLLChooser.addDefault("BaseLine", new CrossBaseline());
-		autoLLChooser.addObject("Left Switch", new LeftSwitch(positionChooser.getSelected()));
-		autoLLChooser.addObject("Left Scale", new LeftScale(positionChooser.getSelected()));
-		autoLLChooser.addObject("Left Switch, Left Scale", new LeftSwitchLeftScale(positionChooser.getSelected()));
-		autoLLChooser.addObject("No Auton", new NoAuto());
+		autoRLChooser.addDefault("BaseLine", 0);
+		autoRLChooser.addObject("Right Switch", 1);
+		autoRLChooser.addObject("Left Scale", 2);
+		autoRLChooser.addObject("No Auton", 3);
 
 		autoRRChooser.setName("Right Switch Right Scale");
-		autoRRChooser.addDefault("BaseLine", new CrossBaseline());
-		autoRRChooser.addObject("Right Switch", new RightSwitch(positionChooser.getSelected()));
-		autoRRChooser.addObject("Right Scale", new RightScale(positionChooser.getSelected()));
-		autoRRChooser.addObject("Right Switch Right Scale", new RightSwitchRightScale(positionChooser.getSelected()));
-		autoRRChooser.addObject("No Auton", new NoAuto());
-		
+		autoRRChooser.addDefault("BaseLine", 0);
+		autoRRChooser.addObject("Right Switch", 1);
+		autoRRChooser.addObject("Right Scale", 2);
+		autoRRChooser.addObject("Right Switch Right Scale", 3);
+		autoRRChooser.addObject("No Auton", 4);
+
 		pdp = new PowerDistributionPanel(11);
 
 		updateSmartDashboard();
@@ -169,6 +174,90 @@ public class Robot extends TimedRobot {
 	public void disabledPeriodic() {
 		Scheduler.getInstance().run();
 		updateSmartDashboard();
+		positionNum = (int) positionChooser.getSelected();
+
+		autoLLNum = (int) autoLLChooser.getSelected();
+		autoLRNum = (int) autoLRChooser.getSelected();
+		autoRLNum = (int) autoRLChooser.getSelected();
+		autoRRNum = (int) autoRRChooser.getSelected();
+
+		while (gameData.length() < 3) {
+			gameData = DriverStation.getInstance().getGameSpecificMessage();
+	
+		}
+
+		if (gameData.charAt(0) == 'L' && gameData.charAt(1) == 'L') {
+			
+			switch (autoLLNum) {
+			case 0:
+				m_autonomousCommand = (Command) new CrossBaseline();
+				break;
+			case 1:
+				m_autonomousCommand = (Command) new LeftSwitch(positionNum);
+				break;
+			case 2:
+				m_autonomousCommand = (Command) new LeftScale(positionNum);
+				break;
+			case 3:
+				m_autonomousCommand = (Command) new LeftSwitchLeftScale(positionNum);
+				break;
+			case 4:
+				m_autonomousCommand = (Command) new NoAuto();
+				break;
+			}
+		} else if (gameData.charAt(0) == 'L' && gameData.charAt(1) == 'R') {
+			
+			switch (autoLRNum) {
+			case 0:
+				m_autonomousCommand = (Command) new CrossBaseline();
+				break;
+			case 1:
+				m_autonomousCommand = (Command) new LeftSwitch(positionNum);
+				break;
+			case 2:
+				m_autonomousCommand = (Command) new RightScale(positionNum);
+				break;
+			case 3:
+				m_autonomousCommand = (Command) new NoAuto();
+				break;
+			}
+		} else if (gameData.charAt(0) == 'R' && gameData.charAt(1) == 'L') {
+			
+			switch (autoRLNum) {
+			case 0:
+				m_autonomousCommand = (Command) new CrossBaseline();
+				break;
+			case 1:
+				m_autonomousCommand = (Command) new RightSwitch(positionNum);
+				break;
+			case 2:
+				m_autonomousCommand = (Command) new LeftScale(positionNum);
+				break;
+			case 3:
+				m_autonomousCommand = (Command) new NoAuto();
+				break;
+			}
+		} else if (gameData.charAt(0) == 'R' && gameData.charAt(1) == 'R') {
+			
+			switch (autoRRNum) {
+			case 0:
+				m_autonomousCommand = (Command) new CrossBaseline();
+				break;
+			case 1:
+				m_autonomousCommand = (Command) new RightSwitch(positionNum);
+				break;
+			case 2:
+				m_autonomousCommand = (Command) new RightScale(positionNum);
+				break;
+			case 3:
+				m_autonomousCommand = (Command) new RightSwitchRightScale(positionNum);
+				break;
+			case 4:
+				m_autonomousCommand = (Command) new NoAuto();
+				break;
+			}
+		} 
+
 	}
 
 	/**
@@ -188,29 +277,28 @@ public class Robot extends TimedRobot {
 		drive.reset();
 		elevator.resetEncoders();
 		intake.extendIntakePistons();
-		/*while (gameData.length() < 3) {
-			gameData = DriverStation.getInstance().getGameSpecificMessage();
-		}
-
-		if (gameData.charAt(0) == 'L' && gameData.charAt(1) == 'R') {
-			m_autonomousCommand = (Command) autoLRChooser.getSelected();
-		} else if (gameData.charAt(0) == 'R' && gameData.charAt(1) == 'L') {
-			m_autonomousCommand = (Command) autoRLChooser.getSelected();
-		} else if (gameData.charAt(0) == 'R' && gameData.charAt(1) == 'R') {
-			m_autonomousCommand = (Command) autoRRChooser.getSelected();
-		} else if (gameData.charAt(0) == 'L' && gameData.charAt(1) == 'L') {
-			m_autonomousCommand = (Command) autoLLChooser.getSelected();
-		} else {
-			m_autonomousCommand = (Command) new CrossBaseline();
-		}*/
-		m_autonomousCommand = (Command) new LeftLeftScaleSwitch();
-
+		/*
+		 * while (gameData.length() < 3) { gameData =
+		 * DriverStation.getInstance().getGameSpecificMessage(); }
+		 * 
+		 * if (gameData.charAt(0) == 'L' && gameData.charAt(1) == 'R') {
+		 * m_autonomousCommand = (Command) autoLRChooser.getSelected(); } else
+		 * if (gameData.charAt(0) == 'R' && gameData.charAt(1) == 'L') {
+		 * m_autonomousCommand = (Command) autoRLChooser.getSelected(); } else
+		 * if (gameData.charAt(0) == 'R' && gameData.charAt(1) == 'R') {
+		 * m_autonomousCommand = (Command) autoRRChooser.getSelected(); } else
+		 * if (gameData.charAt(0) == 'L' && gameData.charAt(1) == 'L') {
+		 * m_autonomousCommand = (Command) autoLLChooser.getSelected(); } else {
+		 * m_autonomousCommand = (Command) new CrossBaseline(); }
+		 */
 		LEDstrips.solidGold();
 
 		// schedule the autonomous command (example)
 		if (m_autonomousCommand != null) {
+			
 			m_autonomousCommand.start();
 		}
+
 	}
 
 	/**
@@ -238,8 +326,8 @@ public class Robot extends TimedRobot {
 	public void teleopPeriodic() {
 		Scheduler.getInstance().run();
 		updateSmartDashboard();
-		
-		}
+
+	}
 
 	/**
 	 * This function is called periodically during test mode.
@@ -249,13 +337,13 @@ public class Robot extends TimedRobot {
 	}
 
 	public void updateSmartDashboard() {
-		//AUTO
+		// AUTO
 		SmartDashboard.putData(autoLLChooser);
 		SmartDashboard.putData(autoLRChooser);
 		SmartDashboard.putData(autoRLChooser);
 		SmartDashboard.putData(autoRRChooser);
 		SmartDashboard.putData(positionChooser);
-		
+
 		SmartDashboard.putNumber("Gyro Angle", drive.getYaw());
 		SmartDashboard.putNumber("Right Encoder", drive.getRightDriveEncoder());
 		SmartDashboard.putNumber("Left Encoder", drive.getLeftDriveEncoder());
@@ -265,10 +353,10 @@ public class Robot extends TimedRobot {
 		SmartDashboard.putNumber("Right Drive Speed", drive.getRightSpeed());
 		SmartDashboard.putNumber("Battery Voltage", RobotController.getBatteryVoltage());
 		SmartDashboard.putNumber("Match Time", DriverStation.getInstance().getMatchTime());
-		
+
 		SmartDashboard.putString("Game Message", DriverStation.getInstance().getGameSpecificMessage());
 		SmartDashboard.putString("Match Strategy", clipboard);
-		SmartDashboard.putBoolean("Cube In", intake.currentCubeIn()); 
+		SmartDashboard.putBoolean("Cube In", intake.currentCubeIn());
 
 		pDrive = pref.getDouble("Drive pGain", 0.0);
 		iDrive = pref.getDouble("Drive iGain", 0.0);
@@ -295,5 +383,6 @@ public class Robot extends TimedRobot {
 		outtakeSpeed = pref.getDouble("Outtake Speed", 0.61);
 		maxIntakeCurrent = pref.getDouble("MaxIntakeCurrent", 27);
 		clipboard = pref.getString("Match Strategy", "Defeat the Boss!");
+
 	}
 }

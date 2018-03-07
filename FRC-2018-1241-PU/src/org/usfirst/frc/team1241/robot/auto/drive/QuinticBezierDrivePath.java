@@ -91,7 +91,7 @@ public class QuinticBezierDrivePath extends Command {
 		counter = 0;
 		setTimeout(timeOut);
 		Robot.drive.changeDriveGains(NumberConstants.pDrive, NumberConstants.iDrive, NumberConstants.dDrive);
-    	Robot.drive.changeGyroGains(NumberConstants.pGyro, NumberConstants.iGyro, 0);
+    	Robot.drive.changeGyroGains(0.02, 0, 0);
 		Robot.drive.resetEncoders();
 	}
 
@@ -115,7 +115,7 @@ public class QuinticBezierDrivePath extends Command {
 	// Command is finished when average distance = total distance or command
 	// times out
 	protected boolean isFinished() {
-		return Robot.drive.getAverageDistance() == distance || Robot.drive.getAverageDistance() >= distance||isTimedOut();
+		return Robot.drive.getAverageDistance() >= distance||isTimedOut();
 	}
 
 	// At the end, stop drive motors

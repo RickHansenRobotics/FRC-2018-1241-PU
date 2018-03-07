@@ -53,7 +53,7 @@ public class TurnCommand extends Command {
 
 	// Command is finished when timed out
 	protected boolean isFinished() {
-		return isTimedOut();
+		return Math.abs(Robot.drive.getYaw() - angle) <= 1.5;
 	}
 
 	// Called once after isFinished returns true, once done will stop robot from

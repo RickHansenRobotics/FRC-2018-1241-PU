@@ -33,7 +33,7 @@ public class LeftLeftScaleSwitch extends CommandGroup {
 		addParallel(new ElevatorSetpoint(NumberConstants.intakingPosition, (int)(NumberConstants.maxElevatorSpeed * 0.75), 1, 2));
 		addSequential(new nested());
 		addParallel(new SetIntakeSpeedCommand(true, 0.865, 3));
-		addSequential(new DriveCommand(59, 1, 134, 1.75));
+		addSequential(new DriveCommand(64, 0.6, 134, 2.5));
 
 		addParallel(new ElevatorSetpoint(NumberConstants.switchPosition+5, NumberConstants.maxElevatorSpeed, 0.35, 2));
 		addSequential(new ExecuteAfterDistance(EncoderWaitCommand.ELEVATOR, NumberConstants.switchPosition-5, 1.1, new DriveCommand(23, 1, 145, 1)));
@@ -43,7 +43,7 @@ public class LeftLeftScaleSwitch extends CommandGroup {
     
     private static class nested extends CommandGroup {
     	public nested(){
-			addSequential(new DriveCommand(-32, 1, 26, 1.5));
+			addSequential(new DriveCommand(-36, 1, 26, 1.5));
 			addSequential(new TurnCommand(134, 1, 1));
 		};
     }

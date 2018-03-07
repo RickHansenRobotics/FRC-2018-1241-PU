@@ -20,7 +20,7 @@ public class DriveCommand extends Command {
 	private boolean velocity;
 
 	public DriveCommand(double setPoint, double speed, double angle, double timeOut) {
-		this(setPoint, speed, angle, timeOut, 1, false);
+		this(setPoint, speed, angle, timeOut, 3, false);
 	}
 	
 	public DriveCommand(double setPoint, double speed, double angle, double timeOut, boolean velocity) {
@@ -40,7 +40,7 @@ public class DriveCommand extends Command {
     // Called just before this Command runs the first time
     protected void initialize() {
     	Robot.drive.changeDriveGains(NumberConstants.pDrive, NumberConstants.iDrive, NumberConstants.dDrive);
-    	Robot.drive.changeGyroGains(NumberConstants.pGyro, NumberConstants.iGyro, 0);
+    	Robot.drive.changeGyroGains(0.01, 0, 0);
     	//Robot.drive.changeDriveGains(Robot.pDrive, Robot.iDrive, Robot.dDrive);
     	//Robot.drive.changeGyroGains(Robot.pGyro, Robot.iGyro, 0);
     	Robot.drive.resetEncoders();
@@ -49,6 +49,7 @@ public class DriveCommand extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
+    	System.out.println("Coolio");
     	//Robot.drive.driveSetpoint(distance, speed, angle, tolerance);
     	if(velocity){
 	    	// Speed must be in RPM
@@ -60,7 +61,7 @@ public class DriveCommand extends Command {
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-    	return isTimedOut();//Robot.drive.drivePIDDone() || isTimedOut();
+    	return Robot.drive.drivePIDDone() || isTimedOut();
     }
 
     // Called once after isFinished returns true
