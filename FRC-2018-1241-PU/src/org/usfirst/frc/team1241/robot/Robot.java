@@ -16,6 +16,9 @@ import org.usfirst.frc.team1241.robot.auto.RightScale;
 import org.usfirst.frc.team1241.robot.auto.RightSwitch;
 import org.usfirst.frc.team1241.robot.auto.RightSwitchRightScale;
 import org.usfirst.frc.team1241.robot.auto.drive.DriveCommand;
+import org.usfirst.frc.team1241.robot.auto.drive.DriveMotionProfile;
+import org.usfirst.frc.team1241.robot.auto.drive.GeneratedMotionProfileLeft;
+import org.usfirst.frc.team1241.robot.auto.drive.GeneratedMotionProfileRight;
 import org.usfirst.frc.team1241.robot.subsystems.Climber;
 import org.usfirst.frc.team1241.robot.subsystems.Drivetrain;
 import org.usfirst.frc.team1241.robot.subsystems.Elevator;
@@ -84,6 +87,8 @@ public class Robot extends TimedRobot {
 	public static int autoRLNum;
 	public static int autoRRNum;
 	public static int positionNum;
+	
+	public static int gameNum;
 
 	SendableChooser<Integer> autoLRChooser;
 	SendableChooser<Integer> autoRLChooser;
@@ -91,7 +96,7 @@ public class Robot extends TimedRobot {
 	SendableChooser<Integer> autoRRChooser;
 
 	SendableChooser<Command> m_chooser = new SendableChooser<>();
-	String gameData = "";
+
 	public static double maxIntakeCurrent = -1;
 	String clipboard = "Match Strategy";
 
@@ -174,89 +179,6 @@ public class Robot extends TimedRobot {
 	public void disabledPeriodic() {
 		Scheduler.getInstance().run();
 		updateSmartDashboard();
-		positionNum = (int) positionChooser.getSelected();
-
-		autoLLNum = (int) autoLLChooser.getSelected();
-		autoLRNum = (int) autoLRChooser.getSelected();
-		autoRLNum = (int) autoRLChooser.getSelected();
-		autoRRNum = (int) autoRRChooser.getSelected();
-
-		while (gameData.length() < 3) {
-			gameData = DriverStation.getInstance().getGameSpecificMessage();
-	
-		}
-
-		if (gameData.charAt(0) == 'L' && gameData.charAt(1) == 'L') {
-			
-			switch (autoLLNum) {
-			case 0:
-				m_autonomousCommand = (Command) new CrossBaseline();
-				break;
-			case 1:
-				m_autonomousCommand = (Command) new LeftSwitch(positionNum);
-				break;
-			case 2:
-				m_autonomousCommand = (Command) new LeftScale(positionNum);
-				break;
-			case 3:
-				m_autonomousCommand = (Command) new LeftSwitchLeftScale(positionNum);
-				break;
-			case 4:
-				m_autonomousCommand = (Command) new NoAuto();
-				break;
-			}
-		} else if (gameData.charAt(0) == 'L' && gameData.charAt(1) == 'R') {
-			
-			switch (autoLRNum) {
-			case 0:
-				m_autonomousCommand = (Command) new CrossBaseline();
-				break;
-			case 1:
-				m_autonomousCommand = (Command) new LeftSwitch(positionNum);
-				break;
-			case 2:
-				m_autonomousCommand = (Command) new RightScale(positionNum);
-				break;
-			case 3:
-				m_autonomousCommand = (Command) new NoAuto();
-				break;
-			}
-		} else if (gameData.charAt(0) == 'R' && gameData.charAt(1) == 'L') {
-			
-			switch (autoRLNum) {
-			case 0:
-				m_autonomousCommand = (Command) new CrossBaseline();
-				break;
-			case 1:
-				m_autonomousCommand = (Command) new RightSwitch(positionNum);
-				break;
-			case 2:
-				m_autonomousCommand = (Command) new LeftScale(positionNum);
-				break;
-			case 3:
-				m_autonomousCommand = (Command) new NoAuto();
-				break;
-			}
-		} else if (gameData.charAt(0) == 'R' && gameData.charAt(1) == 'R') {
-			
-			switch (autoRRNum) {
-			case 0:
-				m_autonomousCommand = (Command) new CrossBaseline();
-				break;
-			case 1:
-				m_autonomousCommand = (Command) new RightSwitch(positionNum);
-				break;
-			case 2:
-				m_autonomousCommand = (Command) new RightScale(positionNum);
-				break;
-			case 3:
-				m_autonomousCommand = (Command) new RightSwitchRightScale(positionNum);
-				break;
-			case 4:
-				m_autonomousCommand = (Command) new NoAuto();
-				break;
-			}
-		} 
 
 	}
 
@@ -292,12 +214,103 @@ public class Robot extends TimedRobot {
 		 * m_autonomousCommand = (Command) new CrossBaseline(); }
 		 */
 		LEDstrips.solidGold();
+		
+		positionNum = (int) positionChooser.getSelected();
 
-		// schedule the autonomous command (example)
-		if (m_autonomousCommand != null) {
-			
-			m_autonomousCommand.start();
+		autoLLNum = (int) autoLLChooser.getSelected();
+		autoLRNum = (int) autoLRChooser.getSelected();
+		autoRLNum = (int) autoRLChooser.getSelected();
+		autoRRNum = (int) autoRRChooser.getSelected();
+
+		
+		
+		String gameData = "";
+		while (gameData.length() < 3) {
+			gameData = DriverStation.getInstance().getGameSpecificMessage();
+
 		}
+		
+
+		if (gameData.charAt(0) == 'L' && gameData.charAt(1) == 'L') {
+
+			switch (autoLLNum) {
+			case 0:
+				m_autonomousCommand = (Command) new CrossBaseline();
+				break;
+			case 1:
+				m_autonomousCommand = (Command) new LeftSwitch(positionNum);
+				break;
+			case 2:
+				m_autonomousCommand = (Command) new LeftScale(positionNum);
+				break;
+			case 3:
+				m_autonomousCommand = (Command) new LeftSwitchLeftScale(positionNum);
+				break;
+			case 4:
+				m_autonomousCommand = (Command) new NoAuto();
+				break;
+			}
+		} else if (gameData.charAt(0) == 'L' && gameData.charAt(1) == 'R') {
+
+			switch (autoLRNum) {
+			case 0:
+				m_autonomousCommand = (Command) new CrossBaseline();
+				break;
+			case 1:
+				m_autonomousCommand = (Command) new LeftSwitch(positionNum);
+				break;
+			case 2:
+				m_autonomousCommand = (Command) new RightScale(positionNum);
+				break;
+			case 3:
+				m_autonomousCommand = (Command) new NoAuto();
+				break;
+			}
+		} else if (gameData.charAt(0) == 'R' && gameData.charAt(1) == 'L') {
+
+			switch (autoRLNum) {
+			case 0:
+				m_autonomousCommand = (Command) new CrossBaseline();
+				break;
+			case 1:
+				m_autonomousCommand = (Command) new RightSwitch(positionNum);
+				break;
+			case 2:
+				m_autonomousCommand = (Command) new LeftScale(positionNum);
+				break;
+			case 3:
+				m_autonomousCommand = (Command) new NoAuto();
+				break;
+			}
+		} else if (gameData.charAt(0) == 'R' && gameData.charAt(1) == 'R') {
+
+			switch (autoRRNum) {
+			case 0:
+				m_autonomousCommand = (Command) new CrossBaseline();
+				break;
+			case 1:
+				m_autonomousCommand = (Command) new RightSwitch(positionNum);
+				break;
+			case 2:
+				m_autonomousCommand = (Command) new RightScale(positionNum);
+				break;
+			case 3:
+				m_autonomousCommand = (Command) new RightSwitchRightScale(positionNum);
+				break;
+			case 4:
+				m_autonomousCommand = (Command) new NoAuto();
+				break;
+			}
+		}
+		
+		m_autonomousCommand = new DriveMotionProfile(GeneratedMotionProfileLeft.Points, GeneratedMotionProfileRight.Points, GeneratedMotionProfileLeft.kNumPoints);
+
+		
+	/*	if (m_autonomousCommand != null)
+			m_autonomousCommand.start();
+	}*/
+
+		m_autonomousCommand.start();
 
 	}
 

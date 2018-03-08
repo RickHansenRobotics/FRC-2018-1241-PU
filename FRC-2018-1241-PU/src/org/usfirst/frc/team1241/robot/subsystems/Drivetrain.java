@@ -1,4 +1,4 @@
-package org.usfirst.frc.team1241.robot.subsystems;
+	package org.usfirst.frc.team1241.robot.subsystems;
 
 import org.usfirst.frc.team1241.robot.ElectricalConstants;
 import org.usfirst.frc.team1241.robot.NumberConstants;
@@ -7,6 +7,7 @@ import org.usfirst.frc.team1241.robot.pid.PIDController;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
+import com.ctre.phoenix.motorcontrol.StatusFrameEnhanced;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.kauailabs.navx.frc.AHRS;
 
@@ -64,6 +65,13 @@ public class Drivetrain extends Subsystem {
 		leftMaster.setInverted(false);
 		leftMaster.setSensorPhase(false);
 		leftMaster.setNeutralMode(com.ctre.phoenix.motorcontrol.NeutralMode.Brake);
+		/* Our profile uses 10ms timing */
+		leftMaster.configMotionProfileTrajectoryPeriod(50,0); 
+		/*
+		 * status 10 provides the trajectory target for motion profile AND
+		 * motion magic
+		 */
+		leftMaster.setStatusFramePeriod(StatusFrameEnhanced.Status_10_MotionMagic, 50, 0);
 
 		leftSlave1 = new WPI_TalonSRX(ElectricalConstants.LEFT_DRIVE_MIDDLE);
 		leftSlave1.set(ControlMode.Follower, ElectricalConstants.LEFT_DRIVE_FRONT);
@@ -76,6 +84,14 @@ public class Drivetrain extends Subsystem {
 		rightMaster.setInverted(false);
 		rightMaster.setSensorPhase(true);
 		rightMaster.setNeutralMode(com.ctre.phoenix.motorcontrol.NeutralMode.Brake);
+		
+		/* Our profile uses 10ms timing */
+		rightMaster.configMotionProfileTrajectoryPeriod(50,0); 
+		/*
+		 * status 10 provides the trajectory target for motion profile AND
+		 * motion magic
+		 */
+		rightMaster.setStatusFramePeriod(StatusFrameEnhanced.Status_10_MotionMagic, 50, 0);
 
 		rightSlave1 = new WPI_TalonSRX(ElectricalConstants.RIGHT_DRIVE_MIDDLE);
 		rightSlave1.set(ControlMode.Follower, ElectricalConstants.RIGHT_DRIVE_FRONT);
@@ -118,6 +134,8 @@ public class Drivetrain extends Subsystem {
 			rightMaster.set(ControlMode.PercentOutput, input);
 		else if (controlMode.equalsIgnoreCase("Velocity"))
 			rightMaster.set(ControlMode.Velocity, input);
+		else if (controlMode.equalsIgnoreCase("MotionProfile"))
+			rightMaster.set(ControlMode.MotionProfile, input);
 		else
 			rightMaster.set(ControlMode.PercentOutput, input);
 	}
@@ -132,6 +150,8 @@ public class Drivetrain extends Subsystem {
 			leftMaster.set(ControlMode.PercentOutput, input);
 		else if (controlMode.equalsIgnoreCase("Velocity"))
 			leftMaster.set(ControlMode.Velocity, input);
+		else if (controlMode.equalsIgnoreCase("MotionProfile"))
+			leftMaster.set(ControlMode.MotionProfile, input);
 		else
 			leftMaster.set(ControlMode.PercentOutput, input);
 	}
@@ -173,10 +193,16 @@ public class Drivetrain extends Subsystem {
 
 	public void motionProfileMode() {
 		controlMode = "MotionProfile";
+		rightMaster.setInverted(true);
+		rightSlave1.setInverted(true);
+		rightSlave2.setInverted(true);
 	}
 
 	public void voltageMode() {
 		controlMode = "PercentOutput";
+		rightMaster.setInverted(false);
+		rightSlave1.setInverted(false);
+		rightSlave2.setInverted(false);
 	}
 
 	public void velocityMode() {
