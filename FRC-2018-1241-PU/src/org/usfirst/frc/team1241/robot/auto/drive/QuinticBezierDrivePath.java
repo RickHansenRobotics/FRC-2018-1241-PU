@@ -91,7 +91,7 @@ public class QuinticBezierDrivePath extends Command {
 		counter = 0;
 		setTimeout(timeOut);
 		Robot.drive.changeDriveGains(NumberConstants.pDrive, NumberConstants.iDrive, NumberConstants.dDrive);
-    	Robot.drive.changeGyroGains(0.02, 0, 0);
+    	Robot.drive.changeGyroGains(NumberConstants.pDriveGyro, NumberConstants.iDriveGyro, NumberConstants.dDriveGyro);
 		Robot.drive.resetEncoders();
 	}
 

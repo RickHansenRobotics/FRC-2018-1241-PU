@@ -42,7 +42,9 @@ public class TurnCommand extends Command {
 
 	// Called just before this Command runs the first time
 	protected void initialize() {
-		Robot.drive.changeGyroGains(NumberConstants.pGyro, NumberConstants.iGyro, NumberConstants.dGyro);
+		//Robot.drive.changeGyroGains(Robot.pGyro, Robot.iGyro, Robot.dGyro);
+
+		Robot.drive.changeGyroGains(NumberConstants.pTurnGyro, NumberConstants.iTurnGyro, NumberConstants.dTurnGyro);
 		setTimeout(timeOut);
 	}
 
@@ -53,7 +55,7 @@ public class TurnCommand extends Command {
 
 	// Command is finished when timed out
 	protected boolean isFinished() {
-		return Math.abs(Robot.drive.getYaw() - angle) <= 1.5;
+		return isTimedOut();
 	}
 
 	// Called once after isFinished returns true, once done will stop robot from

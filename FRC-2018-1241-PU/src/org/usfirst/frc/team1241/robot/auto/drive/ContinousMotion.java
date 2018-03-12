@@ -1,5 +1,6 @@
 package org.usfirst.frc.team1241.robot.auto.drive;
 
+import org.usfirst.frc.team1241.robot.NumberConstants;
 import org.usfirst.frc.team1241.robot.Robot;
 
 import edu.wpi.first.wpilibj.command.Command;
@@ -25,7 +26,7 @@ public class ContinousMotion extends Command {
 	 * @param timeOut
 	 *            The time out in seconds
 	 */
-	public ContinousMotion(double speed, double angle, double setPoint, double timeOut) {
+	public ContinousMotion(double setPoint, double speed, double angle, double timeOut) {
 		this.speed = speed;
 		this.angle = angle;
 		this.setPoint = setPoint;
@@ -35,6 +36,7 @@ public class ContinousMotion extends Command {
 	// Called just before this Command runs the first time
 	protected void initialize() {
 		Robot.drive.reset();
+    	Robot.drive.changeGyroGains(NumberConstants.pDriveGyro, NumberConstants.iDriveGyro, NumberConstants.dDriveGyro);
 		setTimeout(timeOut);
 	}
 

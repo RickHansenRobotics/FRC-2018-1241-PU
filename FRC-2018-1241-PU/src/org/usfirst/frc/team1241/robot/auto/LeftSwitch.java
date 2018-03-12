@@ -21,8 +21,10 @@ public class LeftSwitch extends CommandGroup {
     		addParallel(new IntakePistonCommand(true));
         	addParallel(new ElevatorSetpoint(NumberConstants.switchPosition, NumberConstants.maxElevatorSpeed, 1, 2));
         	
+        	addSequential(new DriveCommand(140, 1, 0,2, 90, 55, 1));
+
         	//addSequential(new DriveCommand(113, 1, -25,2));
-        	addSequential(new DrivePath(new Point(0,0), new Point(-10,40), new Point(-18,117), new Point(20,134), 2.5, 1));
+        	//addSequential(new DrivePath(new Point(0,0), new Point(-10,40), new Point(-18,117), new Point(20,134), 2.5, 1));
             addSequential(new SetIntakeSpeedCommand(false, 0.65, 1));
     		addParallel(new IntakePistonCommand(true));       	
         	
@@ -30,9 +32,9 @@ public class LeftSwitch extends CommandGroup {
         	addParallel(new SetIntakeSpeedCommand(true, 0.75, 2));
     		addParallel(new IntakePistonCommand(true));
         	addParallel(new ElevatorSetpoint(NumberConstants.switchPosition, NumberConstants.maxElevatorSpeed, 1, 3));
-        	addSequential(new DriveCommand(113, 1, -30,2));
+        	addSequential(new DriveCommand(121, 1, -27.5,2));
         	//addSequential(new DrivePath(new Point(0,0), new Point(-35,32), new Point(-50,22), new Point(-50,100), 3, 0.6));
-                        
+    		addParallel(new IntakePistonCommand(true));
             addSequential(new SetIntakeSpeedCommand(false, 0.7,1));
         } else if (position == 2){
         	

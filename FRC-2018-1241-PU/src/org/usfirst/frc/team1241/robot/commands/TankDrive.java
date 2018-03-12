@@ -28,24 +28,26 @@ public class TankDrive extends Command {
 	protected void execute() {
 		if (Robot.oi.getDriveRightBumper()) {
 			Robot.drive.runLeftDrive(-0.5 * Robot.oi.getDriveLeftY());
-			Robot.drive.runRightDrive(0.5 * Robot.oi.getDriveRightY());
+			Robot.drive.runRightDrive(-0.5 * Robot.oi.getDriveRightY());
 		}else if (Robot.oi.getDriveRightTrigger()) {
 			Robot.drive.runLeftDrive(-0.75 * Robot.oi.getDriveLeftY());
-			Robot.drive.runRightDrive(0.75 * Robot.oi.getDriveRightY());
+			Robot.drive.runRightDrive(-0.75 * Robot.oi.getDriveRightY());
 			
 		} else if (Robot.oi.getDriveAButton()) {
 			Robot.climber.extendPTOPiston();
-			Robot.drive.runLeftDrive(0.6);
+			Robot.drive.runLeftDrive(-0.6);
 			Robot.drive.runRightDrive(-0.6);
 		} else if (Robot.oi.getDriveBButton())
 			Robot.climber.retractPTOPiston();
 		else if (Robot.oi.getDriveXButton()){
-			Robot.drive.runLeftDrive(1);
+			Robot.drive.runLeftDrive(-1);
 			Robot.drive.runRightDrive(-1);
+		} else if (Robot.oi.getDriveRightTrigger() && Robot.oi.getDriveLeftTrigger()) { ///
+			Robot.elevator.resetEncoders();
 		}
 		else {
 			Robot.drive.runLeftDrive(-Robot.oi.getDriveLeftY());
-			Robot.drive.runRightDrive(Robot.oi.getDriveRightY());
+			Robot.drive.runRightDrive(-Robot.oi.getDriveRightY());
 		}
 		
 	/*	if (Robot.oi.getDriveAButton() && !isPTOengaged){

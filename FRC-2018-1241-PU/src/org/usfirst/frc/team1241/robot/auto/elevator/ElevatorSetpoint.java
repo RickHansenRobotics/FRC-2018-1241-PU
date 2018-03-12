@@ -6,7 +6,7 @@ import org.usfirst.frc.team1241.robot.Robot;
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
- *@author Kaveesha Siribaddana
+ * @author Kaveesha Siribaddana
  */
 public class ElevatorSetpoint extends Command {
 
@@ -27,17 +27,18 @@ public class ElevatorSetpoint extends Command {
 
 	// Called just before this Command runs the first time
 	protected void initialize() {
-		/*Robot.elevator.changeElevatorGains(NumberConstants.pElevator, NumberConstants.iElevator,
-				NumberConstants.dElevator);*/
+		/*
+		 * Robot.elevator.changeElevatorGains(NumberConstants.pElevator,
+		 * NumberConstants.iElevator, NumberConstants.dElevator);
+		 */
 		setTimeout(timeOut);
 		Robot.elevator.magicMotionSetpoint(setpoint, speed, timeToMax);
-		//Robot.elevator.magicMotionSetpoint(setpoint, speed, timeToMax);
+		// Robot.elevator.magicMotionSetpoint(setpoint, speed, timeToMax);
 	}
 
 	// Called repeatedly when this Command is scheduled to run
 	protected void execute() {
-		//Robot.elevator.elevatorSetpoint(setpoint, speed, tolerance);
-		System.out.println("Inside Elevator " + Robot.drive.getAverageDistance());
+		// Robot.elevator.elevatorSetpoint(setpoint, speed, tolerance);
 	}
 
 	// Make this return true when this Command no longer needs to run execute()
@@ -47,7 +48,7 @@ public class ElevatorSetpoint extends Command {
 
 	// Called once after isFinished returns true
 	protected void end() {
-		
+
 	}
 
 	// Called when another command which requires one or more of the same

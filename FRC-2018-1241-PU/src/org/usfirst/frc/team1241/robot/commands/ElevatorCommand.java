@@ -12,6 +12,7 @@ public class ElevatorCommand extends Command {
 
 	public static int scaleLevel;
 	public static boolean backupEngaged;
+	private boolean intaked = false;
 
 	public ElevatorCommand() {
 		// Use requires() here to declare subsystem dependencies
@@ -30,30 +31,34 @@ public class ElevatorCommand extends Command {
 		
 		//System.out.println("Joystick: " + Robot.oi.getToolRightY() + " Velocity: " + Robot.elevator.getElevatorSpeed());
 		if (Robot.oi.getToolRightY() < -0.7) {
+			//pivot intake down
 			Robot.elevator.magicMotionSetpoint(NumberConstants.scaleHighPosition, NumberConstants.maxElevatorSpeed, 0.35);
 			backupEngaged = false;
 		}
 		if (Robot.oi.getToolRightX() > 0.7) {
+			//pivot intake down
 			Robot.elevator.magicMotionSetpoint(NumberConstants.scaleMidPosition, NumberConstants.maxElevatorSpeed, 0.35);
 			backupEngaged = false;
 		}
 		if (Robot.oi.getToolRightY() > 0.7) {
+			//pivot intake down
 			Robot.elevator.magicMotionSetpoint(NumberConstants.scaleLowPosition, NumberConstants.maxElevatorSpeed, 0.35);
 			backupEngaged = false;
 		}
 
 		if (Robot.oi.getToolAButton()) {
 			Robot.elevator.magicMotionSetpoint(NumberConstants.intakingPosition, NumberConstants.maxElevatorSpeed, 0.35);
+//			Robot.intake.intake(1);
 			backupEngaged = false;
+			intaked = true;
+		}else if(intaked){
+			Robot.elevator.magicMotionSetpoint(NumberConstants.exchangePosition, NumberConstants.maxElevatorSpeed, 0.35);
+			backupEngaged = false;
+			intaked = false;
 		}
 
 		if (Robot.oi.getToolBButton()) {
 			Robot.elevator.magicMotionSetpoint(NumberConstants.portalPosition, NumberConstants.maxElevatorSpeed, 0.35);
-			backupEngaged = false;
-		}
-
-		if (Robot.oi.getToolXButton()) {
-			Robot.elevator.magicMotionSetpoint(NumberConstants.exchangePosition, NumberConstants.maxElevatorSpeed, 0.35);
 			backupEngaged = false;
 		}
 

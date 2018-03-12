@@ -63,15 +63,15 @@ public class Drivetrain extends Subsystem {
 		leftMaster = new WPI_TalonSRX(ElectricalConstants.LEFT_DRIVE_FRONT);
 		leftMaster.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 0);
 		leftMaster.setInverted(false);
-		leftMaster.setSensorPhase(false);
+		leftMaster.setSensorPhase(true);
 		leftMaster.setNeutralMode(com.ctre.phoenix.motorcontrol.NeutralMode.Brake);
 		/* Our profile uses 10ms timing */
-		leftMaster.configMotionProfileTrajectoryPeriod(50,0); 
+		leftMaster.configMotionProfileTrajectoryPeriod(10,0); 
 		/*
 		 * status 10 provides the trajectory target for motion profile AND
 		 * motion magic
 		 */
-		leftMaster.setStatusFramePeriod(StatusFrameEnhanced.Status_10_MotionMagic, 50, 0);
+		leftMaster.setStatusFramePeriod(StatusFrameEnhanced.Status_10_MotionMagic, 10, 0);
 
 		leftSlave1 = new WPI_TalonSRX(ElectricalConstants.LEFT_DRIVE_MIDDLE);
 		leftSlave1.set(ControlMode.Follower, ElectricalConstants.LEFT_DRIVE_FRONT);
@@ -81,27 +81,30 @@ public class Drivetrain extends Subsystem {
 
 		rightMaster = new WPI_TalonSRX(ElectricalConstants.RIGHT_DRIVE_FRONT);
 		rightMaster.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 0);
-		rightMaster.setInverted(false);
 		rightMaster.setSensorPhase(true);
 		rightMaster.setNeutralMode(com.ctre.phoenix.motorcontrol.NeutralMode.Brake);
 		
-		/* Our profile uses 10ms timing */
-		rightMaster.configMotionProfileTrajectoryPeriod(50,0); 
+		/* Our profile uses 50ms timing */
+		rightMaster.configMotionProfileTrajectoryPeriod(10,0); 
 		/*
 		 * status 10 provides the trajectory target for motion profile AND
 		 * motion magic
 		 */
-		rightMaster.setStatusFramePeriod(StatusFrameEnhanced.Status_10_MotionMagic, 50, 0);
+		rightMaster.setStatusFramePeriod(StatusFrameEnhanced.Status_10_MotionMagic, 10, 0);
 
 		rightSlave1 = new WPI_TalonSRX(ElectricalConstants.RIGHT_DRIVE_MIDDLE);
 		rightSlave1.set(ControlMode.Follower, ElectricalConstants.RIGHT_DRIVE_FRONT);
 
 		rightSlave2 = new WPI_TalonSRX(ElectricalConstants.RIGHT_DRIVE_BACK);
 		rightSlave2.set(ControlMode.Follower, ElectricalConstants.RIGHT_DRIVE_FRONT);
+		
+		rightMaster.setInverted(true);
+		rightSlave1.setInverted(true);
+		rightSlave2.setInverted(true);
 
 		// Initialize PID controllers
 		drivePID = new PIDController(NumberConstants.pDrive, NumberConstants.iDrive, NumberConstants.dDrive);
-		gyroPID = new PIDController(NumberConstants.pGyro, NumberConstants.iGyro, NumberConstants.dGyro);
+		gyroPID = new PIDController(NumberConstants.pTurnGyro, NumberConstants.iTurnGyro, NumberConstants.dTurnGyro);
 
 		leftPID = new PIDController(NumberConstants.pDrive, NumberConstants.iDrive, NumberConstants.dDrive);
 		rightPID = new PIDController(NumberConstants.pDrive, NumberConstants.iDrive, NumberConstants.dDrive);
@@ -111,7 +114,7 @@ public class Drivetrain extends Subsystem {
 		leftMaster.config_kD(0, NumberConstants.dTalonDrive, 0);
 		leftMaster.config_kF(0, NumberConstants.fTalonDrive, 0);
 
-		rightMaster.config_kP(0, NumberConstants.pTalonDrive, 0);
+		rightMaster.config_kP(0, NumberConstants.pTalonDrive * 1.2, 0);
 		rightMaster.config_kI(0, NumberConstants.iTalonDrive, 0);
 		rightMaster.config_kD(0, NumberConstants.dTalonDrive, 0);
 		rightMaster.config_kF(0, NumberConstants.fTalonDrive, 0);
@@ -138,10 +141,6 @@ public class Drivetrain extends Subsystem {
 			rightMaster.set(ControlMode.MotionProfile, input);
 		else
 			rightMaster.set(ControlMode.PercentOutput, input);
-	}
-
-	public void runLeft(double leftInput) {
-		leftMaster.set(ControlMode.PercentOutput, leftInput);
 	}
 
 	public void runLeftDrive(double input) {
@@ -193,16 +192,10 @@ public class Drivetrain extends Subsystem {
 
 	public void motionProfileMode() {
 		controlMode = "MotionProfile";
-		rightMaster.setInverted(true);
-		rightSlave1.setInverted(true);
-		rightSlave2.setInverted(true);
 	}
 
 	public void voltageMode() {
 		controlMode = "PercentOutput";
-		rightMaster.setInverted(false);
-		rightSlave1.setInverted(false);
-		rightSlave2.setInverted(false);
 	}
 
 	public void velocityMode() {
@@ -220,9 +213,8 @@ public class Drivetrain extends Subsystem {
 	public void driveSetpoint(double setPoint, double speed, double setAngle, double tolerance) {
 		double output = drivePID.calcPID(setPoint, getAverageDistance(), tolerance);
 		double angle = gyroPID.calcPID(setAngle, getYaw(), tolerance);
-		SmartDashboard.putNumber("PID OUTPUT", angle);
 		runLeftDrive((output + angle) * speed);
-		runRightDrive((-output + angle) * speed);
+		runRightDrive((output - angle) * speed);
 	}
 
 	public void driveVelocitySetpoint(double setPoint, double speed, double setAngle, double tolerance) {
@@ -231,7 +223,7 @@ public class Drivetrain extends Subsystem {
 		double rightOutput = rightPID.calcPID(setPoint, getRightDriveEncoder(), tolerance);
 		double angle = gyroPID.calcPID(setAngle, getYaw(), tolerance);
 
-		runLeftDrive((-leftOutput - angle) * speed);
+		runLeftDrive((leftOutput + angle) * speed);
 		runRightDrive((rightOutput - angle) * speed * 0.975);
 	}
 
@@ -244,13 +236,13 @@ public class Drivetrain extends Subsystem {
 			runRightDrive(0);
 		} else if (angle > -min && angle < 0) {
 			runLeftDrive(-min);
-			runRightDrive(-min);
+			runRightDrive(min);
 		} else if (angle < min && angle > 0) {
 			runLeftDrive(min);
-			runRightDrive(min);
+			runRightDrive(-min);
 		} else {
 			runLeftDrive(angle * speed);
-			runRightDrive(angle * speed);
+			runRightDrive(-angle * speed);
 		}
 	}
 
@@ -258,7 +250,7 @@ public class Drivetrain extends Subsystem {
 		double angle = gyroPID.calcPID(setAngle, getYaw(), 1);
 
 		runLeftDrive(speed + angle);
-		runRightDrive(-speed + angle);
+		runRightDrive(speed - angle);
 	}
 
 	public boolean drivePIDDone() {
@@ -285,19 +277,19 @@ public class Drivetrain extends Subsystem {
 	// ENCODER FUNCTIONS
 
 	public double getLeftDriveEncoder() {
-		return -leftMaster.getSelectedSensorPosition(0) / NumberConstants.nativeToInches;
+		return leftMaster.getSelectedSensorPosition(0) / NumberConstants.nativeToInches;
 	}
 
 	public double getRightDriveEncoder() {
-		return -rightMaster.getSelectedSensorPosition(0) / NumberConstants.nativeToInches;
+		return rightMaster.getSelectedSensorPosition(0) / NumberConstants.nativeToInches;
 	}
 
 	public double getLeftDriveRaw() {
-		return -leftMaster.getSelectedSensorPosition(0);
+		return leftMaster.getSelectedSensorPosition(0);
 	}
 
 	public double getRightDriveRaw() {
-		return -rightMaster.getSelectedSensorPosition(0);
+		return rightMaster.getSelectedSensorPosition(0);
 	}
 
 	public double getLeftSpeed() {

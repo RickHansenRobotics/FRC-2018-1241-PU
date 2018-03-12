@@ -31,6 +31,7 @@ public class DriveMotionProfile extends Command {
     	rightDrive.reset();
     	Robot.drive.motionProfileMode();
     	Robot.drive.resetEncoders();
+    	setTimeout(10);
     }
 
     // Called repeatedly when this Command is scheduled to run
@@ -40,7 +41,7 @@ public class DriveMotionProfile extends Command {
     	
     	Robot.drive.runLeftDrive(leftDrive.getSetValue().value);
     	Robot.drive.runRightDrive(rightDrive.getSetValue().value);
-    	
+    	System.out.println("Motion profile value: " + rightDrive.getSetValue().value);
     	if(!hasStarted){
     		leftDrive.startMotionProfile();
     		rightDrive.startMotionProfile();
@@ -50,7 +51,7 @@ public class DriveMotionProfile extends Command {
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return leftDrive.getSetValue() == SetValueMotionProfile.Hold && rightDrive.getSetValue() == SetValueMotionProfile.Hold;
+        return false;
     }
 
     // Called once after isFinished returns true

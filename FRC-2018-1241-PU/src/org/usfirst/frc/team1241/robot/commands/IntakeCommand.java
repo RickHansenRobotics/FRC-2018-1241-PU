@@ -1,5 +1,6 @@
 package org.usfirst.frc.team1241.robot.commands;
 
+import org.usfirst.frc.team1241.robot.NumberConstants;
 import org.usfirst.frc.team1241.robot.Robot;
 import org.usfirst.frc.team1241.robot.subsystems.LEDstrips;
 import org.usfirst.frc.team1241.robot.utilities.ToggleBoolean;
@@ -29,16 +30,17 @@ public class IntakeCommand extends Command {
 	protected void execute() {
 
 		if (Robot.oi.getToolLeftBumper()) { //outtake
-			Robot.intake.outtake(Robot.outtakeSpeed);
-			/* if elevator height < exchange position
-			 * 	outtake @ 1
-			 * else if elevator height > exchange && < scale low position
-			 * 	outtake @ 0.75
-			 * else if elevator height > scale low && < scale high position
-			 * 	outtake @ 0.5
-			 */
+			if(Robot.elevator.getElevatorEncoder() >= NumberConstants.scaleMidPosition-3)
+				Robot.intake.outtake(Robot.intake.highOuttake);
+			else if(Robot.elevator.getElevatorEncoder() <= NumberConstants.exchangePosition+4)
+				Robot.intake.outtake(Robot.intake.regOuttake);
+			else
+				Robot.intake.outtake(Robot.intake.lowOuttake);
 		} else if (Robot.oi.getToolRightBumper()) { //intake
-			Robot.intake.intake(Robot.intakeSpeed);
+			Robot.intake.intake(Robot.intake.intakeSpeed);
+//			Robot.intake.intakeCurrent(NumberConstants.maxIntakeCurrent * Robot.intakeSpeed);
+		} else if (Robot.oi.getToolXButton()) {
+			Robot.intake.outtake(Robot.intake.slowOuttake);
 		} else {
 			Robot.intake.stop();
 		}

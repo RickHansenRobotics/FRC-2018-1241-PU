@@ -117,11 +117,11 @@ public class MotionProfileExample {
 		this.points = points;
 		this.numPoints = numPoints;
 		/*
-		 * since our MP is 50ms per point, set the control frame rate and the
+		 * since our MP is 10ms per point, set the control frame rate and the
 		 * notifer to half that
 		 */
-		_talon.changeMotionControlFramePeriod(25);
-		_notifer.startPeriodic(0.025);
+		_talon.changeMotionControlFramePeriod(5);
+		_notifer.startPeriodic(0.005);
 	}
 
 	/**
@@ -291,7 +291,7 @@ public class MotionProfileExample {
 		_talon.clearMotionProfileTrajectories();
 
 		/* set the base trajectory period to zero, use the individual trajectory period below */
-		_talon.configMotionProfileTrajectoryPeriod(0, 50);
+		_talon.configMotionProfileTrajectoryPeriod(0, 10);
 		
 		/* This is fast since it's just into our TOP buffer */
 		for (int i = 0; i < totalCnt; ++i) {

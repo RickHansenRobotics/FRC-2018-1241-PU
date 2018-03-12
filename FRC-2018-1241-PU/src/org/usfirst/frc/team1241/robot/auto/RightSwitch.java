@@ -33,7 +33,7 @@ public class RightSwitch extends CommandGroup {
         	addParallel(new SetIntakeSpeedCommand(true, 0.75, 2));
     		addParallel(new IntakePistonCommand(true));
     		addParallel(new ElevatorSetpoint(NumberConstants.switchPosition, NumberConstants.maxElevatorSpeed, 1, 3));
-    		addSequential(new DriveCommand(113, 1, 25,2));
+    		addSequential(new DriveCommand(119, 1, 22,2));
     		//addSequential(new DrivePath(new Point(0, 0), new Point(35, 32), new Point(40, 22), new Point(40, 100), 3, 0.6));
 
     		addSequential(new SetIntakeSpeedCommand(false, 0.7, 1));
@@ -43,8 +43,8 @@ public class RightSwitch extends CommandGroup {
     		addParallel(new IntakePistonCommand(true));
         	addParallel(new ElevatorSetpoint(NumberConstants.switchPosition, NumberConstants.maxElevatorSpeed, 1, 2));
         	
-        	//addSequential(new DriveCommand(113, 1, -25,2));
-        	addSequential(new DrivePath(new Point(0,0), new Point(10,40), new Point(18,117), new Point(-20,134), 2.5, 1));
+        	addSequential(new DriveCommand(140, 1, 0,2, 90, -55, 1));
+        	//addSequential(new DrivePath(new Point(0,0), new Point(10,40), new Point(18,117), new Point(-20,134), 2.5, 1));
             addSequential(new SetIntakeSpeedCommand(false, 0.65, 1));
     		addParallel(new IntakePistonCommand(true));
 
