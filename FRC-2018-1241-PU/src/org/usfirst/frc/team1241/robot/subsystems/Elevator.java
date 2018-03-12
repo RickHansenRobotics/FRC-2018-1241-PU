@@ -17,10 +17,6 @@ import edu.wpi.first.wpilibj.command.Subsystem;
  *
  */
 public class Elevator extends Subsystem {
-
-	public static final int INTAKING_POSITION = 1;
-	
-	int currentPosition;
 	
 	// Elevator Cim TalonSRX speed Controller
 	private WPI_TalonSRX elevator;
