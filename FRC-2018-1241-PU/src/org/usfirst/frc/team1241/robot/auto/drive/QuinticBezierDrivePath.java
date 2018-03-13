@@ -91,10 +91,8 @@ public class QuinticBezierDrivePath extends Command {
 		counter = 0;
 		setTimeout(timeOut);
 		Robot.drive.changeDriveGains(NumberConstants.pDrive, NumberConstants.iDrive, NumberConstants.dDrive);
-    	Robot.drive.changeGyroGains(NumberConstants.pGyro, 0, 0);
-    	//Robot.drive.changeDriveGains(Robot.pDrive, Robot.iDrive, Robot.dDrive);
-    	//Robot.drive.changeGyroGains(Robot.pGyro, Robot.iGyro, 0);
-    	Robot.drive.resetEncoders();
+    	Robot.drive.changeGyroGains(NumberConstants.pDriveGyro, NumberConstants.iDriveGyro, NumberConstants.dDriveGyro);
+		Robot.drive.resetEncoders();
 	}
 
 	// Give set distance for robot to travel, at each point change angle to

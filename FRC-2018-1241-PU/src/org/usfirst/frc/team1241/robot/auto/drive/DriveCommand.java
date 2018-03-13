@@ -3,6 +3,7 @@ package org.usfirst.frc.team1241.robot.auto.drive;
 import org.usfirst.frc.team1241.robot.NumberConstants;
 import org.usfirst.frc.team1241.robot.Robot;
 
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
 
 /** 
@@ -16,55 +17,71 @@ public class DriveCommand extends Command {
 	private double speed;
 	private double angle;
 	private double timeOut;
-	private double tolerance;
-	private boolean velocity;
-
+	private double turnDistance;
+	private double angleTwo;
+	private double speedTwo;
+	
+	Timer timer;
+	private boolean timerStarted = false;
 	public DriveCommand(double setPoint, double speed, double angle, double timeOut) {
-		this(setPoint, speed, angle, timeOut, 1, false);
+		this(setPoint, speed, angle, timeOut, setPoint, angle, speed);
 	}
 	
-	public DriveCommand(double setPoint, double speed, double angle, double timeOut, boolean velocity) {
-		this(setPoint, speed, angle, timeOut, 1, velocity);
-	}
 
-    public DriveCommand(double setPoint, double speed, double angle, double timeOut, double tolerance, boolean velocity) {
+    public DriveCommand(double setPoint, double speed, double angle, double timeOut, double turnDistance, double angleTwo, double speedTwo) {
     	this.distance = setPoint;
     	this.speed = speed;
     	this.angle = angle;
     	this.timeOut = timeOut;
-    	this.tolerance = tolerance;
-    	this.velocity = velocity;
+    	this.turnDistance = turnDistance;
+    	this.angleTwo = angleTwo;
+    	this.speedTwo = speedTwo;
     	requires(Robot.drive);
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
     	Robot.drive.changeDriveGains(NumberConstants.pDrive, NumberConstants.iDrive, NumberConstants.dDrive);
-    	Robot.drive.changeGyroGains(NumberConstants.pGyro, 0, 0);
+    	Robot.drive.changeGyroGains(NumberConstants.pDriveGyro, NumberConstants.iDriveGyro, NumberConstants.dDriveGyro);
     	//Robot.drive.changeDriveGains(Robot.pDrive, Robot.iDrive, Robot.dDrive);
     	//Robot.drive.changeGyroGains(Robot.pGyro, Robot.iGyro, 0);
     	Robot.drive.resetEncoders();
+    	timer = new Timer();
     	setTimeout(timeOut);
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
     	//Robot.drive.driveSetpoint(distance, speed, angle, tolerance);
-    	if(velocity){
-	    	// Speed must be in RPM
-	    	Robot.drive.driveVelocitySetpoint(distance, speed, angle, tolerance);
-    	}
+    	if(Robot.drive.getAverageDistance() > turnDistance)
+    		Robot.drive.driveSetpoint(distance, speedTwo, angleTwo, 1);
     	else
-    		Robot.drive.driveSetpoint(distance, speed, angle, tolerance);
+    		Robot.drive.driveSetpoint(distance, speed, angle, 1);
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-    	return isTimedOut();//Robot.drive.drivePIDDone() || isTimedOut();
+    	if(Math.abs(distance - Robot.drive.getAverageDistance()) <= 5){
+    		if(!timerStarted){
+    			timer.start();
+    			timerStarted = true;
+    		}
+    		System.out.println("Timer: " + timer.get());
+    		if(timer.get() > 0.25){
+    			System.out.println("GOT TO SETPOINT");
+    			return true;
+    		}
+    	}else{
+			timer.stop();
+			timer.reset();
+			timerStarted = false;
+		}
+    	return isTimedOut();
     }
 
     // Called once after isFinished returns true
     protected void end() {
+    	System.out.println("Setpoint: " + distance + " Current: " + Robot.drive.getAverageDistance());
     	Robot.drive.runLeftDrive(0);
     	Robot.drive.runRightDrive(0);
     	Robot.drive.resetPID();

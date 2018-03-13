@@ -85,7 +85,7 @@ public class Drivetrain extends Subsystem {
 
 		// Initialize PID controllers
 		drivePID = new PIDController(NumberConstants.pDrive, NumberConstants.iDrive, NumberConstants.dDrive);
-		gyroPID = new PIDController(NumberConstants.pGyro, NumberConstants.iGyro, NumberConstants.dGyro);
+		gyroPID = new PIDController(NumberConstants.pTurnGyro, NumberConstants.iTurnGyro, NumberConstants.dTurnGyro);
 
 		leftPID = new PIDController(NumberConstants.pDrive, NumberConstants.iDrive, NumberConstants.dDrive);
 		rightPID = new PIDController(NumberConstants.pDrive, NumberConstants.iDrive, NumberConstants.dDrive);

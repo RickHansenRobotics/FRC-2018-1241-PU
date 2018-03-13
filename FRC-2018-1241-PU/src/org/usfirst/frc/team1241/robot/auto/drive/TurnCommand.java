@@ -1,5 +1,6 @@
 package org.usfirst.frc.team1241.robot.auto.drive;
 
+import org.usfirst.frc.team1241.robot.NumberConstants;
 import org.usfirst.frc.team1241.robot.Robot;
 
 import edu.wpi.first.wpilibj.command.Command;
@@ -13,6 +14,7 @@ public class TurnCommand extends Command {
 	private double angle;
 	private double speed;
 	private double timeOut;
+	private double tolerance;
 
 	/**
 	 * Instantiates a new turn command.
@@ -24,28 +26,31 @@ public class TurnCommand extends Command {
 	 * @param timeOut
 	 *            The time out in seconds
 	 * @param tolerance
-	 *            How close to target is considered "reached"
+	 * 			  How close to target is considered "reached"
 	 */
 	public TurnCommand(double angle, double speed, double timeOut) {
 		this.angle = angle;
 		this.speed = speed;
 		this.timeOut = timeOut;
+		//this.tolerance = tolerance;
 		requires(Robot.drive);
 	}
-
-	public void changeAngle(double angle) {
+	
+	public void changeAngle(double angle){
 		this.angle = angle;
 	}
 
 	// Called just before this Command runs the first time
 	protected void initialize() {
-		Robot.drive.changeGyroGains(Robot.pGyro, Robot.iGyro, Robot.dGyro);
+		//Robot.drive.changeGyroGains(Robot.pGyro, Robot.iGyro, Robot.dGyro);
+
+		Robot.drive.changeGyroGains(NumberConstants.pTurnGyro, NumberConstants.iTurnGyro, NumberConstants.dTurnGyro);
 		setTimeout(timeOut);
 	}
 
 	// Called repeatedly when this Command is scheduled to run
 	protected void execute() {
-		Robot.drive.turnDrive(angle, speed, 1);
+		Robot.drive.turnDrive(angle, speed, 1.5);
 	}
 
 	// Command is finished when timed out

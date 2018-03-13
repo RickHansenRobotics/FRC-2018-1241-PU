@@ -15,9 +15,9 @@ public class NumberConstants {
     //*************************** PID VALUES (DRIVE) ***************************
     //**************************************************************************
 	
-	public static final double pDrive 									 = 0.007;
-	public static final double iDrive 									 = 0.0;
-	public static final double dDrive 									 = 0.06;
+	public static final double pDrive 									 = 0.007; //0.01
+	public static final double iDrive 									 = 0.0;  //0
+	public static final double dDrive 									 = 0.06; //0.15
 	
 	public static final double fTalonDrive 							 	= 0.25575;
 	public static final double pTalonDrive 							 	= 0.0;
@@ -34,18 +34,22 @@ public class NumberConstants {
     //**************************** PID VALUES (GYRO) ***************************
     //**************************************************************************
 	
-	public static final double pGyro 									 = 0.02;
-	public static final double iGyro 									 = 0.0;
-	public static final double dGyro 									 = 0.0;
+	public static final double pTurnGyro 									 = 0.02; //0.02
+	public static final double iTurnGyro 									 = 0.0; //0
+	public static final double dTurnGyro 									 = 0.0; //0.074
 	
+	public static final double pDriveGyro 									 = 0.02;
+	public static final double iDriveGyro 									 = 0.0;
+	public static final double dDriveGyro 									 = 0.075;
+
 	//**************************************************************************
     //************************ PID VALUES (ELEVATOR) ***************************
     //**************************************************************************
 	
 	public static final double fTalonElevator 							 = 0.4;//0.0058766;
-	public static final double pTalonElevator 							 = 0.4;
+	public static final double pTalonElevator 							 = 0.4; //0.225
 	public static final double iTalonElevator 							 = 0.00; 
-	public static final double dTalonElevator 							 = 0.0;
+	public static final double dTalonElevator 							 = 0.0; //0.00001
 	
 	public static final double pElevator 								 = 0.0;
 	public static final double iElevator 								 = 0.0; 
@@ -63,14 +67,14 @@ public class NumberConstants {
 	public static final int topHardStop 							      = 94;
 	
 	public static final double intakingPosition 						  = -1;
-	public static final double exchangePosition 			     		  = 2;
-	public static final double switchPosition   						  = 25;
+	public static final double exchangePosition 			     		  = 10.5; //2
+	public static final double switchPosition   						  = 28; //25
 	public static final double portalPosition 			    			  = 19;
 	public static final double scaleLowPosition 						  = 56;
 	public static final double scaleMidPosition 						  = 68;
 	public static final double scaleHighPosition 						  = 75;
-	public static final int maxElevatorSpeed                          = 2560; //2560
-	public static final int slowElevatorSpeed                          = 1700;
+	public static final int maxElevatorSpeed                          = 2560; //2700
+	public static final int slowElevatorSpeed                          = 1700; //2000
 
 	
 	//**************************************************************************

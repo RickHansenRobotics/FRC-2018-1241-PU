@@ -12,6 +12,7 @@ public class ElevatorCommand extends Command {
 
 	public static int scaleLevel;
 	public static boolean backupEngaged;
+	private boolean intaked = false;
 
 	public ElevatorCommand() {
 		// Use requires() here to declare subsystem dependencies
@@ -57,12 +58,17 @@ public class ElevatorCommand extends Command {
 			}
 			Robot.elevator.magicMotionSetpoint(NumberConstants.intakingPosition, NumberConstants.maxElevatorSpeed, 0.35);
 			backupEngaged = false;
+			intaked = true;
+		} else if (intaked){
+			Robot.elevator.magicMotionSetpoint(NumberConstants.exchangePosition, NumberConstants.maxElevatorSpeed, 0.35);
+			backupEngaged = false;
+			intaked = false;
 		}
 
-		/*if (Robot.oi.getToolBButton()) {
+		if (Robot.oi.getToolBButton()) {
 			Robot.elevator.magicMotionSetpoint(NumberConstants.portalPosition, NumberConstants.maxElevatorSpeed, 1);
 			backupEngaged = false;
-		}*/
+		}
 
 		if (Robot.oi.getToolXButton()) {
 			if(!Robot.intake.isExtended()){
