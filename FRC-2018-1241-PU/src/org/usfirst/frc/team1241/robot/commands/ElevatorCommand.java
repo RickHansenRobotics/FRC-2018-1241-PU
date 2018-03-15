@@ -56,27 +56,27 @@ public class ElevatorCommand extends Command {
 			if(!Robot.intake.isExtended()){
 				Robot.intake.extendIntakePistons();
 			}
-			Robot.elevator.magicMotionSetpoint(NumberConstants.intakingPosition, NumberConstants.maxElevatorSpeed, 0.35);
+			Robot.elevator.magicMotionSetpoint(NumberConstants.intakingPosition, NumberConstants.maxElevatorSpeed, 0.5);
 			backupEngaged = false;
 			intaked = true;
 		} else if (intaked){
-			Robot.elevator.magicMotionSetpoint(NumberConstants.exchangePosition, NumberConstants.maxElevatorSpeed, 0.35);
+			Robot.elevator.magicMotionSetpoint(NumberConstants.exchangePosition, NumberConstants.maxElevatorSpeed, 0.5);
 			backupEngaged = false;
 			intaked = false;
 		}
 
 		if (Robot.oi.getToolBButton()) {
-			Robot.elevator.magicMotionSetpoint(NumberConstants.portalPosition, NumberConstants.maxElevatorSpeed, 1);
+			Robot.elevator.magicMotionSetpoint(NumberConstants.portalPosition, NumberConstants.maxElevatorSpeed, 1.25);
 			backupEngaged = false;
 		}
 
-		if (Robot.oi.getToolXButton()) {
+		/*if (Robot.oi.getToolXButton()) {
 			if(!Robot.intake.isExtended()){
 				Robot.intake.extendIntakePistons();
 			}
 			Robot.elevator.magicMotionSetpoint(NumberConstants.exchangePosition, NumberConstants.maxElevatorSpeed, 0.35);
 			backupEngaged = false;
-		}
+		} OVERLAPPING WITH INTAKE*/
 
 		if (Robot.oi.getToolYButton()) {
 			if(!Robot.intake.isExtended()){

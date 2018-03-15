@@ -32,8 +32,16 @@ public class ClimberCommand extends Command {
 			Robot.climber.extendArmPiston();
 		}
 		
-		Robot.climber.runClimberArm(-Robot.oi.getToolLeftY());
+		Robot.climber.runClimberArm(-0.5*Robot.oi.getToolLeftY());
 		
+		
+		/*if (Robot.oi.getDriveAButton()) {
+			Robot.climber.extendPTOPiston();
+			//System.out.println("INSIDE Start");
+		} else if (Robot.oi.getDriveBButton()){
+			Robot.climber.retractPTOPiston();
+			//System.out.println("INSIDE Back");
+		}*/
 		
 	}
 
