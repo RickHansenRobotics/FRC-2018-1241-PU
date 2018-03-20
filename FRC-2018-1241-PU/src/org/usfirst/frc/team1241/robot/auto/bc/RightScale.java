@@ -41,7 +41,7 @@ public class RightScale extends CommandGroup {
 
 		} else if (position == 2) {
 			//Intake the cube while bringing the intake down
-			addParallel(new SetIntakeSpeedCommand(true, 0.75, 2));
+			addParallel(new SetIntakeSpeedCommand(true, 0.75, 2.5));
 			addParallel(new IntakePistonCommand(true));
 			//Bring the elevator to scale high position
 			addParallel(new ExecuteAfterDistance(EncoderWaitCommand.DRIVE, 34, 1.5,

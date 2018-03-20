@@ -23,7 +23,11 @@ public class LeftSwitch extends CommandGroup {
         	//Intake while bringing intake down and bringing elevator to switch position
         	addParallel(new SetIntakeSpeedCommand(true, 0.75, 2));
     		addParallel(new IntakePistonCommand(true));
-        	addParallel(new ElevatorSetpoint(NumberConstants.switchPosition, NumberConstants.maxElevatorSpeed, 1, 2));
+    		addParallel(new ExecuteAfterDistance(EncoderWaitCommand.DRIVE,
+					 30,1.5, new ElevatorSetpoint(NumberConstants.switchPosition,NumberConstants.maxElevatorSpeed,1, 3)));
+   		
+    		
+        	//addParallel(new ElevatorSetpoint(NumberConstants.switchPosition, NumberConstants.maxElevatorSpeed, 1, 2));
         	//Drive in parallel to the switch 
         	addSequential(new DriveCommand(140, 1, 0,2, 90, 55, 1));
         	//Outake the cube and keep intake down
@@ -34,9 +38,13 @@ public class LeftSwitch extends CommandGroup {
         	//Intake while bringing intake down and bringing elevator to switch position
         	addParallel(new SetIntakeSpeedCommand(true, 0.75, 2));
     		addParallel(new IntakePistonCommand(true));
-        	addParallel(new ElevatorSetpoint(NumberConstants.switchPosition, NumberConstants.maxElevatorSpeed, 1, 3));
+    		
+    		addParallel(new ExecuteAfterDistance(EncoderWaitCommand.DRIVE,
+					 30,1.5, new ElevatorSetpoint(NumberConstants.switchPosition,NumberConstants.maxElevatorSpeed,1, 3)));
+    		
+        	//addParallel(new ElevatorSetpoint(NumberConstants.switchPosition, NumberConstants.maxElevatorSpeed, 1, 3));
         	//Drive in parallel to the switch 
-        	addSequential(new DriveCommand(121, 1, -27.5,2));
+        	addSequential(new DriveCommand(121, 0.8, -27.5,2));
         	//Outake the cube and keep intake down
     		addParallel(new IntakePistonCommand(true));
             addSequential(new SetIntakeSpeedCommand(false, 0.7,1));

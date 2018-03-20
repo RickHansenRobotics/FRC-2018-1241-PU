@@ -23,8 +23,9 @@ import org.usfirst.frc.team1241.robot.subsystems.Elevator;
 import org.usfirst.frc.team1241.robot.subsystems.Intake;
 import org.usfirst.frc.team1241.robot.subsystems.LEDstrips;
 
+import edu.wpi.cscore.UsbCamera;
+import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj.PowerDistributionPanel;
 import edu.wpi.first.wpilibj.Preferences;
 import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.TimedRobot;
@@ -79,6 +80,8 @@ public class Robot extends TimedRobot {
 	public static int positionNum;
 	
 	public static int gameNum;
+	
+	CameraServer server;
 
 	SendableChooser<Integer> positionChooser;
 	SendableChooser<Integer> autoLRChooser;
@@ -112,11 +115,19 @@ public class Robot extends TimedRobot {
 		intake = new Intake();
 		climber = new Climber();
 		ledstrips = new LEDstrips();
+		server = CameraServer.getInstance();
+		UsbCamera camera = CameraServer.getInstance().startAutomaticCapture();
+		camera.setResolution(1080,720);
+		
+		
+		
 		positionChooser = new SendableChooser<Integer>();
 		autoLRChooser = new SendableChooser<Integer>();
 		autoRLChooser = new SendableChooser<Integer>();
 		autoLLChooser = new SendableChooser<Integer>();
 		autoRRChooser = new SendableChooser<Integer>();
+		
+		
 
 		positionChooser.addDefault("Left", 0);
 		positionChooser.addObject("Center", 1);
@@ -147,7 +158,8 @@ public class Robot extends TimedRobot {
 		autoRRChooser.addObject("Right Switch Right Scale", 3);
 		autoRRChooser.addObject("Right Double Scale", 4);
 		autoRRChooser.addObject("No Auton", 5);
-
+		
+		climber.retractPTOPiston();
 
 		updateSmartDashboard();
 
@@ -298,9 +310,8 @@ public class Robot extends TimedRobot {
 				break;
 			}
 		}
-
-
-		// schedule the autonomous command (example)
+		//m_autonomousCommand = new RightSwitchRightScale(2); 
+		
 		if (m_autonomousCommand != null) {
 			SmartDashboard.putString("Auto Chosen", autoRRNum + " " + m_autonomousCommand.getName());
 			m_autonomousCommand.start();

@@ -48,8 +48,8 @@ public class ElectricalConstants {
 	// ************************** CLIMBER PISTONS *******************************
 	// **************************************************************************
 	
-	public static final int PTO_PISTON_A = 6;
-	public static final int PTO_PISTON_B = 7;	
+	public static final int PTO_PISTON_A = 7;
+	public static final int PTO_PISTON_B = 6;	
 	
 	public static final int HANGER_PISTON_A = 2;
 	public static final int HANGER_PISTON_B = 3;	

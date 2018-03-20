@@ -36,10 +36,13 @@ public class LeftSwitchLeftScale extends CommandGroup {
 			addSequential(new leftNested());
 			//Intake while drving towards the switch to intake a cube
 			addParallel(new SetIntakeSpeedCommand(true, 1, 2.75));
-			addSequential(new DriveCommand(41, 1, 137, 3, 20, 137, 0.7));
+			addSequential(new DriveCommand(53, 1, 148, 3, 20, 148, 0.7));
 			//Bring elevator to switch position and druive forward to score
-			addParallel(new ElevatorSetpoint(NumberConstants.switchPosition+5, NumberConstants.maxElevatorSpeed, 0.35, 2));
-			addSequential(new ExecuteAfterDistance(EncoderWaitCommand.ELEVATOR, NumberConstants.switchPosition-15, 1.1, new DriveCommand(23, 1, 145, 1.3)));
+			addSequential(new DriveCommand(-14, 1, 148, 0.7));
+
+			
+			addParallel(new ElevatorSetpoint(NumberConstants.switchPosition+5, NumberConstants.maxElevatorSpeed, 0.35, 0.75));
+			addSequential(new ExecuteAfterDistance(EncoderWaitCommand.ELEVATOR, NumberConstants.switchPosition-15, 0.75, new DriveCommand(31, 1, 148, 0.75)));
 			addSequential(new SetIntakeSpeedCommand(false, 0.50, 3));
 			
 		} else if (position == 1) {
@@ -53,7 +56,7 @@ public class LeftSwitchLeftScale extends CommandGroup {
 					 100,1.5, new ElevatorSetpoint(NumberConstants.portalPosition,NumberConstants.maxElevatorSpeed,1, 2.5)));
 			//Drive towatrds left scale
 			addSequential(new DriveCommand(220, 1, 0, 2.5, 215, -90, 0.8));
-			addSequential (new DriveCommand (225, 1, -90, 2.7, 220, 10, 0.8));
+			addSequential (new DriveCommand (218, 1, -90, 2.7, 212, 10, 0.8));
 			//Bring elevator to scale high position while drive turning to scale
 			addParallel(new ElevatorSetpoint(NumberConstants.scaleHighPosition, NumberConstants.maxElevatorSpeed, 0.4, 2));
 			addSequential(new DriveCommand(45, 1, 10, 2));
@@ -77,7 +80,7 @@ public class LeftSwitchLeftScale extends CommandGroup {
 	private static class leftNested extends CommandGroup {
 		public leftNested() {
 			addSequential(new DriveCommand(-42, 1, 26, 1.5));
-			addSequential(new TurnCommand(137, 1, 1));
+			addSequential(new TurnCommand(148, 1, 1));
 		}
 	}
 	

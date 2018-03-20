@@ -22,7 +22,7 @@ public class LeftScale extends CommandGroup {
 	public LeftScale(int position) {
 		if (position == 0) {
 			//Bring intake down and intake
-			addParallel(new SetIntakeSpeedCommand(true, 0.75, 2));
+			addParallel(new SetIntakeSpeedCommand(true, 0.75, 2.5));
 			addParallel(new IntakePistonCommand(true));
 			//Bring the elevator to scale high position after 34 inches
 			addParallel(new ExecuteAfterDistance(EncoderWaitCommand.DRIVE, 34, 1.5,
