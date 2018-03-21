@@ -25,6 +25,8 @@ import org.usfirst.frc.team1241.robot.subsystems.Elevator;
 import org.usfirst.frc.team1241.robot.subsystems.Intake;
 import org.usfirst.frc.team1241.robot.subsystems.LEDstrips;
 
+import edu.wpi.cscore.UsbCamera;
+import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.PowerDistributionPanel;
 import edu.wpi.first.wpilibj.Preferences;
@@ -73,6 +75,7 @@ public class Robot extends TimedRobot {
 	public static double iLockElevator;
 	public static double dLockElevator;
 
+	CameraServer server;
 
 	Command m_autonomousCommand;
 
@@ -111,6 +114,10 @@ public class Robot extends TimedRobot {
 		intake = new Intake();
 		climber = new Climber();
 		ledstrips = new LEDstrips();
+		
+		server = CameraServer.getInstance();
+		UsbCamera camera = CameraServer.getInstance().startAutomaticCapture();
+		camera.setResolution(1080,720);
 
 
 		positionChooser = new SendableChooser<Integer>();
