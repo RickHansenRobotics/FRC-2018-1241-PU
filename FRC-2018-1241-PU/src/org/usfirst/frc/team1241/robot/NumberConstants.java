@@ -36,7 +36,7 @@ public class NumberConstants {
 	
 	public static final double pTurnGyro 									 = 0.02; //0.02
 	public static final double iTurnGyro 									 = 0.0; //0
-	public static final double dTurnGyro 									 = 0.09; //0.074
+	public static final double dTurnGyro 									 = 0.135; //0.074
 	
 	public static final double pDriveGyro 									 = 0.02;
 	public static final double iDriveGyro 									 = 0.0;

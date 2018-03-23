@@ -12,11 +12,18 @@ public class SetIntakeSpeedCommand extends Command {
 	private double timeout;
 	private double speed;
 	private boolean intake;
+	private boolean continueIntaking;
 	
-    public SetIntakeSpeedCommand(boolean intake, double speed, double timeout) {
+	public SetIntakeSpeedCommand(boolean intake, double speed, double timeout) {
+    	this(intake, speed, timeout, false);
+    	requires(Robot.intake);
+    }
+	
+    public SetIntakeSpeedCommand(boolean intake, double speed, double timeout, boolean continueIntaking) {
     	this.timeout = timeout;
     	this.speed = speed;
     	this.intake = intake;
+    	this.continueIntaking = continueIntaking;
     	requires(Robot.intake);
     }
 
@@ -40,12 +47,14 @@ public class SetIntakeSpeedCommand extends Command {
 
     // Called once after isFinished returns true
     protected void end() {
-    	Robot.intake.stop();
+    	if(!continueIntaking)
+    		Robot.intake.stop();
     }
 
     // Called when another command which requires one or more of the same
     // subsystems is scheduled to run
     protected void interrupted() {
-    	Robot.intake.stop();
+    	if(!continueIntaking)
+    		Robot.intake.stop();
     }
 }

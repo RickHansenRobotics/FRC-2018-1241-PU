@@ -61,7 +61,7 @@ public class DriveCommand extends Command {
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-    	if(Math.abs(distance - Robot.drive.getAverageDistance()) <= 5){
+    	if(Math.abs(distance - Robot.drive.getAverageDistance()) <= 2.5){
     		if(!timerStarted){
     			timer.start();
     			timerStarted = true;

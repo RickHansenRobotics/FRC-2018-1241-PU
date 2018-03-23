@@ -1,4 +1,4 @@
-package org.usfirst.frc.team1241.robot.auto;
+/*package org.usfirst.frc.team1241.robot.auto;
 
 import org.usfirst.frc.team1241.robot.NumberConstants;
 import org.usfirst.frc.team1241.robot.auto.drive.DriveCommand;
@@ -13,9 +13,9 @@ import org.usfirst.frc.team1241.robot.utilities.Point;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
-/**
+*//**
  *
- */
+ *//*
 public class LeftSwitchLeftScale extends CommandGroup {
 
 	public LeftSwitchLeftScale(int position) {
@@ -79,3 +79,4 @@ public class LeftSwitchLeftScale extends CommandGroup {
 		};
     }
 }
+*/

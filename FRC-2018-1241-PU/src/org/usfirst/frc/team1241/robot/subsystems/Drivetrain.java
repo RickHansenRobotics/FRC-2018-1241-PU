@@ -196,8 +196,19 @@ public class Drivetrain extends Subsystem {
 		double output = drivePID.calcPID(setPoint, getAverageDistance(), tolerance);
 		double angle = gyroPID.calcPID(setAngle, getYaw(), tolerance);
 		SmartDashboard.putNumber("PID OUTPUT", angle);
-		runLeftDrive((output + angle) * speed);
-		runRightDrive((-output + angle) * speed * 0.95);
+		double min = 0.15;
+		
+		if(output < min && output > 0){
+			runLeftDrive((min + angle) * speed);
+			runRightDrive((-min + angle) * speed * 0.95);
+		}else if(output > -min && output < 0){
+			runLeftDrive((-min + angle) * speed);
+			runRightDrive((min + angle) * speed * 0.95);
+		}
+		else{
+			runLeftDrive((output + angle) * speed);
+			runRightDrive((-output + angle) * speed * 0.95);
+		}
 	}
 
 	public void driveVelocitySetpoint(double setPoint, double speed, double setAngle, double tolerance) {

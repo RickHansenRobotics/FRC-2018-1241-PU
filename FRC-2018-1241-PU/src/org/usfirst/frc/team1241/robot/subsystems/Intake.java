@@ -8,6 +8,7 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
+import edu.wpi.first.wpilibj.Ultrasonic;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
 /**
@@ -18,6 +19,8 @@ public class Intake extends Subsystem {
 
 	WPI_TalonSRX leftWheel;
 	WPI_TalonSRX rightWheel;
+	
+	Ultrasonic ultrasonic; 
 
 	DoubleSolenoid piston;
 	DigitalInput optical;
@@ -39,7 +42,9 @@ public class Intake extends Subsystem {
 		piston = new DoubleSolenoid(ElectricalConstants.INTAKE_PISTON_A,
 				ElectricalConstants.INTAKE_PISTON_B);
 
-		optical = new DigitalInput(0);
+		optical = new DigitalInput(2);
+		ultrasonic = new Ultrasonic (ElectricalConstants.ULTRASONIC_TRIGGER, ElectricalConstants.ULTRASONIC_ECHO);
+		ultrasonic.setAutomaticMode(true);
 		
 		//current limit enable
 				leftWheel.enableCurrentLimit(true);
@@ -133,6 +138,11 @@ public class Intake extends Subsystem {
 	public boolean getOptic() {
 		return optical.get();
 	}
+	
+	 public double getUltrasonicRange() {
+	    	return ultrasonic.getRangeInches(); // reads the range on the ultrasonic sensor
+	    }
+
 
 	public boolean currentCubeIn() {
 		if (getAverageCurrent() > maxCurrentDraw) {

@@ -69,6 +69,12 @@ public class ElevatorCommand extends Command {
 			Robot.elevator.magicMotionSetpoint(NumberConstants.portalPosition, NumberConstants.maxElevatorSpeed, 1.25);
 			backupEngaged = false;
 		}
+		
+		/*if(Robot.oi.getToolLeftButton()){
+			Robot.elevator.resetEncoders();
+			Robot.elevator.runElevator(0);
+			backupEngaged = true;
+		}*/
 
 		/*if (Robot.oi.getToolXButton()) {
 			if(!Robot.intake.isExtended()){

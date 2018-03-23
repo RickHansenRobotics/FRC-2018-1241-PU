@@ -12,11 +12,14 @@ import org.usfirst.frc.team1241.robot.auto.bc.LeftScale;
 import org.usfirst.frc.team1241.robot.auto.bc.LeftScaleDouble;
 import org.usfirst.frc.team1241.robot.auto.bc.LeftSwitch;
 import org.usfirst.frc.team1241.robot.auto.bc.LeftSwitchLeftScale;
+import org.usfirst.frc.team1241.robot.auto.bc.LeftSwitchRightScale;
 import org.usfirst.frc.team1241.robot.auto.bc.NoAuto;
 import org.usfirst.frc.team1241.robot.auto.bc.RightScale;
 import org.usfirst.frc.team1241.robot.auto.bc.RightScaleDouble;
 import org.usfirst.frc.team1241.robot.auto.bc.RightSwitch;
 import org.usfirst.frc.team1241.robot.auto.bc.RightSwitchRightScale;
+import org.usfirst.frc.team1241.robot.auto.drive.TurnCommand;
+import org.usfirst.frc.team1241.robot.commands.ResetElevatorEncoder;
 import org.usfirst.frc.team1241.robot.subsystems.Climber;
 import org.usfirst.frc.team1241.robot.subsystems.Drivetrain;
 import org.usfirst.frc.team1241.robot.subsystems.Elevator;
@@ -117,7 +120,7 @@ public class Robot extends TimedRobot {
 		ledstrips = new LEDstrips();
 		server = CameraServer.getInstance();
 		UsbCamera camera = CameraServer.getInstance().startAutomaticCapture();
-		camera.setResolution(1080,720);
+		camera.setResolution(320,240);
 		
 		
 		
@@ -144,7 +147,8 @@ public class Robot extends TimedRobot {
 		autoLRChooser.addObject("Left Switch", 1);
 		autoLRChooser.addObject("Right Scale", 2);
 		autoLRChooser.addObject("Right Double Scale", 3);
-		autoLRChooser.addObject("No Auton", 4);
+		autoLRChooser.addObject("Left Switch Right Scale", 4);
+		autoLRChooser.addObject("No Auton", 5);
 
 		autoRLChooser.addDefault("BaseLine", 0);
 		autoRLChooser.addObject("Right Switch", 1);
@@ -160,6 +164,7 @@ public class Robot extends TimedRobot {
 		autoRRChooser.addObject("No Auton", 5);
 		
 		climber.retractPTOPiston();
+		//SmartDashboard.putData("Reset Elevator", new ResetElevatorEncoder());
 
 		updateSmartDashboard();
 
@@ -265,6 +270,9 @@ public class Robot extends TimedRobot {
 				m_autonomousCommand = (Command) new RightScaleDouble(positionNum);
 				break;
 			case 4:
+				m_autonomousCommand = (Command) new LeftSwitchRightScale(positionNum);
+				break;
+			case 5:
 				m_autonomousCommand = (Command) new NoAuto();
 				break;
 			}
@@ -310,7 +318,29 @@ public class Robot extends TimedRobot {
 				break;
 			}
 		}
-		//m_autonomousCommand = new RightSwitchRightScale(2); 
+		
+		/*switch(positionNum){
+			case 0:
+				m_autonomousCommand = new RightSwitchRightScale(positionNum);
+				break;
+			case 1:
+				if(gameData.charAt(0) == 'L'){
+					//m_autonomousCommand = new LeftSwitch(positionNum);
+					m_autonomousCommand = new LeftSwitch(positionNum);
+
+				} else if(gameData.charAt(0) == 'R'){
+					m_autonomousCommand = new RightSwitch(positionNum);
+				}
+				break;
+			case 2:
+				//m_autonomousCommand = new RightScaleDouble(positionNum);
+				//m_autonomousCommand = new RightSwitchRightScale(positionNum);
+				m_autonomousCommand = new LeftScaleDouble(positionNum);
+
+
+				break;
+		}*/
+		//m_autonomousCommand = new TurnCommand(145, 1, 2); 
 		
 		if (m_autonomousCommand != null) {
 			SmartDashboard.putString("Auto Chosen", autoRRNum + " " + m_autonomousCommand.getName());
@@ -344,6 +374,8 @@ public class Robot extends TimedRobot {
 	public void teleopPeriodic() {
 		Scheduler.getInstance().run();
 		updateSmartDashboard();
+		
+		
 	}
 
 	/**
@@ -366,6 +398,13 @@ public class Robot extends TimedRobot {
 			SmartDashboard.putNumber("Right Intake Current", intake.getLeftCurrent());
 			SmartDashboard.putNumber("Intake Current Difference", intake.getLeftCurrent() - intake.getRightCurrent());
 			SmartDashboard.putBoolean("Cube In", intake.currentCubeIn());
+			
+			/*SmartDashboard.putNumber("Intake Ultrasonic", intake.getUltrasonicRange());
+
+			if(SmartDashboard.getBoolean("Elevator Reset", false)){
+				elevator.resetEncoders();
+			}*/
+			
 			intake.intakeSpeed = pref.getDouble("Intake Speed", 0.76); //
 	 		intake.lowOuttake = pref.getDouble("lowOuttake", 1.0); //
 			intake.regOuttake = pref.getDouble("regOuttake", 0.75); //

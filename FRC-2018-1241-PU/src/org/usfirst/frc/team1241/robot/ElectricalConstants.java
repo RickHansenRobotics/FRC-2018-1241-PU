@@ -71,6 +71,9 @@ public class ElectricalConstants {
 		
 	public static final int LEFT_INTAKE_MOTOR = 4;
 	public static final int RIGHT_INTAKE_MOTOR = 5;
+	
+	public static final int ULTRASONIC_ECHO = 0;
+	public static final int ULTRASONIC_TRIGGER = 1;
 
 	// **************************************************************************
 	// **************************** LED PWM CONSTANTS ***************************
