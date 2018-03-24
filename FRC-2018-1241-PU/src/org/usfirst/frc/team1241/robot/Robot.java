@@ -11,12 +11,14 @@ import org.usfirst.frc.team1241.robot.auto.bc.CrossBaseline;
 import org.usfirst.frc.team1241.robot.auto.bc.LeftScale;
 import org.usfirst.frc.team1241.robot.auto.bc.LeftScaleDouble;
 import org.usfirst.frc.team1241.robot.auto.bc.LeftSwitch;
+import org.usfirst.frc.team1241.robot.auto.bc.LeftSwitchDouble;
 import org.usfirst.frc.team1241.robot.auto.bc.LeftSwitchLeftScale;
 import org.usfirst.frc.team1241.robot.auto.bc.LeftSwitchRightScale;
 import org.usfirst.frc.team1241.robot.auto.bc.NoAuto;
 import org.usfirst.frc.team1241.robot.auto.bc.RightScale;
 import org.usfirst.frc.team1241.robot.auto.bc.RightScaleDouble;
 import org.usfirst.frc.team1241.robot.auto.bc.RightSwitch;
+import org.usfirst.frc.team1241.robot.auto.bc.RightSwitchDouble;
 import org.usfirst.frc.team1241.robot.auto.bc.RightSwitchRightScale;
 import org.usfirst.frc.team1241.robot.auto.drive.TurnCommand;
 import org.usfirst.frc.team1241.robot.commands.ResetElevatorEncoder;
@@ -141,27 +143,31 @@ public class Robot extends TimedRobot {
 		autoLLChooser.addObject("Left Scale", 2);
 		autoLLChooser.addObject("Left Switch, Left Scale", 3);
 		autoLLChooser.addObject("Left Double Scale", 4);
-		autoLLChooser.addObject("No Auton", 5);
+		autoLLChooser.addObject("Left Switch Double", 5);
+		autoLLChooser.addObject("No Auton", 6);
 
 		autoLRChooser.addDefault("BaseLine", 0);
 		autoLRChooser.addObject("Left Switch", 1);
 		autoLRChooser.addObject("Right Scale", 2);
 		autoLRChooser.addObject("Right Double Scale", 3);
 		autoLRChooser.addObject("Left Switch Right Scale", 4);
-		autoLRChooser.addObject("No Auton", 5);
+		autoLRChooser.addObject("Left Switch Double", 5);
+		autoLRChooser.addObject("No Auton", 6);
 
 		autoRLChooser.addDefault("BaseLine", 0);
 		autoRLChooser.addObject("Right Switch", 1);
 		autoRLChooser.addObject("Left Scale", 2);
 		autoRLChooser.addObject("Left Double Scale", 3);
-		autoRLChooser.addObject("No Auton", 4);
+		autoRLChooser.addObject("Right Switch Double", 4);
+		autoRLChooser.addObject("No Auton", 5);
 
 		autoRRChooser.addDefault("BaseLine", 0);
 		autoRRChooser.addObject("Right Switch", 1);
 		autoRRChooser.addObject("Right Scale", 2);
 		autoRRChooser.addObject("Right Switch Right Scale", 3);
 		autoRRChooser.addObject("Right Double Scale", 4);
-		autoRRChooser.addObject("No Auton", 5);
+		autoRRChooser.addObject("Right Switch Double", 5);
+		autoRRChooser.addObject("No Auton", 6);
 		
 		climber.retractPTOPiston();
 		//SmartDashboard.putData("Reset Elevator", new ResetElevatorEncoder());
@@ -251,6 +257,9 @@ public class Robot extends TimedRobot {
 				m_autonomousCommand = (Command) new LeftScaleDouble(positionNum);
 				break;
 			case 5:
+				m_autonomousCommand = (Command) new LeftSwitchDouble(positionNum);
+				break;
+			case 6:
 				m_autonomousCommand = (Command) new NoAuto();
 				break;
 			}
@@ -273,6 +282,9 @@ public class Robot extends TimedRobot {
 				m_autonomousCommand = (Command) new LeftSwitchRightScale(positionNum);
 				break;
 			case 5:
+				m_autonomousCommand = (Command) new LeftSwitchDouble(positionNum);
+				break;
+			case 6:
 				m_autonomousCommand = (Command) new NoAuto();
 				break;
 			}
@@ -292,6 +304,9 @@ public class Robot extends TimedRobot {
 				m_autonomousCommand = (Command) new LeftScaleDouble(positionNum);
 				break;
 			case 4:
+				m_autonomousCommand = (Command) new RightSwitchDouble(positionNum);
+				break;
+			case 5:
 				m_autonomousCommand = (Command) new NoAuto();
 				break;
 			}
@@ -314,6 +329,9 @@ public class Robot extends TimedRobot {
 				m_autonomousCommand = (Command) new RightScaleDouble(positionNum);
 				break;
 			case 5:
+				m_autonomousCommand = (Command) new RightSwitchDouble(positionNum);
+				break;
+			case 6:
 				m_autonomousCommand = (Command) new NoAuto();
 				break;
 			}
