@@ -66,7 +66,7 @@ public class DriveCommand extends Command {
     			timer.start();
     			timerStarted = true;
     		}
-    		System.out.println("Timer: " + timer.get());
+    		//System.out.println("Timer: " + timer.get());
     		if(timer.get() > 0.25){
     			System.out.println("GOT TO SETPOINT");
     			return true;

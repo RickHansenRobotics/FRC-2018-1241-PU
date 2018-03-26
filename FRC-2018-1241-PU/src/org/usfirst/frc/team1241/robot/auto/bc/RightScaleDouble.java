@@ -37,11 +37,11 @@ public class RightScaleDouble extends CommandGroup {
 			addSequential(new rightNested());
 			//Intake while drving towards the switch to pick up cube
 			addParallel(new SetIntakeSpeedCommand(true, 1, 3));
-			addSequential(new DriveCommand(39, 1, -135, 2, 20, -135, 0.6));
+			addSequential(new DriveCommand(39, 1, -138, 2.5, 20, -138, 0.6));
 			//Drive back from switch
 			//addParallel(new ElevatorSetpoint(NumberConstants.switchPosition, NumberConstants.slowElevatorSpeed, 1, 2));
-			addParallel(new SetIntakeSpeedCommand(true, 1, 1, true));
-			addSequential(new DriveCommand(-41, 1, -135, 1.2));
+			addParallel(new SetIntakeSpeedCommand(true, 0.75, 1, true));
+			addSequential(new DriveCommand(-41, 1, -138, 1.2));
 			//Drive to towards scale
 			addParallel(new SetIntakeSpeedCommand(true, 0.25, 1, true));
 			addSequential(new leftScore());
@@ -93,16 +93,16 @@ public class RightScaleDouble extends CommandGroup {
      private static class leftScore extends CommandGroup {
  		public leftScore() {
  			addParallel(new TurnCommand(-35, 1, 1));
- 			addSequential(new ElevatorSetpoint(NumberConstants.scaleHighPosition, NumberConstants.maxElevatorSpeed, 0.35, 2.5));
+ 			addSequential(new ElevatorSetpoint(NumberConstants.scaleMidPosition+3, NumberConstants.maxElevatorSpeed, 0.35, 2.5));
 			addSequential(new DriveCommand(45, 1, -35, 1.5));
  		}
  	}
      
      private static class rightScore extends CommandGroup {
   		public rightScore() {
-  			addParallel(new TurnCommand(-25, 1, 1));
-  			addSequential(new ElevatorSetpoint(NumberConstants.scaleMidPosition, NumberConstants.maxElevatorSpeed, 0.35, 2.5));
- 			addSequential(new DriveCommand(42, 1, -25, 1.5));
+  			addParallel(new TurnCommand(-30, 1, 1));
+  			addSequential(new ElevatorSetpoint(NumberConstants.scaleMidPosition+3, NumberConstants.maxElevatorSpeed, 0.35, 2.5));
+ 			addSequential(new DriveCommand(45, 1, -30, 1.5));
   		}
   	}
 }

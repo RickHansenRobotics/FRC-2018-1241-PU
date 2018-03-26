@@ -61,6 +61,7 @@ public class TurnCommand extends Command {
 	// Called once after isFinished returns true, once done will stop robot from
 	// moving.
 	protected void end() {
+		System.out.println("Current: " + Robot.drive.getYaw() + "Setpoint: " + this.angle);
 		Robot.drive.runLeftDrive(0);
 		Robot.drive.runRightDrive(0);
 		Robot.drive.resetPID();
