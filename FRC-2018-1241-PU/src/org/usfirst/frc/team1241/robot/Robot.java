@@ -31,6 +31,7 @@ import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.PowerDistributionPanel;
 import edu.wpi.first.wpilibj.Preferences;
 import edu.wpi.first.wpilibj.RobotController;
+import edu.wpi.first.wpilibj.Sendable;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
@@ -95,6 +96,8 @@ public class Robot extends TimedRobot {
 
 	String clipboard = "Match Strategy";
 
+//	Sendable elevatorReset;	
+
 	// GET RID*********************************************************
 	double maxElevatorSpeed = 0;
 	double maxLeftDriveSpeed = 0;
@@ -115,9 +118,9 @@ public class Robot extends TimedRobot {
 		climber = new Climber();
 		ledstrips = new LEDstrips();
 		
-		server = CameraServer.getInstance();
+		/*server = CameraServer.getInstance();
 		UsbCamera camera = CameraServer.getInstance().startAutomaticCapture();
-		camera.setResolution(1080,720);
+		camera.setResolution(1080,720);*/
 
 
 		positionChooser = new SendableChooser<Integer>();
@@ -151,7 +154,6 @@ public class Robot extends TimedRobot {
 		autoRRChooser.addObject("Right Scale", 2);
 		autoRRChooser.addObject("Right Switch Right Scale", 3);
 		autoRRChooser.addObject("No Auton", 4);
-
 
 		updateSmartDashboard();
 
@@ -405,6 +407,10 @@ public class Robot extends TimedRobot {
 		intake.maxCurrentDuration = pref.getInt("Max Current Duration", 1000);
 		intake.continuousCurrentLimit = pref.getInt("Continuous Current Limit", 18);
 		clipboard = pref.getString("Match Strategy", "Defeat the Boss!");
-
+		
+		/*if(elevatorReset) {
+			elevator.resetEncoders();
+		}
+		SmartDashboard.putData(elevatorReset);*/
 	}
 }
