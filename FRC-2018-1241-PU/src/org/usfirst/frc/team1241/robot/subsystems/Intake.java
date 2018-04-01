@@ -42,9 +42,9 @@ public class Intake extends Subsystem {
 		piston = new DoubleSolenoid(ElectricalConstants.INTAKE_PISTON_A,
 				ElectricalConstants.INTAKE_PISTON_B);
 
-		optical = new DigitalInput(2);
-		ultrasonic = new Ultrasonic (ElectricalConstants.ULTRASONIC_TRIGGER, ElectricalConstants.ULTRASONIC_ECHO);
-		ultrasonic.setAutomaticMode(true);
+		optical = new DigitalInput(0);
+		//ultrasonic = new Ultrasonic (ElectricalConstants.ULTRASONIC_TRIGGER, ElectricalConstants.ULTRASONIC_ECHO);
+		//ultrasonic.setAutomaticMode(true);
 		
 		//current limit enable
 				leftWheel.enableCurrentLimit(true);
@@ -66,8 +66,8 @@ public class Intake extends Subsystem {
 	}
 
 	public void intake(double power) {
-		leftWheel.set(-power);
-		rightWheel.set(power);
+		leftWheel.set(power);
+		rightWheel.set(-power);
 	}
 	public void intakeCurrent(double amps) {
 		leftWheel.set(ControlMode.Current, -amps);
@@ -82,8 +82,8 @@ public class Intake extends Subsystem {
 
 	public void outtake(double power) {
 
-		leftWheel.set(power);
-		rightWheel.set(-power);
+		leftWheel.set(-power);
+		rightWheel.set(power);
 	}
 
 	public void stop() {

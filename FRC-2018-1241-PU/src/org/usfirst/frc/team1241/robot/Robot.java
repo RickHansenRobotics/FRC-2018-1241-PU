@@ -122,9 +122,7 @@ public class Robot extends TimedRobot {
 		ledstrips = new LEDstrips();
 		server = CameraServer.getInstance();
 		UsbCamera camera = CameraServer.getInstance().startAutomaticCapture();
-		camera.setResolution(320,240);
-		
-		
+		camera.setResolution(160,120); //320x240		
 		
 		positionChooser = new SendableChooser<Integer>();
 		autoLRChooser = new SendableChooser<Integer>();

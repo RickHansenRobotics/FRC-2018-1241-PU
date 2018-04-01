@@ -20,5 +20,6 @@
 	<classpathentry kind="var" path="USERLIBS_DIR/poi-scratchpad-3.17.jar"/>
 	<classpathentry kind="var" path="USERLIBS_DIR/RIOdroid.jar"/>
 	<classpathentry kind="var" path="USERLIBS_DIR/xmlbeans-2.6.0.jar"/>
+	<classpathentry kind="var" path="USERLIBS_DIR/Pathfinder-Java-1.8.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

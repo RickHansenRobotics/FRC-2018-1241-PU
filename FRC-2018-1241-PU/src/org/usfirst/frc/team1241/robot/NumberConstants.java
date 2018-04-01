@@ -72,7 +72,7 @@ public class NumberConstants {
 	public static final double portalPosition 			    			  = 20;
 	public static final double scaleLowPosition 						  = 58;
 	public static final double scaleMidPosition 						  = 70;
-	public static final double scaleHighPosition 						  = 77;
+	public static final double scaleHighPosition 						  = 79;
 	public static final int maxElevatorSpeed                       =2750; //2700
 	public static final int slowElevatorSpeed                          = 2000; //2000
 

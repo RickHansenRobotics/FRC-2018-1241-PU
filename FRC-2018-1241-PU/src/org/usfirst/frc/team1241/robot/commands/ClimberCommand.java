@@ -24,7 +24,7 @@ public class ClimberCommand extends Command {
 	// Called repeatedly when this Command is scheduled to run
 	protected void execute() {
 
-		toggle.set(Robot.oi.getToolLeftTrigger());
+		toggle.set(Robot.oi.getToolRightTrigger());
 		
 		if(toggle.get()){
 			Robot.climber.retractArmPiston();
