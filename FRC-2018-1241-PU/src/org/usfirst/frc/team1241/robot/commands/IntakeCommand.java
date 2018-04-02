@@ -2,10 +2,10 @@ package org.usfirst.frc.team1241.robot.commands;
 
 import org.usfirst.frc.team1241.robot.NumberConstants;
 import org.usfirst.frc.team1241.robot.Robot;
-import org.usfirst.frc.team1241.robot.subsystems.LEDstrips;
 import org.usfirst.frc.team1241.robot.utilities.ToggleBoolean;
 
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
@@ -15,6 +15,9 @@ import edu.wpi.first.wpilibj.command.Command;
 public class IntakeCommand extends Command {
 
 	ToggleBoolean toggle = new ToggleBoolean();
+	Timer timer;
+	private boolean started = false;
+
 
 	public IntakeCommand() {
 		requires(Robot.intake);
@@ -22,6 +25,7 @@ public class IntakeCommand extends Command {
 
 	// Called just before this Command runs the first time
 	protected void initialize() {
+		timer = new Timer();
 	}
 
 	// Called repeatedly when this Command is scheduled to run
@@ -36,6 +40,25 @@ public class IntakeCommand extends Command {
 			 */
 
 			/// From PracticeBot for BC
+			if(!Robot.intake.getOptic() && started == false) {
+	    		timer.start();
+	    		started = true;
+	    	}
+			
+			if(!Robot.intake.getOptic() && timer.get()>0.25) {
+	    		timer.reset();
+	    		timer.stop();
+	    		Robot.intake.setContains(true);
+	    		Robot.intake.stop();
+	    	}
+			if(Robot.intake.getOptic()) {
+	    		started = false;
+	    		timer.reset();
+	    		timer.stop();
+	    		Robot.intake.setContains(false);
+	    	}
+			
+			
 			if (Robot.oi.getToolLeftBumper()) { // outtake
 				if (Robot.elevator.getElevatorEncoder() >= NumberConstants.scaleMidPosition - 3)
 					Robot.intake.outtake(Robot.intake.highOuttake);
@@ -43,7 +66,8 @@ public class IntakeCommand extends Command {
 					Robot.intake.outtake(Robot.intake.regOuttake);
 				else
 					Robot.intake.outtake(Robot.intake.lowOuttake);
-			} else if (Robot.oi.getToolRightBumper()) { // intake
+				//If yu want to be shortt, you can have the below as a && (B or C) Rference text document pn desktop if still there 
+			} else if ((Robot.oi.getToolRightBumper() && !Robot.intake.getContains()) || (Robot.oi.getToolRightBumper() && !Robot.autoIntake)) { // intake
 				Robot.intake.intake(Robot.intake.intakeSpeed);
 				// Robot.intake.intakeCurrent(NumberConstants.maxIntakeCurrent *
 				// Robot.intakeSpeed);

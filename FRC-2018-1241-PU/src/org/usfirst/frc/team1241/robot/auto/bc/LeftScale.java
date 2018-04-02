@@ -25,8 +25,8 @@ public class LeftScale extends CommandGroup {
 			addParallel(new SetIntakeSpeedCommand(true, 0.75, 2.5));
 			addParallel(new IntakePistonCommand(true));
 			//Bring the elevator to scale high position after 34 inches
-			addParallel(new ExecuteAfterDistance(EncoderWaitCommand.DRIVE, 34, 1.5,
-					new ElevatorSetpoint(NumberConstants.scaleHighPosition, NumberConstants.maxElevatorSpeed, 1, 2.5)));
+			addParallel(new ExecuteAfterDistance(EncoderWaitCommand.DRIVE, 100, 1.5,
+					new ElevatorSetpoint(NumberConstants.scaleHighPosition, NumberConstants.maxElevatorSpeed, 0.5, 2.5)));
 			//Drive to scale, turning to 25 degrees after 195 inches
 			addSequential(new DriveCommand(263, 1, 0, 4, 195, 25, 0.7));
 			//Outake Cube and keep intake down

@@ -10,6 +10,7 @@ package org.usfirst.frc.team1241.robot;
 import org.usfirst.frc.team1241.robot.auto.bc.CrossBaseline;
 import org.usfirst.frc.team1241.robot.auto.bc.LeftScale;
 import org.usfirst.frc.team1241.robot.auto.bc.LeftScaleDouble;
+import org.usfirst.frc.team1241.robot.auto.bc.LeftScaleTriple;
 import org.usfirst.frc.team1241.robot.auto.bc.LeftSwitch;
 import org.usfirst.frc.team1241.robot.auto.bc.LeftSwitchDouble;
 import org.usfirst.frc.team1241.robot.auto.bc.LeftSwitchLeftScale;
@@ -27,6 +28,7 @@ import org.usfirst.frc.team1241.robot.subsystems.Drivetrain;
 import org.usfirst.frc.team1241.robot.subsystems.Elevator;
 import org.usfirst.frc.team1241.robot.subsystems.Intake;
 import org.usfirst.frc.team1241.robot.subsystems.LEDstrips;
+import org.usfirst.frc.team1241.robot.utilities.Logger;
 
 import edu.wpi.cscore.UsbCamera;
 import edu.wpi.first.wpilibj.CameraServer;
@@ -54,6 +56,7 @@ public class Robot extends TimedRobot {
 	public static Elevator elevator;
 	public static Climber climber;
 	public static LEDstrips ledstrips;
+	public static Logger logger;
 
 	Preferences pref;
 
@@ -63,6 +66,8 @@ public class Robot extends TimedRobot {
 	public static double pGyro;
 	public static double iGyro;
 	public static double dGyro;
+	
+	public static boolean autoIntake = true;
 
 	public static double fTalonElevator;
 	public static double pTalonElevator;
@@ -124,6 +129,9 @@ public class Robot extends TimedRobot {
 		UsbCamera camera = CameraServer.getInstance().startAutomaticCapture();
 		camera.setResolution(160,120); //320x240		
 		
+		logger = Logger.getInstance();
+		logger.openFile("Robot Init");
+		
 		positionChooser = new SendableChooser<Integer>();
 		autoLRChooser = new SendableChooser<Integer>();
 		autoRLChooser = new SendableChooser<Integer>();
@@ -142,7 +150,8 @@ public class Robot extends TimedRobot {
 		autoLLChooser.addObject("Left Switch, Left Scale", 3);
 		autoLLChooser.addObject("Left Double Scale", 4);
 		autoLLChooser.addObject("Left Switch Double", 5);
-		autoLLChooser.addObject("No Auton", 6);
+		autoLLChooser.addObject("Left Scale Triple", 6);
+		autoLLChooser.addObject("No Auton", 7);
 
 		autoLRChooser.addDefault("BaseLine", 0);
 		autoLRChooser.addObject("Left Switch", 1);
@@ -157,7 +166,8 @@ public class Robot extends TimedRobot {
 		autoRLChooser.addObject("Left Scale", 2);
 		autoRLChooser.addObject("Left Double Scale", 3);
 		autoRLChooser.addObject("Right Switch Double", 4);
-		autoRLChooser.addObject("No Auton", 5);
+		autoRLChooser.addObject("Left Scale Triple", 5);
+		autoRLChooser.addObject("No Auton", 6);
 
 		autoRRChooser.addDefault("BaseLine", 0);
 		autoRRChooser.addObject("Right Switch", 1);
@@ -183,6 +193,7 @@ public class Robot extends TimedRobot {
 	@Override
 	public void disabledInit() {
 		LEDstrips.disabled();
+		logger.close();
 	}
 
 	@Override
@@ -216,7 +227,8 @@ public class Robot extends TimedRobot {
 	public void autonomousInit() {
 		drive.reset();
 		elevator.resetEncoders();
-		intake.extendIntakePistons();
+		intake.retractIntakePistons();
+		logger.openFile("Auton Mode");
 
 
 		LEDstrips.solidGold();
@@ -258,6 +270,9 @@ public class Robot extends TimedRobot {
 				m_autonomousCommand = (Command) new LeftSwitchDouble(positionNum);
 				break;
 			case 6:
+				m_autonomousCommand = (Command) new LeftScaleTriple(positionNum);
+				break;
+			case 7:
 				m_autonomousCommand = (Command) new NoAuto();
 				break;
 			}
@@ -305,6 +320,9 @@ public class Robot extends TimedRobot {
 				m_autonomousCommand = (Command) new RightSwitchDouble(positionNum);
 				break;
 			case 5:
+				m_autonomousCommand = (Command) new LeftScaleTriple(positionNum);
+				break;
+			case 6:
 				m_autonomousCommand = (Command) new NoAuto();
 				break;
 			}
@@ -359,7 +377,7 @@ public class Robot extends TimedRobot {
 		//m_autonomousCommand = new TurnCommand(145, 1, 2); 
 		
 		if (m_autonomousCommand != null) {
-			SmartDashboard.putString("Auto Chosen", autoRRNum + " " + m_autonomousCommand.getName());
+			logger.logd("AUTO SELECTED", m_autonomousCommand.getName());
 			m_autonomousCommand.start();
 		}
 	}
@@ -375,6 +393,8 @@ public class Robot extends TimedRobot {
 
 	@Override
 	public void teleopInit() {
+		logger.openFile("Teleop Mode");
+
 		pref = Preferences.getInstance();
 		LEDstrips.solidGreen();
 		intake.extendIntakePistons();
@@ -404,16 +424,16 @@ public class Robot extends TimedRobot {
 	public void updateSmartDashboard() {
 		
 		// AUTO
-			SmartDashboard.putData("Left Left Chooser", autoLLChooser);
-			SmartDashboard.putData("Left Right Chooser", autoLRChooser);
-			SmartDashboard.putData("Right Left Chooser", autoRLChooser);
-			SmartDashboard.putData("Right Right Chooser", autoRRChooser);
-			SmartDashboard.putData("Position Chooser", positionChooser);
+			SmartDashboard.putData("Left Left chooser", autoLLChooser);
+			SmartDashboard.putData("Left Right chooser", autoLRChooser);
+			SmartDashboard.putData("Right Left chooser", autoRLChooser);
+			SmartDashboard.putData("Right Right chooser", autoRRChooser);
+			SmartDashboard.putData("Position chooser", positionChooser);
 		// INTAKE
 			SmartDashboard.putNumber("Left Intake Current", intake.getLeftCurrent());
 			SmartDashboard.putNumber("Right Intake Current", intake.getLeftCurrent());
 			SmartDashboard.putNumber("Intake Current Difference", intake.getLeftCurrent() - intake.getRightCurrent());
-			SmartDashboard.putBoolean("Cube In", intake.currentCubeIn());
+			SmartDashboard.putBoolean("Cube In", intake.getOptic());
 			
 			/*SmartDashboard.putNumber("Intake Ultrasonic", intake.getUltrasonicRange());
 
@@ -429,6 +449,7 @@ public class Robot extends TimedRobot {
 			intake.maxCurrentDraw = pref.getInt("Max Current Draw", 27);
 			intake.maxCurrentDuration = pref.getInt("Max Current Duration", 1000);
 			intake.continuousCurrentLimit = pref.getInt("Continuous Current Limit", 18);
+			autoIntake = pref.getBoolean("autoIntake", true);
 
 			
 		// DRIVE

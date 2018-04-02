@@ -24,6 +24,7 @@ public class Intake extends Subsystem {
 
 	DoubleSolenoid piston;
 	DigitalInput optical;
+	private boolean holdState = false;
 	private boolean contains = false;
 	private boolean extended = false;
 	
@@ -133,6 +134,10 @@ public class Intake extends Subsystem {
 
 	public boolean getContains() {
 		return contains;
+	}
+	
+	public boolean getHoldState() {
+		return holdState;
 	}
 
 	public boolean getOptic() {

@@ -18,7 +18,26 @@ public class RightSwitchDouble extends CommandGroup {
 
     public RightSwitchDouble(int position) {
     	if (position == 0) {
+    		addParallel(new IntakePistonCommand(false));
+			addParallel(new SetIntakeSpeedCommand(true, 0.75, 1));
+			//addSequential (new DriveCommand (70, 0.8, 20, 2.75, 60, 90, 0.8));
+			addSequential (new DriveCommand (60, 1, 0, 2.75));
+			addSequential(new TurnCommand(90, 0.75, 2, 3));
+			addSequential (new DriveCommand (175, 1, 90, 2.75));
+			addSequential(new TurnCommand(0, 0.75, 2, 3));
+			addParallel(new ElevatorSetpoint(NumberConstants.switchPosition, NumberConstants.maxElevatorSpeed, 1, 2));
+			addSequential (new DriveCommand (50, 1, 0, 2.75));
+			addSequential(new SetIntakeSpeedCommand(false, 0.75, 1));
 			
+			addSequential (new DriveCommand (-100, 1, 30, 2.75));
+			addParallel(new ElevatorSetpoint(NumberConstants.intakingPosition, NumberConstants.maxElevatorSpeed, 1, 2));
+			addSequential(new TurnCommand(-12, 1, 2, 1.5));
+			addParallel (new DriveCommand (49, 1, -12, 2.75));
+			addSequential(new SetIntakeSpeedCommand(true, 1, 2));
+			addParallel (new DriveCommand (-20, 0.8, -12, 2.75));
+
+
+
 			
 		} else if (position == 1) {
 			addParallel(new SetIntakeSpeedCommand(true, 0.75, 2));
