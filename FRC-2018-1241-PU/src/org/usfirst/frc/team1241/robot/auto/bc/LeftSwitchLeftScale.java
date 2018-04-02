@@ -48,30 +48,29 @@ public class LeftSwitchLeftScale extends CommandGroup {
 			
 		} else if (position == 1) {
 			
-			addParallel(new SetIntakeSpeedCommand(true, 0.75, 2));
-    		addParallel(new IntakePistonCommand(true));
-    		
-    		addParallel(new ExecuteAfterDistance(EncoderWaitCommand.DRIVE,
-					 30,1.5, new ElevatorSetpoint(NumberConstants.switchPosition,NumberConstants.maxElevatorSpeed,1, 3)));
-    		
-        	addSequential(new DriveCommand(121, 0.8, -27.5,2));
-            addSequential(new SetIntakeSpeedCommand(false, 0.7,1));
+		addParallel(new SetIntakeSpeedCommand(true, 0.75, 2));
+     		 addParallel(new IntakePistonCommand(true));
+      
+      		addParallel(new ExecuteAfterDistance(EncoderWaitCommand.DRIVE,
+      		30,1.5, new ElevatorSetpoint(NumberConstants.switchPosition,NumberConstants.maxElevatorSpeed,1, 3)));
+       
+           	 addSequential(new DriveCommand(121, 0.8, -27.5,2));
+            	addSequential(new SetIntakeSpeedCommand(false, 0.7,1));
+              
+            	addSequential (new DriveCommand (-100, 1, -27.5, 2));
             
+            	addParallel (new TurnCommand(0, 1, 1));
+            	addSequential(new ElevatorSetpoint(NumberConstants.intakingPosition, NumberConstants.maxElevatorSpeed, 1, 3));
+            	addParallel(new SetIntakeSpeedCommand(true, 1, 2, false, true));
+            	addSequential(new DriveCommand(53, 1, 0, 2, 20, 0, 0.6));
             
-            addSequential (new DriveCommand (-100, 1, -27.5, 2));
-            
-            addParallel (new TurnCommand(0, 1, 1));
-            addSequential(new ElevatorSetpoint(NumberConstants.intakingPosition, NumberConstants.maxElevatorSpeed, 1, 3));
-            addParallel(new SetIntakeSpeedCommand(true, 1, 2));
-			addSequential(new DriveCommand(53, 1, 0, 2, 20, 0, 0.6));
-            
-           
-            
-            addSequential (new DriveCommand(-50, 0.7, 0, 1.5));
-            addParallel (new TurnCommand(-27.5, 1, 0.5));
-            addSequential(new ElevatorSetpoint(NumberConstants.switchPosition, NumberConstants.maxElevatorSpeed, 1, 3));
-            addSequential (new DriveCommand (100, 1, -27.5, 2));
-            addSequential(new SetIntakeSpeedCommand(false, 0.4,1));
+            	addSequential (new DriveCommand(-50, 0.7, 0, 1.5));
+           	 addParallel(new ExecuteAfterDistance(EncoderWaitCommand.DRIVE,
+      		100 ,1.5, new ElevatorSetpoint(NumberConstants.switchPosition,NumberConstants.maxElevatorSpeed,1, 3)));
+            	//To get to side of switch
+            	addSequential(new DriveCommand(170, 0.8, -50, 4, 150, 0, 0.8));
+            	//Below add another EAD LIKE ABOVE TO GET TO SCALE
+            	//addSequential(new DriveCommand(170, 0.8, -50, 2, 150, 0, 0.8));
 
 		} else if (position == 2) {
 			//Intake Cube while brigning intake down
