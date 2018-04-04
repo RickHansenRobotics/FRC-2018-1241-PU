@@ -50,13 +50,20 @@ public class LeftSwitchDouble extends CommandGroup {
             addParallel(new SetIntakeSpeedCommand(true, 1, 2));
 			addSequential(new DriveCommand(53, 1, 0, 2, 20, 0, 0.6));
             
-           
-            
             addSequential (new DriveCommand(-50, 0.7, 0, 1.5));
             addParallel (new TurnCommand(-27.5, 1, 0.5));
             addSequential(new ElevatorSetpoint(NumberConstants.switchPosition, NumberConstants.maxElevatorSpeed, 1, 3));
             addSequential (new DriveCommand (100, 1, -27.5, 2));
             addSequential(new SetIntakeSpeedCommand(false, 0.4,1));
+            ///////////////////////////////
+            addSequential (new DriveCommand (-80, 1, -27.5, 2, 2));
+            
+            addParallel (new TurnCommand(0, 1, 1));
+            addSequential(new ElevatorSetpoint(NumberConstants.intakingPosition, NumberConstants.maxElevatorSpeed, 1, 3));
+            addParallel(new SetIntakeSpeedCommand(true, 1, 2, false, true));
+			addSequential(new DriveCommand(40, 1, 0, 2, 20, 0, 0.6, 3));
+            
+            addSequential (new DriveCommand(-50, 0.7, 0, 1.5));
 
 		} else if (position == 2) {
 			

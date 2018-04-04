@@ -27,7 +27,7 @@ public class LeftScaleTriple extends CommandGroup {
 			//Drive to scale while turning to 25 degrees after 195 inches
 			
 			addParallel(new ExecuteAfterDistance(EncoderWaitCommand.DRIVE, 265,3.25,
-					new SetIntakeSpeedCommand(false, 1, 0.5, true)));
+					new SetIntakeSpeedCommand(false, 1, 0.4, true)));
 			
 			addSequential(new DriveCommand(270, 0.865, 0, 4.5, 195, 25, 0.65, 3));
 			//Outake the cube 
@@ -48,45 +48,14 @@ public class LeftScaleTriple extends CommandGroup {
 			addParallel(new ElevatorSetpoint(NumberConstants.scaleHighPosition, NumberConstants.slowElevatorSpeed, 0.5, 2));
 			//addParallel(new SetIntakeSpeedCommand(true, 0.5, 0.5, true));
 			addSequential(new TurnCommand(25, 0.65, 1.3, 4));
-			addSequential(new SetIntakeSpeedCommand(false, 0.7, 1));
+			addSequential(new SetIntakeSpeedCommand(false, 0.4, 1));
 			addParallel(new ElevatorSetpoint(NumberConstants.intakingPosition, NumberConstants.maxElevatorSpeed,0.35, 2));
 			addSequential(new leftNestedThree());
 			
 		} else if (position == 1) {
 
 		} else if (position == 2) {
-			addParallel(new SetIntakeSpeedCommand(true, 0.75, 1));
-			addParallel(new IntakePistonCommand(true));
-			//Bring elevator to driving position after 100 inches 
-			addParallel(new ExecuteAfterDistance(EncoderWaitCommand.DRIVE,
-					 100,1.5, new ElevatorSetpoint(NumberConstants.portalPosition,NumberConstants.maxElevatorSpeed,1, 2.5)));
-			//Drive to the right scale
-			addSequential(new DriveCommand(220, 1, 0, 2.5, 215, -90, 0.8));
-			addSequential (new DriveCommand (218, 1, -90, 2.7, 212, 25, 0.8));
-			//Bring the elevator to scale high position while drving to the scale
-			addParallel(new ElevatorSetpoint(NumberConstants.scaleHighPosition, NumberConstants.maxElevatorSpeed, 0.4, 2));
-			addSequential(new DriveCommand(45, 1, 25, 1.5));
-			//Outake the cube onto the scale
-			addSequential(new SetIntakeSpeedCommand(false, 0.5, 0.5));
-			//Bring the elevator to intaking position
-			addParallel(new ElevatorSetpoint(NumberConstants.intakingPosition, NumberConstants.slowElevatorSpeed, 1, 2));
-			//Drive back from the scale and turn to switch
-			addSequential(new leftNested());
-			//Intake while drving towards the switch to pick up cube
-			addParallel(new SetIntakeSpeedCommand(true, 1, 3));
-			addSequential(new DriveCommand(39, 1, 138, 2, 20, 138, 0.6));
-			//Drive back from switch
-			//addParallel(new ElevatorSetpoint(NumberConstants.switchPosition, NumberConstants.slowElevatorSpeed, 1, 2));
-			addParallel(new SetIntakeSpeedCommand(true, 1, 1, true));
-			addSequential(new DriveCommand(-41, 1, 138, 1.2));
-			//Drive to towards scale
-			addParallel(new SetIntakeSpeedCommand(true, 0.25, 1, true));
-			addSequential(new rightScore());
-
-			//Bring elevator to scale high position
-			//addSequential(new ElevatorSetpoint(NumberConstants.scaleHighPosition, NumberConstants.maxElevatorSpeed, 0.35, 2.5));
-			//Outake Cube onto scale
-			addSequential(new SetIntakeSpeedCommand(false, 0.30, 3));
+			
 		}
     }
     
@@ -99,7 +68,7 @@ public class LeftScaleTriple extends CommandGroup {
     private static class leftNestedTwo extends CommandGroup {
   		public leftNestedTwo() {
   			addSequential(new TurnCommand(164, 0.7, 2.5, 4));	
-  			addParallel(new DriveCommand(65, 1, 164, 3));
+  			addParallel(new DriveCommand(72, 1, 164, 3));
   			addSequential(new SetIntakeSpeedCommand(true, 1, 2.5, true, true));
   		}
   	}

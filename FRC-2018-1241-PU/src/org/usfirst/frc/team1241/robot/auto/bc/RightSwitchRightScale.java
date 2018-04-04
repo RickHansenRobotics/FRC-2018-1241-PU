@@ -55,14 +55,14 @@ public class RightSwitchRightScale extends CommandGroup {
      		addParallel(new ExecuteAfterDistance(EncoderWaitCommand.DRIVE,
      		30,1.5, new ElevatorSetpoint(NumberConstants.switchPosition,NumberConstants.maxElevatorSpeed,1, 3)));
       
-          	 addSequential(new DriveCommand(121, 1, 27.5 ,4, 2));
+          	 addSequential(new DriveCommand(121, 1, 22 ,4, 2));
            	addSequential(new SetIntakeSpeedCommand(false, 0.7,1));
              
            	addSequential (new DriveCommand (-110, 1, 27.5, 3, 3));
            
            	addParallel (new TurnCommand(0, 1, 2, 2));
            	addSequential(new ElevatorSetpoint(NumberConstants.intakingPosition, NumberConstants.maxElevatorSpeed, 1, 3));
-           	addParallel(new SetIntakeSpeedCommand(true, 1, 2, false, true));
+           	addParallel(new SetIntakeSpeedCommand(true, 1, 3, true, true));
            	addSequential(new DriveCommand(65, 1, 0, 3, 20, 0, 0.8));
            
            	addParallel(new SetIntakeSpeedCommand(true, 0.1, 3, true, false));
@@ -70,13 +70,13 @@ public class RightSwitchRightScale extends CommandGroup {
           	 addParallel(new ExecuteAfterDistance(EncoderWaitCommand.DRIVE,
      		100 ,1.5, new ElevatorSetpoint(NumberConstants.switchPosition,NumberConstants.maxElevatorSpeed,1, 3)));
            	//To get to side of switch
-           	addSequential(new DriveCommand(135, 1, 50, 4, 120, 0, 1, 4));
+           	addSequential(new DriveCommand(135, 1, 50, 4, 130, 0, 1, 4));
            	//Below add another EAD LIKE ABOVE TO GET TO SCALE
            	addParallel(new ExecuteAfterDistance(EncoderWaitCommand.DRIVE,
              		5,1.5, new ElevatorSetpoint(NumberConstants.scaleHighPosition,NumberConstants.maxElevatorSpeed,0.5, 3)));
               
            	addSequential(new DriveCommand(150, 1, 0, 4, 130, -25, 1, 4));
-           	addSequential(new SetIntakeSpeedCommand(false, 0.5,1));
+           	addSequential(new SetIntakeSpeedCommand(false, 0.4,1));
 
 
 		} else if (position == 2) {
