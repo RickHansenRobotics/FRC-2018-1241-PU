@@ -64,11 +64,11 @@ public class DriveCommandV2 extends Command {
     protected void execute() {
     	//Robot.drive.driveSetpoint(distance, speed, angle, tolerance);
     	if(Robot.drive.getAverageDistance() > turnDistance){
-    		Robot.drive.driveSetpointV2(distance, speedTwo, angleTwo, 1);
+    		Robot.drive.driveSetpoint(distance, speedTwo, angleTwo, 1);
     		//Robot.logger.logd("New Angle", ""+angleTwo);
     	}
     	else
-    		Robot.drive.driveSetpointV2(distance, speed, angle, 1);
+    		Robot.drive.driveSetpoint(distance, speed, angle, 1);
     }
 
     // Make this return true when this Command no longer needs to run execute()

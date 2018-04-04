@@ -67,8 +67,8 @@ public class Intake extends Subsystem {
 	}
 
 	public void intake(double power) {
-		leftWheel.set(power);
-		rightWheel.set(-power);
+		leftWheel.set(-power);
+		rightWheel.set(power);
 	}
 	public void intakeCurrent(double amps) {
 		leftWheel.set(ControlMode.Current, -amps);
@@ -83,8 +83,8 @@ public class Intake extends Subsystem {
 
 	public void outtake(double power) {
 
-		leftWheel.set(-power);
-		rightWheel.set(power);
+		leftWheel.set(power);
+		rightWheel.set(-power);
 	}
 
 	public void stop() {

@@ -18,6 +18,7 @@ import org.usfirst.frc.team1241.robot.auto.bc.LeftSwitchRightScale;
 import org.usfirst.frc.team1241.robot.auto.bc.NoAuto;
 import org.usfirst.frc.team1241.robot.auto.bc.RightScale;
 import org.usfirst.frc.team1241.robot.auto.bc.RightScaleDouble;
+import org.usfirst.frc.team1241.robot.auto.bc.RightScaleTriple;
 import org.usfirst.frc.team1241.robot.auto.bc.RightSwitch;
 import org.usfirst.frc.team1241.robot.auto.bc.RightSwitchDouble;
 import org.usfirst.frc.team1241.robot.auto.bc.RightSwitchLeftScale;

@@ -55,23 +55,29 @@ public class RightSwitchRightScale extends CommandGroup {
      		addParallel(new ExecuteAfterDistance(EncoderWaitCommand.DRIVE,
      		30,1.5, new ElevatorSetpoint(NumberConstants.switchPosition,NumberConstants.maxElevatorSpeed,1, 3)));
       
-          	 addSequential(new DriveCommand(121, 0.8, 27.5,2));
+          	 addSequential(new DriveCommand(121, 1, 27.5 ,4, 2));
            	addSequential(new SetIntakeSpeedCommand(false, 0.7,1));
              
-           	addSequential (new DriveCommand (-100, 1, 27.5, 2));
+           	addSequential (new DriveCommand (-110, 1, 27.5, 3, 3));
            
-           	addParallel (new TurnCommand(0, 1, 1));
+           	addParallel (new TurnCommand(0, 1, 2, 2));
            	addSequential(new ElevatorSetpoint(NumberConstants.intakingPosition, NumberConstants.maxElevatorSpeed, 1, 3));
            	addParallel(new SetIntakeSpeedCommand(true, 1, 2, false, true));
-           	addSequential(new DriveCommand(53, 1, 0, 2, 20, 0, 0.6));
+           	addSequential(new DriveCommand(65, 1, 0, 3, 20, 0, 0.8));
            
-           	addSequential (new DriveCommand(-50, 0.7, 0, 1.5));
+           	addParallel(new SetIntakeSpeedCommand(true, 0.1, 3, true, false));
+           	addSequential (new DriveCommand(-50, 1, 0, 1.5, 2));
           	 addParallel(new ExecuteAfterDistance(EncoderWaitCommand.DRIVE,
      		100 ,1.5, new ElevatorSetpoint(NumberConstants.switchPosition,NumberConstants.maxElevatorSpeed,1, 3)));
            	//To get to side of switch
-           	addSequential(new DriveCommand(170, 0.8, 50, 4, 150, 0, 0.8));
+           	addSequential(new DriveCommand(135, 1, 50, 4, 120, 0, 1, 4));
            	//Below add another EAD LIKE ABOVE TO GET TO SCALE
-           	//addSequential(new DriveCommand(170, 0.8, -50, 2, 150, 0, 0.8));
+           	addParallel(new ExecuteAfterDistance(EncoderWaitCommand.DRIVE,
+             		5,1.5, new ElevatorSetpoint(NumberConstants.scaleHighPosition,NumberConstants.maxElevatorSpeed,0.5, 3)));
+              
+           	addSequential(new DriveCommand(150, 1, 0, 4, 130, -25, 1, 4));
+           	addSequential(new SetIntakeSpeedCommand(false, 0.5,1));
+
 
 		} else if (position == 2) {
 			//Intake Cube while brigning intake down
@@ -83,9 +89,9 @@ public class RightSwitchRightScale extends CommandGroup {
 			//Drive to scale while turning to 25 degrees after 195 inches
 			
 			addParallel(new ExecuteAfterDistance(EncoderWaitCommand.DRIVE, 265,3.25,
-					new SetIntakeSpeedCommand(false, 1, 0.5, true)));
+					new SetIntakeSpeedCommand(false, 0.4, 0.5, true)));
 			
-			addSequential(new DriveCommand(270, 0.865, 0, 4.5, 195, 25, 0.65, 3));
+			addSequential(new DriveCommand(270, 0.865, 0, 4.5, 195, -25, 0.65, 3));
 			//Outake the cube 
 			//addSequential(new SetIntakeSpeedCommand(false, 0.7, 0.5));
 			//Bring the elevator to intaking position 
@@ -99,8 +105,8 @@ public class RightSwitchRightScale extends CommandGroup {
 			
 			addParallel(new ElevatorSetpoint(NumberConstants.switchPosition, NumberConstants.maxElevatorSpeed, 0.5, 2));
 			addSequential(new DriveCommand(-10, 1, -164, 4, 4));
-			addSequential(new DriveCommand(10, 1, -164, 4, 4));
-			addSequential(new SetIntakeSpeedCommand(false, 0.7, 3));
+			addSequential(new DriveCommand(20, 1, -164, 4, 4));
+			addSequential(new SetIntakeSpeedCommand(false, 0.4, 3));
 			
 			/*//Intake the cube while bringing the intake down
 			addParallel(new SetIntakeSpeedCommand(true, 0.75, 2));
@@ -144,7 +150,7 @@ public class RightSwitchRightScale extends CommandGroup {
 	   private static class rightNestedTwo extends CommandGroup {
 			public rightNestedTwo() {
 				addSequential(new TurnCommand(-164, 0.7, 2.5, 4));	
-				addParallel(new DriveCommand(67, 1, -164, 3));
+				addParallel(new DriveCommand(72, 1, -164, 3));
 				addSequential(new SetIntakeSpeedCommand(true, 1, 2.5, true, true));
 			}
 		}

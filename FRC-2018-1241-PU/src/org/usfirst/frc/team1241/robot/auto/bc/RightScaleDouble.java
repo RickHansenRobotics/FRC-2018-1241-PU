@@ -83,7 +83,7 @@ public class RightScaleDouble extends CommandGroup {
 			addParallel(new ElevatorSetpoint(NumberConstants.scaleHighPosition, NumberConstants.slowElevatorSpeed, 0.5, 2));
 			//addParallel(new SetIntakeSpeedCommand(true, 0.5, 0.5, true));
 			addSequential(new TurnCommand(-25, 0.65, 1.3, 4));
-			addSequential(new SetIntakeSpeedCommand(false, 0.7, 3));
+			addSequential(new SetIntakeSpeedCommand(false, 0.4, 3));
 			/*//Intake Cube while brigning intake down
 			addParallel(new SetIntakeSpeedCommand(true, 0.75, 2));
 			addParallel(new IntakePistonCommand(true));
