@@ -4,6 +4,7 @@ import org.usfirst.frc.team1241.robot.ElectricalConstants;
 import org.usfirst.frc.team1241.robot.NumberConstants;
 import org.usfirst.frc.team1241.robot.commands.TankDrive;
 import org.usfirst.frc.team1241.robot.pid.PIDController;
+import org.usfirst.frc.team1241.robot.pid.SimPID;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
@@ -42,8 +43,13 @@ public class Drivetrain extends Subsystem {
 	private PIDController leftPID;
 	private PIDController rightPID;
 
+	private SimPID drivePIDV2;
+	private SimPID leftPIDV2;
+	private SimPID rightPIDV2;
 	/** The gyro PID conteroller. */
 	private PIDController gyroPID;
+	private SimPID gyroPIDV2;
+
 	private String controlMode;
 
 	/**
@@ -89,6 +95,12 @@ public class Drivetrain extends Subsystem {
 
 		leftPID = new PIDController(NumberConstants.pDrive, NumberConstants.iDrive, NumberConstants.dDrive);
 		rightPID = new PIDController(NumberConstants.pDrive, NumberConstants.iDrive, NumberConstants.dDrive);
+		
+		drivePIDV2 = new SimPID(NumberConstants.pDrive, NumberConstants.iDrive, NumberConstants.dDrive, 1);
+		gyroPIDV2 = new SimPID(NumberConstants.pTurnGyro, NumberConstants.iTurnGyro, NumberConstants.dTurnGyro, 1);
+
+		leftPIDV2 = new SimPID(NumberConstants.pDrive, NumberConstants.iDrive, NumberConstants.dDrive, 1);
+		rightPIDV2 = new SimPID(NumberConstants.pDrive, NumberConstants.iDrive, NumberConstants.dDrive, 1);
 
 		leftMaster.config_kP(0, NumberConstants.pTalonDrive, 0);
 		leftMaster.config_kI(0, NumberConstants.iTalonDrive, 0);
@@ -191,6 +203,45 @@ public class Drivetrain extends Subsystem {
 	public void setRightRampRate(double rampRate) {
 		rightMaster.set(ControlMode.Velocity, rampRate);
 	}
+	public void driveSetpointV2(double setPoint, double speed, double setAngle, double tolerance) {
+		drivePIDV2.setDesiredValue(setPoint);
+		gyroPIDV2.setDesiredValue(setAngle);
+		drivePIDV2.setMaxOutput(1);
+		gyroPIDV2.setMaxOutput(1);
+		drivePIDV2.setDoneRange(2);
+		gyroPIDV2.setDoneRange(2);
+		/*drivePIDV2.setMinDoneCycles(num);
+		gyroPIDV2.setMinDoneCycles(num);*/
+
+
+		double output = drivePIDV2.calcPID(getAverageDistance());
+		double angle = gyroPIDV2.calcPID(getYaw());
+	
+			runLeftDrive((output + angle) * speed);
+			runRightDrive((-output + angle) * speed * 0.95);
+	}
+	public void turnDriveV2(double setAngle, double speed, double tolerance) {
+		gyroPIDV2.setDesiredValue(setAngle);
+		gyroPIDV2.setMaxOutput(1);
+		gyroPIDV2.setDoneRange(2);
+		double angle = gyroPIDV2.calcPID(getYaw());
+		double min = 0.20;
+
+		if (Math.abs(setAngle - getYaw()) < tolerance) {
+			runLeftDrive(0);
+			runRightDrive(0);
+		} else if (angle > -min && angle < 0) {
+			runLeftDrive(-min);
+			runRightDrive(-min);
+		} else if (angle < min && angle > 0) {
+			runLeftDrive(min);
+			runRightDrive(min);
+		} else {
+			runLeftDrive(angle * speed);
+			runRightDrive(angle * speed);
+		}
+	}
+
 
 	public void driveSetpoint(double setPoint, double speed, double setAngle, double tolerance) {
 		double output = drivePID.calcPID(setPoint, getAverageDistance(), tolerance);
@@ -265,7 +316,18 @@ public class Drivetrain extends Subsystem {
 	public void resetPID() {
 		drivePID.resetPID();
 		gyroPID.resetPID();
+		drivePIDV2.resetPreviousVal();
+		gyroPIDV2.resetPreviousVal();
+		drivePIDV2.resetErrorSum();
+		gyroPIDV2.resetErrorSum();
 	}
+	public boolean drivePIDV2Done(){
+		return drivePIDV2.isDone();
+	}
+	public boolean gyroPIDV2Done(){
+		return gyroPIDV2.isDone();
+	}
+
 
 	// ENCODER FUNCTIONS
 

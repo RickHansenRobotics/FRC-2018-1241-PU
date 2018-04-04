@@ -23,6 +23,7 @@ import org.usfirst.frc.team1241.robot.auto.bc.RightSwitch;
 import org.usfirst.frc.team1241.robot.auto.bc.RightSwitchDouble;
 import org.usfirst.frc.team1241.robot.auto.bc.RightSwitchLeftScale;
 import org.usfirst.frc.team1241.robot.auto.bc.RightSwitchRightScale;
+import org.usfirst.frc.team1241.robot.auto.drive.DriveCommandV2;
 import org.usfirst.frc.team1241.robot.auto.drive.TurnCommand;
 import org.usfirst.frc.team1241.robot.commands.ResetElevatorEncoder;
 import org.usfirst.frc.team1241.robot.subsystems.Climber;
@@ -388,7 +389,7 @@ public class Robot extends TimedRobot {
 
 				break;
 		}*/
-		//m_autonomousCommand = new TurnCommand(145, 1, 2); 
+		m_autonomousCommand = new DriveCommandV2(150, 1, 0, 3, 3); 
 		
 		if (m_autonomousCommand != null) {
 			logger.logd("AUTO SELECTED", m_autonomousCommand.getName());
