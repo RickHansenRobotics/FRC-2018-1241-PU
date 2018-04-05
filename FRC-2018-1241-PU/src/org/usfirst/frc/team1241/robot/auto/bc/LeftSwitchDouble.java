@@ -29,8 +29,8 @@ public class LeftSwitchDouble extends CommandGroup {
     		
         	//addParallel(new ElevatorSetpoint(NumberConstants.switchPosition, NumberConstants.maxElevatorSpeed, 1, 3));
         	//Drive in parallel to the switch 
-        	addSequential(new DriveCommand(121, 0.8, -27.5,2));
-            addSequential(new SetIntakeSpeedCommand(false, 0.7,1));
+        	addSequential(new DriveCommand(121, 1, -27.5,2));
+            addSequential(new SetIntakeSpeedCommand(false, 0.6,0.75));
             
            /* addSequential (new DriveCommand (-40, 1, -27.5, 3, -20, 60, 0.7));
             addParallel(new ElevatorSetpoint(NumberConstants.intakingPosition, NumberConstants.maxElevatorSpeed, 1, 3));
@@ -47,23 +47,23 @@ public class LeftSwitchDouble extends CommandGroup {
             
             addParallel (new TurnCommand(0, 1, 1));
             addSequential(new ElevatorSetpoint(NumberConstants.intakingPosition, NumberConstants.maxElevatorSpeed, 1, 3));
-            addParallel(new SetIntakeSpeedCommand(true, 1, 2));
-			addSequential(new DriveCommand(53, 1, 0, 2, 20, 0, 0.6));
-            
-            addSequential (new DriveCommand(-50, 0.7, 0, 1.5));
-            addParallel (new TurnCommand(-27.5, 1, 0.5));
-            addSequential(new ElevatorSetpoint(NumberConstants.switchPosition, NumberConstants.maxElevatorSpeed, 1, 3));
-            addSequential (new DriveCommand (100, 1, -27.5, 2));
-            addSequential(new SetIntakeSpeedCommand(false, 0.4,1));
-            ///////////////////////////////
-            addSequential (new DriveCommand (-80, 1, -27.5, 2, 2));
-            
-            addParallel (new TurnCommand(0, 1, 1));
-            addSequential(new ElevatorSetpoint(NumberConstants.intakingPosition, NumberConstants.maxElevatorSpeed, 1, 3));
             addParallel(new SetIntakeSpeedCommand(true, 1, 2, false, true));
-			addSequential(new DriveCommand(40, 1, 0, 2, 20, 0, 0.6, 3));
+			addSequential(new DriveCommand(53, 1, 0, 2, 20, 0, 0.9));
             
-            addSequential (new DriveCommand(-50, 0.7, 0, 1.5));
+            addSequential (new DriveCommand(-50, 1, 0, 1.5, 3));
+            addParallel (new TurnCommand(-27.5, 1, 0.5, 3));
+            addSequential(new ElevatorSetpoint(NumberConstants.switchPosition, NumberConstants.maxElevatorSpeed, 1, 3));
+            addSequential (new DriveCommand (100, 1, -27.5, 2, 3));
+            addSequential(new SetIntakeSpeedCommand(false, 0.4,0.75));
+            ///////////////////////////////
+            addParallel(new ElevatorSetpoint(NumberConstants.intakingPosition, NumberConstants.maxElevatorSpeed, 1, 3));
+            addSequential (new DriveCommand (-50, 1, -27.5, 2, 3));
+            
+            addSequential (new TurnCommand(25, 1, 1));
+            addParallel(new SetIntakeSpeedCommand(true, 1, 2, false, true));
+			addSequential(new DriveCommand(25, 1, 25, 2, 20, 25, 0.9, 3));
+            
+            addSequential (new DriveCommand(-50, 1, 25, 1.5));
 
 		} else if (position == 2) {
 			

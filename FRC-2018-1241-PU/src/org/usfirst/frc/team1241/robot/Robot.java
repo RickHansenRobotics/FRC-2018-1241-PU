@@ -389,7 +389,7 @@ public class Robot extends TimedRobot {
 
 				break;
 		}*/
-		m_autonomousCommand = new DriveCommandV2(150, 1, 0, 3, 3); 
+		//m_autonomousCommand = new TurnCommand(150, 1, 3, 1); 
 		
 		if (m_autonomousCommand != null) {
 			logger.logd("AUTO SELECTED", m_autonomousCommand.getName());
@@ -409,7 +409,7 @@ public class Robot extends TimedRobot {
 	@Override
 	public void teleopInit() {
 		logger.openFile("Teleop Mode");
-
+		intake.setContains(false);
 		pref = Preferences.getInstance();
 		LEDstrips.solidGreen();
 		intake.extendIntakePistons();

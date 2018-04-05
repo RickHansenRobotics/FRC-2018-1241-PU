@@ -273,7 +273,7 @@ public class Drivetrain extends Subsystem {
 
 	public void turnDrive(double setAngle, double speed, double tolerance) {
 		double angle = gyroPID.calcPID(setAngle, getYaw(), tolerance);
-		double min = 0.20;
+		double min = 0.27;
 
 		if (Math.abs(setAngle - getYaw()) < tolerance) {
 			runLeftDrive(0);

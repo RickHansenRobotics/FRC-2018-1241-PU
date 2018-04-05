@@ -32,7 +32,7 @@ public class RightScaleTriple extends CommandGroup {
 			//Drive to scale while turning to 25 degrees after 195 inches
 			
 			addParallel(new ExecuteAfterDistance(EncoderWaitCommand.DRIVE, 265,3.25,
-					new SetIntakeSpeedCommand(false, 1, 0.4, true)));
+					new SetIntakeSpeedCommand(false, 0.65, 0.75, true)));
 			
 			addSequential(new DriveCommand(270, 0.865, 0, 4.5, 195, -25, 0.65, 3));
 			//Outake the cube 
@@ -46,15 +46,14 @@ public class RightScaleTriple extends CommandGroup {
 			addParallel(new DriveCommand(65, 1, 160, 3));
 			addSequential(new SetIntakeSpeedCommand(true, 1, 2.5, true, true));*/
 			
-			addParallel(new ElevatorSetpoint(NumberConstants.scaleLowPosition, NumberConstants.maxElevatorSpeed, 0.5, 2));
-			
-			addSequential(new DriveCommand(-67, 1, -164, 4, 4));
 			addParallel(new SetIntakeSpeedCommand(true, 0.5, 0.5, true));
-			addParallel(new ElevatorSetpoint(NumberConstants.scaleHighPosition, NumberConstants.slowElevatorSpeed, 0.5, 2));
+			addParallel(new ElevatorSetpoint(NumberConstants.scaleHighPosition, NumberConstants.slowElevatorSpeed, 1, 2));
+			addSequential(new rightScore());
+			
+			//addParallel(new ElevatorSetpoint(NumberConstants.scaleHighPosition, NumberConstants.slowElevatorSpeed, 0.5, 2));
 			//addParallel(new SetIntakeSpeedCommand(true, 0.5, 0.5, true));
-			addSequential(new TurnCommand(-25, 0.65, 1.3, 4));
-			addSequential(new SetIntakeSpeedCommand(false, 0.4, 1));
-			addParallel(new ElevatorSetpoint(NumberConstants.intakingPosition, NumberConstants.maxElevatorSpeed,0.35, 2));
+			addSequential(new SetIntakeSpeedCommand(false, 0.65, 0.75));
+			addParallel(new ElevatorSetpoint(NumberConstants.intakingPosition, NumberConstants.maxElevatorSpeed,1, 2));
 			addSequential(new rightNestedThree());
 			
 
@@ -69,7 +68,7 @@ public class RightScaleTriple extends CommandGroup {
 	}
     private static class rightNestedTwo extends CommandGroup {
 		public rightNestedTwo() {
-			addSequential(new TurnCommand(-164, 0.7, 2.5, 4));	
+			addSequential(new TurnCommand(-164, 0.7, 1.5, 4));	
 			addParallel(new DriveCommand(72, 1, -164, 3));
 			addSequential(new SetIntakeSpeedCommand(true, 1, 2.5, true, true));
 		}
@@ -83,17 +82,16 @@ public class RightScaleTriple extends CommandGroup {
   	}
     private static class rightNestedThree extends CommandGroup {
   		public rightNestedThree() {
-  			addSequential(new TurnCommand(-137, 0.7, 2.5, 4));	
-  			addParallel(new DriveCommand(72, 1, -137, 3));
+  			addSequential(new TurnCommand(-155, 0.7, 2.5, 4));	
+  			addParallel(new DriveCommand(78, 1, -155, 3));
   			addSequential(new SetIntakeSpeedCommand(true, 1, 2.5, true, true));
   		}
   	}
     
     private static class rightScore extends CommandGroup {
  		public rightScore() {
- 			addParallel(new TurnCommand(35, 1, 1));
- 			addSequential(new ElevatorSetpoint(NumberConstants.scaleMidPosition+3, NumberConstants.maxElevatorSpeed, 0.35, 2.5));
-			addSequential(new DriveCommand(45, 1, 35, 1.5));
+ 			addSequential(new TurnCommand(-10, 0.9, 0.8, 4));
+			addSequential(new DriveCommand(62.5, 1, -10, 4, 4));
  		}
  	}
 	

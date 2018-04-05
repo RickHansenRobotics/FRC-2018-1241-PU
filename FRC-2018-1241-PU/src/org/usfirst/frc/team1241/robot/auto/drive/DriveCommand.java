@@ -63,7 +63,7 @@ public class DriveCommand extends Command {
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
     	//Robot.drive.driveSetpoint(distance, speed, angle, tolerance);
-    	if(Robot.drive.getAverageDistance() > turnDistance){
+    	if(Math.abs(Robot.drive.getAverageDistance()) > Math.abs(turnDistance)){
     		Robot.drive.driveSetpoint(distance, speedTwo, angleTwo, 1);
     		//Robot.logger.logd("New Angle", ""+angleTwo);
     	}

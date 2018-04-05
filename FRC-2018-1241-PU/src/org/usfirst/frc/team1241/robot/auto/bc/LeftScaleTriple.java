@@ -27,7 +27,7 @@ public class LeftScaleTriple extends CommandGroup {
 			//Drive to scale while turning to 25 degrees after 195 inches
 			
 			addParallel(new ExecuteAfterDistance(EncoderWaitCommand.DRIVE, 265,3.25,
-					new SetIntakeSpeedCommand(false, 1, 0.4, true)));
+					new SetIntakeSpeedCommand(false, 0.65, 0.75, true)));
 			
 			addSequential(new DriveCommand(270, 0.865, 0, 4.5, 195, 25, 0.65, 3));
 			//Outake the cube 
@@ -41,6 +41,38 @@ public class LeftScaleTriple extends CommandGroup {
 			addParallel(new DriveCommand(65, 1, 160, 3));
 			addSequential(new SetIntakeSpeedCommand(true, 1, 2.5, true, true));*/
 			
+			addParallel(new SetIntakeSpeedCommand(true, 0.5, 0.5, true));
+			addParallel(new ElevatorSetpoint(NumberConstants.scaleHighPosition, NumberConstants.slowElevatorSpeed, 1, 2));
+			addSequential(new leftScore());
+			
+			//addParallel(new ElevatorSetpoint(NumberConstants.scaleHighPosition, NumberConstants.slowElevatorSpeed, 0.5, 2));
+			//addParallel(new SetIntakeSpeedCommand(true, 0.5, 0.5, true));
+			addSequential(new SetIntakeSpeedCommand(false, 0.65, 0.75));
+			addParallel(new ElevatorSetpoint(NumberConstants.intakingPosition, NumberConstants.maxElevatorSpeed,1, 2));
+			addSequential(new leftNestedThree());
+    		/*//Intake Cube while brigning intake down
+			addParallel(new SetIntakeSpeedCommand(true, 0.75, 2));
+			addParallel(new IntakePistonCommand(true));
+			//Bring elevator to scale high position
+			addParallel(new ExecuteAfterDistance(EncoderWaitCommand.DRIVE, 70,3.25,
+					new ElevatorSetpoint(NumberConstants.scaleHighPosition, NumberConstants.maxElevatorSpeed,0.5, 2.5)));
+			//Drive to scale while turning to 25 degrees after 195 inches
+			
+			addParallel(new ExecuteAfterDistance(EncoderWaitCommand.DRIVE, 265,3.25,
+					new SetIntakeSpeedCommand(false, 1, 0.4, true)));
+			
+			addSequential(new DriveCommand(270, 0.865, 0, 4.5, 195, 25, 0.65, 3));
+			//Outake the cube 
+			//addSequential(new SetIntakeSpeedCommand(false, 0.7, 0.5));
+			//Bring the elevator to intaking position 
+			//Drive back and turn to switch
+			addParallel(new ElevatorSetpoint(NumberConstants.intakingPosition, NumberConstants.maxElevatorSpeed,0.35, 2));
+			addSequential(new leftNestedTwo());
+			addSequential(new TurnCommand(160, 0.6, 2.5, 3));
+			
+			addParallel(new DriveCommand(65, 1, 160, 3));
+			addSequential(new SetIntakeSpeedCommand(true, 1, 2.5, true, true));
+			
 			addParallel(new ElevatorSetpoint(NumberConstants.scaleLowPosition, NumberConstants.maxElevatorSpeed, 0.5, 2));
 			
 			addSequential(new DriveCommand(-67, 1, 164, 4, 4));
@@ -51,7 +83,7 @@ public class LeftScaleTriple extends CommandGroup {
 			addSequential(new SetIntakeSpeedCommand(false, 0.4, 1));
 			addParallel(new ElevatorSetpoint(NumberConstants.intakingPosition, NumberConstants.maxElevatorSpeed,0.35, 2));
 			addSequential(new leftNestedThree());
-			
+			*/
 		} else if (position == 1) {
 
 		} else if (position == 2) {
@@ -67,15 +99,15 @@ public class LeftScaleTriple extends CommandGroup {
 	}
     private static class leftNestedTwo extends CommandGroup {
   		public leftNestedTwo() {
-  			addSequential(new TurnCommand(164, 0.7, 2.5, 4));	
-  			addParallel(new DriveCommand(72, 1, 164, 3));
-  			addSequential(new SetIntakeSpeedCommand(true, 1, 2.5, true, true));
+  			addSequential(new TurnCommand(164, 0.7, 1.5, 4));	
+			addParallel(new DriveCommand(61, 1, 164, 3));
+			addSequential(new SetIntakeSpeedCommand(true, 1, 2.5, true, true));
   		}
   	}
     private static class leftNestedThree extends CommandGroup {
   		public leftNestedThree() {
-  			addSequential(new TurnCommand(137, 0.7, 2.5, 4));	
-  			addParallel(new DriveCommand(72, 1, 137, 3));
+  			addSequential(new TurnCommand(155, 0.7, 2.5, 4));	
+  			addParallel(new DriveCommand(78, 1, 155, 3));
   			addSequential(new SetIntakeSpeedCommand(true, 1, 2.5, true, true));
   		}
   	}
@@ -85,6 +117,12 @@ public class LeftScaleTriple extends CommandGroup {
  			addParallel(new TurnCommand(35, 1, 1));
  			addSequential(new ElevatorSetpoint(NumberConstants.scaleMidPosition+3, NumberConstants.maxElevatorSpeed, 0.35, 2.5));
 			addSequential(new DriveCommand(45, 1, 35, 1.5));
+ 		}
+ 	}
+    private static class leftScore extends CommandGroup {
+ 		public leftScore() {
+ 			addSequential(new TurnCommand(10, 0.9, 0.8, 4));
+			addSequential(new DriveCommand(50, 1, 10, 4, 4));
  		}
  	}
 	

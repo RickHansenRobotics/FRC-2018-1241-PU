@@ -2,6 +2,7 @@ package org.usfirst.frc.team1241.robot.auto.intake;
 
 import org.usfirst.frc.team1241.robot.Robot;
 
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
@@ -14,6 +15,8 @@ public class SetIntakeSpeedCommand extends Command {
 	private boolean intake;
 	private boolean continueIntaking;
 	private boolean useOptical;
+	Timer timer;
+	boolean started = false;
 	
 	public SetIntakeSpeedCommand(boolean intake, double speed, double timeout) {
     	this(intake, speed, timeout, false, false);
@@ -42,6 +45,7 @@ public class SetIntakeSpeedCommand extends Command {
     // Called just before this Command runs the first time
     protected void initialize() {
     	setTimeout(timeout);
+    	timer = new Timer();
     }
 
     // Called repeatedly when this Command is scheduled to run
@@ -55,8 +59,26 @@ public class SetIntakeSpeedCommand extends Command {
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
     	
+    	if(!Robot.intake.getOptic() && started == false) {
+    		timer.start();
+    		started = true;
+    	}
+		
+		if(!Robot.intake.getOptic() && timer.get()>0.5) {
+    		timer.reset();
+    		timer.stop();
+    		Robot.intake.setContains(true);
+    		Robot.intake.stop();
+    	}
+		if(Robot.intake.getOptic()) {
+    		started = false;
+    		timer.reset();
+    		timer.stop();
+    		Robot.intake.setContains(false);
+    	}
+    	
     	if(useOptical){
-    		return !Robot.intake.getOptic();
+    		return Robot.intake.getContains();
     	} else{
             return isTimedOut();
     	}
