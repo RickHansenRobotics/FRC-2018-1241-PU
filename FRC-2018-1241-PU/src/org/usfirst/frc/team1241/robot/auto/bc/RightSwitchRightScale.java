@@ -80,7 +80,7 @@ public class RightSwitchRightScale extends CommandGroup {
            //	addSequential(new DriveCommand(150, 1, 0, 4, 130, -25, 1, 4));
            	addSequential(new SetIntakeSpeedCommand(false, 0.65,0.75));
            	addParallel(new ElevatorSetpoint(NumberConstants.intakingPosition, NumberConstants.maxElevatorSpeed, 0.5, 2));
-			addSequential(new DriveCommand(-50, 1, 10,2 ));
+			addSequential(new DriveCommand(-50, 1, -10,2 ));
            	
            	
 

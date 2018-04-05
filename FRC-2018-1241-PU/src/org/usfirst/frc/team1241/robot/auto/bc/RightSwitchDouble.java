@@ -76,6 +76,15 @@ public class RightSwitchDouble extends CommandGroup {
             addSequential(new ElevatorSetpoint(NumberConstants.switchPosition, NumberConstants.maxElevatorSpeed, 1, 3));
             addSequential (new DriveCommand (90, 1, 22, 2));
             addSequential(new SetIntakeSpeedCommand(false, 0.7,1));
+            
+            addParallel(new ElevatorSetpoint(NumberConstants.intakingPosition, NumberConstants.maxElevatorSpeed, 1, 3));
+            addSequential (new DriveCommand (-50, 1, 22, 2, 3));
+            
+            addSequential (new TurnCommand(-25, 1, 1));
+            addParallel(new SetIntakeSpeedCommand(true, 1, 2, false, true));
+			addSequential(new DriveCommand(25, 1, -25, 2, 20, -25, 0.9, 3));
+            
+            addSequential (new DriveCommand(-50, 1, -25, 1.5));
 
 		} else if (position == 2) {
 			
